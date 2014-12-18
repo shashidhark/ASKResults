@@ -1,0 +1,4 @@
+content	AskResults	content/
+skin    AskResults classic skin/
+overlay	chrome://browser/content/browser.xul	chrome://AskResults/content/overlay.xul
+style 	chrome://AskResults/content/overlay.xul	chrome://AskResults/skin/toolbar-button.css

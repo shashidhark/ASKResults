@@ -1,0 +1,12 @@
+#AskResults-button {
+  list-style-image: url("chrome://AskResults/skin/images/logo16.png");
+}
+
+toolbar[iconsize="small"] > #AskResults-button {
+  list-style-image: url("chrome://AskResults/skin/images/logo16.png");
+}
+
+toolbarpaletteitem[place="palette"] > #AskResults-button
+{
+  list-style-image: url("chrome://AskResults/skin/images/logo24.png");
+}

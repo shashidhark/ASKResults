@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://AskResults/skin/overlay.css" type="text/css"?>
+<?xml-stylesheet href="chrome://AskResults/skin/toolbar-button.css" type="text/css"?>
+
+<overlay id="AskResultsOverlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<script type="application/javascript" src="chrome://AskResults/content/overlay.js"/> 
+	
+	<menupopup id="menu_ToolsPopup">
+	    	<menuitem id="AskResultsMenuitem" label="ASKResults" oncommand="AskResults.onMenuItemCommand(event);" insertbefore="sanitizeSeparator" />
+	</menupopup>
+	<toolbarpalette id="BrowserToolbarPalette">
+	  <toolbarbutton id="AskResults-button" class="toolbarbutton-1" label="AskResults" 
+		tooltiptext="ASKResults" oncommand="AskResults.onMenuItemCommand(event);"/>
+	</toolbarpalette>
+</overlay>

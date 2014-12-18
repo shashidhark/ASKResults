@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+  "name": "ASKResults",
+  "description": "This extension help you to check result and Save to PDF.",
+  "version": "0.5.1",
+
+	"icons": { "16": "images/logo16.png",
+						 "24": "images/logo24.png",
+           	 "48": "images/logo48.png",
+						 "64": "images/logo64.png",
+						 "128": "images/logo128.png" },
+
+  "browser_action": {
+    "default_icon": "images/logo24.png",
+    "default_popup": "popup.html"
+  },
+
+	"author": "Shashidhar and Alwyn Edison",
+  "short_name": "Fast result",
+  "permissions": [
+  	"http://results.vtu.ac.in/"
+  ]
+}
