@@ -200,6 +200,7 @@ function addCC(val){
 	}
 
 	var menupp = document.createElement("menupopup");
+	menupp.setAttribute("id", "cc");
 
 	menul.setAttribute("class", "advSearch2");
 	menul.appendChild(menupp);
