@@ -51,8 +51,7 @@ function writeToFile(data)
 	Components.utils.import("resource://gre/modules/NetUtil.jsm");
 	var file = Components.classes["@mozilla.org/file/local;1"].
 		       createInstance(Components.interfaces.nsILocalFile);
-	var file = Services.dirsvc.get("DfltDwnld", Ci.nsIFile);
-	file.append("data.txt");
+	var file = FileUtils.getFile("DfltDwnld", ["data.txt"]);
 
 	// You can also optionally pass a flags parameter here. It defaults to
 	// FileUtils.MODE_WRONLY | FileUtils.MODE_CREATE | FileUtils.MODE_TRUNCATE;
