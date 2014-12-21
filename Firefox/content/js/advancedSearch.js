@@ -136,7 +136,7 @@ function advancedSearch(usnList){
 	
 	var place 	= document.createElement("vbox");
 	place.setAttribute("flex", "1");
-	place.setAttribute("style", "overflow:scroll; width:100%; height:200px;");
+	place.setAttribute("style", "overflow:scroll; width:100%; height:200px; overflow-x: hidden;");
 
 	var grid 	= document.createElement("grid");
 	//listbox.setAttribute("width", "500");
