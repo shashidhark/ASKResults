@@ -244,24 +244,6 @@ function createAdvanceUI(){
 	menul.setAttribute("oncommand", "return addCC(this.label)");
 	desc.appendChild(menul);
 
-	/*var nums = document.createElement("label");
-	nums.setAttribute("value", "to");
-	desc.appendChild(nums);
-
-	nums = document.createElement("textbox");
-	nums.setAttribute("value", "");
-	nums.setAttribute("id", "r"+5);
-	nums.setAttribute("maxlength", "3");
-	nums.setAttribute("size", "2");
-	nums.setAttribute("placeholder","Eg: 30");
-	nums.setAttribute("onkeypress", "return checkEnterKey(event)");
-	desc.appendChild(nums);
-
-	var submitButton = document.createElement("button");
-	submitButton.setAttribute("label", "Load");
-	submitButton.setAttribute("class", "loadButton");
-	submitButton.setAttribute("onclick", "usnGeneration()");
-	desc.appendChild(submitButton);*/
 	advUI.appendChild(desc);
 }
 
@@ -323,66 +305,6 @@ function findAvg(usn, total, sem){
 function getScode(sub_name_code){
 	return  sub_name_code.substring(sub_name_code.indexOf('(')+1, sub_name_code.indexOf(')'));
 }
-
-/*function printToPdf(){
-	var str = pdfVar;
-	//alert("hello");
-	var table = $(str).find('table');
-	var table_count = table.length;
-	var data = [], fontSize = 12, height = 20, doc, initX=60, initY=60, usn;
-	var colWidth = [0,0,0,0,0,0,0,0];
-
-	doc = new jsPDF('p', 'pt', 'a4', true);
-	doc.setFont("times", "normal");
-	doc.setFontSize(fontSize);
-//	alert();
-	for(var i=0; i<table_count; i++){
-		data = doc.tableToJson($(table).eq(i));
-		//alert(data.value);
-		var strJson = JSON.stringify(data);
-		var resData = JSON.parse(strJson);
-		if(i==0){
-			var usnName=resData[0].name;
-			var name = usnName.substring(0, usnName.indexOf('('));
-			var aftBractket = usnName.substr(usnName.indexOf("(") + 1);
-			usn = aftBractket.substring(0, aftBractket.indexOf(')'));
-			//doc.setFontStyle("bold");
-			doc.text(initX+0, initY, "Name:  "+name);
-			initY+=height;
-			doc.text(initX+0, initY, "Usn:   "+usn);
-			initY+=height;
-			doc.text(initX+0, initY, "Total: "+resData[0].total);
-			initY+=height;
-		}
-		else{
-			//alert(data);
-		  	if(i>=3 && (i%2 != 0))
-		  		initY+=20;
-			for (var k = 0; k < colWidth.length; k++) colWidth[k] = 0;
-			var k=0;
-			$.each(data, function (ii, row){
-				k=0;
-				$.each(row, function (jj, cell){
-					if(colWidth[k]<cell.length){
-						colWidth[k++]=cell.length;
-					}
-					else
-						k++;
-				})
-			})
-			doc.cellInitialize();
-			
-			$.each(data, function (ii, row){
-				k=0;
-				$.each(row, function (jj, cell){
-					doc.cell(initX, initY, 5*colWidth[k++]+20, 20, cell, ii);
-				})
-			})
-			initY+=height*resData.length+10;
-		}
-	}
-	doc.save(usn+'.pdf');
-}*/
 
 //To focus the text box in addon
 window.addEventListener("load", function focus_element(){

@@ -1,6 +1,8 @@
 // Function to do all the processing. Resquest and Display result.
 
 // Function to convert response string to HTMLDocument object.
+
+var strForText="USN         : Name               :  Percentage  :   Result  \n";
 function DOM(string){
  	const Cc = Components.classes;
  	const Ci = Components.interfaces;
@@ -41,6 +43,36 @@ function getTotal(table){
 	return s;
 }
 
+function writeToFile(data)
+{
+	// Get profile directory.
+	Components.utils.import("resource://gre/modules/FileUtils.jsm");
+	Components.utils.import("resource://gre/modules/NetUtil.jsm");
+	var file = Components.classes["@mozilla.org/file/local;1"].
+		       createInstance(Components.interfaces.nsILocalFile);
+	file.initWithPath("/home/shashi/");
+	file.append("data.txt");
+
+	// You can also optionally pass a flags parameter here. It defaults to
+	// FileUtils.MODE_WRONLY | FileUtils.MODE_CREATE | FileUtils.MODE_TRUNCATE;
+	var ostream = FileUtils.openSafeFileOutputStream(file);
+
+	var converter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].
+		            createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
+	converter.charset = "UTF-8";
+	var istream = converter.convertToInputStream(data);
+
+	// The last argument (the callback) is optional.
+	NetUtil.asyncCopy(istream, ostream, function(status) {
+	  if (!Components.isSuccessCode(status)) {
+		// Handle error!
+		return;
+	  }
+
+	  // Data has been written to the file.
+	});
+}
+
 function openAdvResult(usn){
 	//alert("request");
 	
@@ -52,26 +84,36 @@ function openAdvResult(usn){
 		var str = DOM(aEvent.target.responseText);
 		var all = $(str).find('td[width=513]').eq(0);
 		//alert(all);
+		strForText += usn+" : ";
+
 		var table = $(all).find('table');
 		if(table.length!=0)//If USN exist in db
 		{
 			document.getElementById("name"+usn).setAttribute("value", getName($(all).find('B').eq(0).text()));
+			strForText += getName($(all).find('B').eq(0).text())+" : ";
+
 			document.getElementById("perc"+usn).setAttribute("value", findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text()));
-		
+			strForText += findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())+" : ";
+
 			if(($(table).eq(0).find("tr").eq(0).find('td').eq(3).text()).indexOf("FAIL") == -1){
 				document.getElementById("stat"+usn).setAttribute("value", "PASS");
+				strForText += "PASS \n"
 				document.getElementById("stat"+usn).setAttribute("style", "color:#087F38");
 			}
 			else{
 				document.getElementById("stat"+usn).setAttribute("value", "FAIL");
+				strForText += "FAIL \n";
 				document.getElementById("stat"+usn).setAttribute("style", "color:#E30F17");
 			}
+			
 		}
 		else{
 			document.getElementById("name"+usn).setAttribute("value", "Doesn't Exist");
+			strForText += "Doesn't Exist \n";
 			document.getElementById("perc"+usn).setAttribute("value", "---");
 			document.getElementById("stat"+usn).setAttribute("value", "---");
 		}
+		writeToFile(strForText);
 		resizeOnChange();
 	}; //request load end
 
@@ -84,6 +126,7 @@ function openAdvResult(usn){
 	request.open("POST", url, true);
 	request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 	request.send("rid="+usn+"&submit=SUBMIT");
+
 }
 
 function advancedSearch(usnList){
