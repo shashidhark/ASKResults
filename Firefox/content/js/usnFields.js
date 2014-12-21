@@ -1,6 +1,6 @@
 var fields={
 	    
-			"Region":[1,2,3,4,5],
+			"Region":[1,2,3,4],
 	   
 	    
 			"College Code":{

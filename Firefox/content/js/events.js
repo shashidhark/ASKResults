@@ -120,31 +120,66 @@ function checkEnterKey(evt){
 		return true;
 }
 
-function addCC(val){
-	var desc = document.createElement("description");
-	
-	var menul = document.getElementById("r1");	
-	//alert(menul);
-	if(menul != null){
-		menul.parentNode.removeChild(menul);
-	}
-	else{
-		menul = document.createElement("menulist");
-		var menupp = document.createElement("menupopup");
-		menul.setAttribute("class", "advSearch2");
-		menul.setAttribute("id", "r1");	
-		menul.appendChild(menupp);
-		for(var r=0; r<fields['College Code'][Number(val)].length; r++)
-		{
-			var menui = document.createElement("menuitem");
-			menui.setAttribute("label", fields['College Code'][Number(val)][r]);	
-			menupp.appendChild(menui);
-		}	
-	}
-	
+function addYear(){
+	var desc = document.getElementById("d");	
+	var menul = document.createElement("textbox");
+	menul.setAttribute("value", "");
+	menul.setAttribute("id", "year");
+	menul.setAttribute("maxlength", "2");
+	menul.setAttribute("size", "2");
+	menul.setAttribute("placeholder","YY");
 	desc.appendChild(menul);
-	var advUI = document.getElementById("advance");
-	advUI.appendChild(desc);
+
+	menul = document.createElement("menulist");
+	menul.setAttribute("class", "advSearch2");
+	menul.setAttribute("id", "branch");	
+	var menupp = document.createElement("menupopup");
+	menul.appendChild(menupp);
+	for(var r=0; r<fields['Branch']['BE'].length; r++)
+	{
+		var menui = document.createElement("menuitem");
+		menui.setAttribute("label", fields['Branch']['BE'][r]);	
+		menupp.appendChild(menui);
+	}
+	for(var r=0; r<fields['Branch']['MTECH'].length; r++)
+	{
+		var menui = document.createElement("menuitem");
+		menui.setAttribute("label", fields['Branch']['MTECH'][r]);	
+		menupp.appendChild(menui);
+	}
+	desc.appendChild(menul);
+}
+
+function addCC(val){
+	var desc = document.getElementById("d");
+	var menul = document.getElementById("r1");
+	var ccc = menul;
+	var menupp = document.getElementById("mpp1");	
+	//alert(val);
+	if(menul != null){
+		menul.removeChild(menupp);
+	}
+	//Here
+	if(menul==null)
+		menul = document.createElement("menulist");
+
+	var menupp = document.createElement("menupopup");
+	menupp.setAttribute("id", "mpp1");	
+
+	menul.setAttribute("class", "advSearch2");
+	menul.setAttribute("id", "r1");	
+	menul.appendChild(menupp);
+	for(var r=0; r<fields['College Code'][Number(val)].length; r++)
+	{
+		var menui = document.createElement("menuitem");
+		menui.setAttribute("label", fields['College Code'][Number(val)][r]);	
+		menupp.appendChild(menui);
+	}	
+
+	if(ccc == null){
+		menul.setAttribute("oncommand", "return addYear()");
+		desc.appendChild(menul);
+	}
 }
 
 //Create ui for Advanced search
@@ -155,6 +190,8 @@ function createAdvanceUI(){
 
 	var advUI = document.getElementById("advance");
 	var desc = document.createElement("description");
+	desc.setAttribute("id", "d");
+
 	var menul;
 	
 	menul = document.createElement("menulist");
