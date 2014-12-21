@@ -44,17 +44,17 @@ function usnGeneration(){
 	//------------------------------------ Validation Starts here----------------------------------------------
 
 	//Fields to compare if not seleted usn fields
-	var fields=["Region", "CC", "YY", "Branch"];
-	for(f=0; f<4; f++)
+	var ids = ['r0', 'r1', 'year', 'branch', 'r4', 'r5' ];
+	for(f=0; f<6; f++)
 	{
-		if(f==2){
-			if(document.getElementById('r'+f).value == ""){
-				document.getElementById("resultId").textContent="Please select Year ..";
+		if(f==2 || f>3){
+			if(document.getElementById(ids[f]).value == ""){
+				document.getElementById("resultId").textContent="Please check Year or USN Serial number ..";
 				resizeOnChange();
 				return;
 			}		
 		}
-		else if(document.getElementById('r'+f).label == fields[f]){
+		else if(document.getElementById(ids[f]).label == "SELECT"){
 			document.getElementById("resultId").textContent="Please enter USN ..";
 			resizeOnChange();
 			return;
@@ -62,7 +62,7 @@ function usnGeneration(){
 	}
 	
 	//Check the size of input value. Two numbers.
-	var unum =	document.getElementById('r5').value.length;
+	var unum =	document.getElementById('r4').value.length;
 	var unum2 =	document.getElementById('r5').value.length;
 	if(unum2 > unum)//Find largest.
 		unum=unum2;
@@ -79,7 +79,7 @@ function usnGeneration(){
 	}
 
 	//Check whether MTECH usn or BE
-	var beTech = Number(document.getElementById('r3').label.length);
+	var beTech = Number(document.getElementById('branch').label.length);
 	if(beTech==3 && unum==3){
 		document.getElementById("resultId").textContent="For mtech enter 2 digit number.";
 		resizeOnChange();
@@ -92,11 +92,11 @@ function usnGeneration(){
 	//--------------------------------------------------------------------------------------------
 	
 	//Get all selected fields. 4 + SN + 13 + CS..
-	for(f=0; f<4; f++){
+	for(f=0; f<6; f++){
 		if(f==2)
-			usnNew += document.getElementById('r'+f).value;
+			usnNew += document.getElementById(ids[f]).value;
 		else
-			usnNew += document.getElementById('r'+f).label;
+			usnNew += document.getElementById(ids[f]).label;
 	}
 	
 	//Generate USNs
@@ -120,54 +120,88 @@ function checkEnterKey(evt){
 		return true;
 }
 
-function addYear(){
-	var desc = document.getElementById("d");	
-	var menul = document.createElement("textbox");
-	menul.setAttribute("value", "");
-	menul.setAttribute("id", "year");
-	menul.setAttribute("maxlength", "2");
-	menul.setAttribute("size", "2");
-	menul.setAttribute("placeholder","YY");
-	desc.appendChild(menul);
+function addYear()
+{
+	var desc = document.getElementById("d");
+	
+	//Check if already rendered. Call on changing college code.
+	var yearExist = document.getElementById("year");
+	if(yearExist == null)	
+	{
+		var menul = document.createElement("textbox");
+		menul.setAttribute("value", "14");
+		menul.setAttribute("id", "year");
+		menul.setAttribute("maxlength", "2");
+		menul.setAttribute("size", "2");
+		desc.appendChild(menul);
+	
 
-	menul = document.createElement("menulist");
-	menul.setAttribute("class", "advSearch2");
-	menul.setAttribute("id", "branch");	
-	var menupp = document.createElement("menupopup");
-	menul.appendChild(menupp);
-	for(var r=0; r<fields['Branch']['BE'].length; r++)
-	{
-		var menui = document.createElement("menuitem");
-		menui.setAttribute("label", fields['Branch']['BE'][r]);	
-		menupp.appendChild(menui);
+		menul = document.createElement("menulist");
+		menul.setAttribute("class", "advSearch2");
+		menul.setAttribute("id", "branch");	
+		var menupp = document.createElement("menupopup");
+		menul.appendChild(menupp);
+		for(var r=0; r<fields['Branch']['BE'].length; r++)
+		{
+			var menui = document.createElement("menuitem");
+			menui.setAttribute("label", fields['Branch']['BE'][r]);	
+			menupp.appendChild(menui);
+		}
+
+		for(var r=0; r<fields['Branch']['MTECH'].length; r++)
+		{
+			var menui = document.createElement("menuitem");
+			menui.setAttribute("label", fields['Branch']['MTECH'][r]);	
+			menupp.appendChild(menui);
+		}
+
+		desc.appendChild(menul);	
+
+		var nums = document.createElement("textbox");
+		nums.setAttribute("value", "");
+		nums.setAttribute("id", "r"+4);
+		nums.setAttribute("maxlength", "3");
+		nums.setAttribute("size", "2");
+		desc.appendChild(nums);
+
+		nums = document.createElement("label");
+		nums.setAttribute("value", "to");
+		desc.appendChild(nums);
+
+		nums = document.createElement("textbox");
+		nums.setAttribute("value", "");
+		nums.setAttribute("id", "r"+5);
+		nums.setAttribute("maxlength", "3");
+		nums.setAttribute("size", "2");
+		nums.setAttribute("onkeypress", "return checkEnterKey(event)");
+		desc.appendChild(nums);
+
+		var submitButton = document.createElement("button");
+		submitButton.setAttribute("label", "Load");
+		submitButton.setAttribute("class", "loadButton");
+		submitButton.setAttribute("onclick", "usnGeneration()");
+		desc.appendChild(submitButton);
 	}
-	for(var r=0; r<fields['Branch']['MTECH'].length; r++)
-	{
-		var menui = document.createElement("menuitem");
-		menui.setAttribute("label", fields['Branch']['MTECH'][r]);	
-		menupp.appendChild(menui);
-	}
-	desc.appendChild(menul);
 }
 
 function addCC(val){
 	var desc = document.getElementById("d");
 	var menul = document.getElementById("r1");
 	var ccc = menul;
-	var menupp = document.getElementById("mpp1");	
+	var menupp = document.getElementById("cc");	
 	//alert(val);
 	if(menul != null){
 		menul.removeChild(menupp);
 	}
 	//Here
-	if(menul==null)
+	if(menul==null){
 		menul = document.createElement("menulist");
+		menul.setAttribute("id", "r1");		
+	}
 
 	var menupp = document.createElement("menupopup");
-	menupp.setAttribute("id", "mpp1");	
 
 	menul.setAttribute("class", "advSearch2");
-	menul.setAttribute("id", "r1");	
 	menul.appendChild(menupp);
 	for(var r=0; r<fields['College Code'][Number(val)].length; r++)
 	{
