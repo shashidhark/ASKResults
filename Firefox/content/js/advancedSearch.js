@@ -146,18 +146,21 @@ function advancedSearch(usnList){
 	var column2 = document.createElement("column");
 	var column3 = document.createElement("column");
 	var column4 = document.createElement("column");
-	
+	var sp = document.createElement("spacer");
+
 	column0.setAttribute("flex", "1");
 	column1.setAttribute("flex", "1");
 	column2.setAttribute("flex", "1");
 	column3.setAttribute("flex", "1");
 	column4.setAttribute("flex", "1");
+	sp.setAttribute("flex", "1");
 
 	columns.appendChild(column0);
 	columns.appendChild(column1);
 	columns.appendChild(column2);
 	columns.appendChild(column3);
 	columns.appendChild(column4);
+	columns.appendChild(sp);
 
 	grid.appendChild(columns);
 	place.appendChild(grid);	
@@ -174,6 +177,7 @@ function advancedSearch(usnList){
 		label2 	= document.createElement("label");
 		label3 	= document.createElement("label");
 		label4 	= document.createElement("label");
+		sp = document.createElement("spacer");
 		if(u==-1){
 			label0.setAttribute("value", "Sl no");
 			label0.setAttribute("style", "font-weight:bold");
@@ -196,13 +200,13 @@ function advancedSearch(usnList){
 			label4.setAttribute("id", "stat"+usnList[u]);
 			label4.setAttribute("value", "Load..");
 		}
-
+		sp.setAttribute("flex", "1");
 		row.appendChild(label0);
 		row.appendChild(label1);
 		row.appendChild(label2);
 		row.appendChild(label3);
 		row.appendChild(label4);
-
+		row.appendChild(sp);
 		rows.appendChild(row);
 	}
 	grid.appendChild(rows);
