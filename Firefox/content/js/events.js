@@ -54,11 +54,11 @@ function usnGeneration(){
 				return;
 			}		
 		}
-		else if(document.getElementById(ids[f]).label == "SELECT"){
+		/*else if(document.getElementById(ids[f]).label == "SELECT"){
 			document.getElementById("resultId").textContent="Please enter USN ..";
 			resizeOnChange();
 			return;
-		}
+		}*/
 	}
 	
 	//Check the size of input value. Two numbers.
