@@ -54,11 +54,11 @@ function usnGeneration(){
 				return;
 			}		
 		}
-		/*else if(document.getElementById(ids[f]).label == "SELECT"){
+		else if(document.getElementById(ids[f]).label == "Region"){
 			document.getElementById("resultId").textContent="Please enter USN ..";
 			resizeOnChange();
 			return;
-		}*/
+		}
 	}
 	
 	//Check the size of input value. Two numbers.
@@ -137,7 +137,7 @@ function addYear()
 	
 
 		menul = document.createElement("menulist");
-		menul.setAttribute("class", "advSearch2");
+		menul.setAttribute("class", "advSearch1");
 		menul.setAttribute("id", "branch");	
 		var menupp = document.createElement("menupopup");
 		menul.appendChild(menupp);
@@ -202,7 +202,7 @@ function addCC(val){
 	var menupp = document.createElement("menupopup");
 	menupp.setAttribute("id", "cc");
 
-	menul.setAttribute("class", "advSearch2");
+	menul.setAttribute("class", "advSearch1");
 	menul.appendChild(menupp);
 	for(var r=0; r<fields['College Code'][Number(val)].length; r++)
 	{
@@ -210,11 +210,11 @@ function addCC(val){
 		menui.setAttribute("label", fields['College Code'][Number(val)][r]);	
 		menupp.appendChild(menui);
 	}	
-
 	if(ccc == null){
 		menul.setAttribute("oncommand", "return addYear()");
 		desc.appendChild(menul);
 	}
+	document.getElementById("r1").selectedIndex=0;//Select first item on changing 'region'
 }
 
 //Create ui for Advanced search
@@ -230,7 +230,7 @@ function createAdvanceUI(){
 	var menul;
 	
 	menul = document.createElement("menulist");
-	menul.setAttribute("class", "advSearch2");
+	menul.setAttribute("class", "advSearch1");
 	menul.setAttribute("id", "r0");	
 
 	var menupp = document.createElement("menupopup");

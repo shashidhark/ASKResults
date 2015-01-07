@@ -1,6 +1,6 @@
 var fields={
 	    
-			"Region":[1,2,3,4],
+			"Region":["Region",1,2,3,4],
 	   
 	    
 			"College Code":{
@@ -31,7 +31,7 @@ var fields={
 	    
 	    	"Branch":{
 						"BE":[ 
-								"AE","AT","AU","BM","BT","CC","CH","CS","CS","CT","CV","EC","EE",
+								"AE","AT","AU","BM","BT","CC","CH","CS","CT","CV","EC","EE",
 				     			"EV","IM","IP","IS","IT","ME","MI","ML","MS","PM","ST","TE","TX"
 							],
 			
