@@ -50,6 +50,17 @@
 				color:#305050;
 		}
 
+		.inputs1 {
+				-moz-appearance:none;
+				padding: 5px;
+				border-radius: 3px;
+				border-color: #54B4AD;
+				border: 1px solid blue;
+				height:23px;
+				background-color: #FFFFFF;
+				color:#305050;
+		}
+
 		.inputs:focus {
 				-moz-appearance:none;
 				border-color: #708090;
@@ -69,8 +80,8 @@
 		.advSearch{
 			-moz-appearance :none;
 			background-color:#0061a7;
+			border:1px solid white;
 			color:white;
-			border:1px solid #FFF;
 			font-size:13px;
 			cursor:pointer;
 			padding:6px 11px;
@@ -84,13 +95,15 @@
 			cursor:pointer;
 			padding:3px 11px;
 		}
+		.advSearch1{
+			background-color:white;
+		}
 	</html:style>
 	<script type="application/javascript" src="chrome://AskResults/content/lib/jquery-1.11.1.js" />	
 	<script type="application/javascript" src="chrome://AskResults/content/js/usnFields.js" />
 	<script type="application/javascript" src="chrome://AskResults/content/js/events.js" />
 	<script type="application/javascript" src="chrome://AskResults/content/js/avgMarks.js" />	
 	<script type="application/javascript" src="chrome://AskResults/content/js/advancedSearch.js" />
-	<!--script type="application/javascript" src="chrome://AskResults/content/libs/FileSaver.js/FileSaver.js"></script-->
 	<hbox class="bdy">
 	    <checkbox id="reval" class="chkbx" label="Revaluation result" checked="false"/>
 		<label id="msg" hidden="true" value="Maximum you can add 70 USNs.."/>

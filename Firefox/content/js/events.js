@@ -131,6 +131,7 @@ function addYear()
 		var menul = document.createElement("textbox");
 		menul.setAttribute("value", "14");
 		menul.setAttribute("id", "year");
+		menul.setAttribute("class", "inputs1");
 		menul.setAttribute("maxlength", "2");
 		menul.setAttribute("size", "2");
 		desc.appendChild(menul);
@@ -159,6 +160,7 @@ function addYear()
 
 		var nums = document.createElement("textbox");
 		nums.setAttribute("value", "");
+		nums.setAttribute("class", "inputs1");
 		nums.setAttribute("id", "r"+4);
 		nums.setAttribute("maxlength", "3");
 		nums.setAttribute("size", "2");
@@ -169,7 +171,8 @@ function addYear()
 		desc.appendChild(nums);
 
 		nums = document.createElement("textbox");
-		nums.setAttribute("value", "");
+		nums.setAttribute("value", "");		
+		nums.setAttribute("class", "inputs1");
 		nums.setAttribute("id", "r"+5);
 		nums.setAttribute("maxlength", "3");
 		nums.setAttribute("size", "2");
