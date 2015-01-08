@@ -260,7 +260,9 @@ function displayAdvUI(){
 		document.getElementById("advSearch").label="Switch to Normal Search";		
 		document.getElementById("reval").hidden=true;//Show revaluation option
 		createAdvanceUI();
-		document.getElementById("resultId").textContent="";		
+		document.getElementById("resultId").textContent="";	
+		//document.getElementById('box').hidden = true;	
+		//document.getElementById('saveMsg').hidden = true;
 	}
 	else{
 		document.getElementById("reval").hidden=false; //Hide revaluation option
@@ -269,6 +271,8 @@ function displayAdvUI(){
 		document.getElementById("msg").hidden=true;
 		document.getElementById("advSearch").label="Switch to Advanced Search";
 		document.getElementById("resultId").textContent="";
+		//document.getElementById('box').hidden = true;
+		//document.getElementById('saveMsg').hidden = true;
 	}
 	resizeOnChange();
 }

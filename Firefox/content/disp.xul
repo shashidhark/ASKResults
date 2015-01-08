@@ -98,6 +98,9 @@
 		.advSearch1{
 			background-color:white;
 		}
+		.success{
+			color:green;
+		}
 	</html:style>
 	<script type="application/javascript" src="chrome://AskResults/content/lib/jquery-1.11.1.js" />	
 	<script type="application/javascript" src="chrome://AskResults/content/js/usnFields.js" />
@@ -124,5 +127,8 @@
 		<description id='resultId'  >
 		</description>
 	</hbox>
+	<!--hbox class="bdy" id="box" align="right" hidden="true">
+		<label class="success" hidden="true" id="saveMsg">File is saved in Download folder.</label><button id="submit-button" class="loadButton"  label="Save to text file" onclick="writeToFile(strForText);"/>
+	</hbox-->
 
 </window>

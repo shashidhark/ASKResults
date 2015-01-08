@@ -2,7 +2,7 @@
 
 // Function to convert response string to HTMLDocument object.
 
-var strForText="USN         : Name               :  Percentage  :   Result  \n";
+var strForText="";
 
 function DOM(string){
  	const Cc = Components.classes;
@@ -51,7 +51,7 @@ function writeToFile(data)
 	Components.utils.import("resource://gre/modules/NetUtil.jsm");
 	var file = Components.classes["@mozilla.org/file/local;1"].
 		       createInstance(Components.interfaces.nsILocalFile);
-	var file = FileUtils.getFile("DfltDwnld", ["data.txt"]);
+	var file = FileUtils.getFile("DfltDwnld", ["VTUResult_ASKResults.txt"]);
 
 	// You can also optionally pass a flags parameter here. It defaults to
 	// FileUtils.MODE_WRONLY | FileUtils.MODE_CREATE | FileUtils.MODE_TRUNCATE;
@@ -71,13 +71,13 @@ function writeToFile(data)
 
 	  // Data has been written to the file.
 	});
+	//document.getElementById('saveMsg').hidden = false;
 }
 
 function openAdvResult(usn){
 	//alert("request");
 	
 	let url = "http://results.vtu.ac.in/vitavi.php";
-
 	let request = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Components.interfaces.nsIXMLHttpRequest);
 	request.onload = function(aEvent)
 	{
@@ -113,7 +113,6 @@ function openAdvResult(usn){
 			document.getElementById("perc"+usn).setAttribute("value", "---");
 			document.getElementById("stat"+usn).setAttribute("value", "---");
 		}
-		writeToFile(strForText);
 		resizeOnChange();
 	}; //request load end
 
@@ -131,6 +130,7 @@ function openAdvResult(usn){
 
 function advancedSearch(usnList){
 
+	strForText = "USN         : Name               :  Percentage  :   Result  \n";
 	document.getElementById('resultId').textContent = '';
 	var resultId= document.getElementById("resultId");
 	
@@ -210,9 +210,11 @@ function advancedSearch(usnList){
 		rows.appendChild(row);
 	}
 	grid.appendChild(rows);
+	
 	for(u=0; u<usnList.length; u++)
 	{	
 		openAdvResult(usnList[u]);
 	}	
+	//document.getElementById('box').hidden = false;
 }
 
