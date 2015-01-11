@@ -60,18 +60,21 @@ function getAvgMarks(t, s, b){
 						}
 						else if(b=='MCA')
 							branch = b;
-						else if(b=='MBA')
-							branck=b;
+						else if(b=='MBA'){
+							branch=b;
+						}
 						else
 							branch=0;
 						break;
 		default:
 						branch = 0;
 	}
+
 	if(branch == 0){
 		return '';
 	}
 	else{
+		//alert(branch+"]["+s);
 		return ((t/MAX_MARKS[branch][s])*100).toFixed(2);
 	}
 }

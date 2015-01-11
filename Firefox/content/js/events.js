@@ -304,7 +304,7 @@ function getNameUsn(usnName){
 //Return avg marks
 function findAvg(usn, total, sem){
 	//return ' '+total+' '+sem+' '+getBranch();
-	//alert(usn);
+	//alert(' '+total+' '+sem+' '+getBranch(usn));
 	return getAvgMarks(total, sem, getBranch(usn));
 }
 
@@ -415,7 +415,7 @@ function openResult(usn){
 
 		var all = $(str).find('td[width=513]').eq(0);
 		var table = $(all).find('table');
-
+		//alert(table);
 		if(($(table).eq(0).find("tr").eq(0).find('td').eq(3).text()).indexOf("FAIL") == -1){
 			//if(adv==1)	return 1;
 			grid.setAttribute("style", "background-color:"+passColor);		
@@ -452,6 +452,7 @@ function openResult(usn){
 				}
 			}
 			totalt.setAttribute('value', "Total: "+s);
+			//alert(s);
 		}
 
     	pdfVar+='<td>'+s+'</td></tr></table><table><tr><td>Subject</td><td>External</td><td>Internal</td><td>Total</td><td>Result</td></tr><tr><td>Semester</td><td>';
@@ -463,17 +464,19 @@ function openResult(usn){
 
 		//pdfVar+=$(table).eq(0).find("tr").eq(0).find('td').eq(1).text()+'</td><td>';
 		//alert($(table).eq(0).find("tr").eq(0).find('td').eq(1).text());
-		//alert(pdfVar);
+		
 		pdfVar+=$(table).eq(0).find("tr").eq(0).find('td').eq(1).text()+'</td><td>';
 		pdfVar+=$(table).eq(0).find("tr").eq(0).find('td').eq(3).find('b').text()+'</td></tr></table>';
 
-		var perc='', avg;
+		var perc='';
+		var avg;
 		if((avg = findAvg(usn, s, $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())) != ''){
 			perc = "Percentage: "+avg+"%";
 		}
+		//alert(perc);
 		sem1.setAttribute('value', semPerc+'   '+perc);
 		sem1.setAttribute("style", "font-weight:bold");
-
+//alert(pdfVar);
 		vbox.appendChild(grid);
 		grid.appendChild(rows);
 		rows.appendChild(row1);
@@ -489,7 +492,7 @@ function openResult(usn){
 		vbox.appendChild(sp);
 		//alert(table.length);
 		var row11, lbl;
-
+//alert(pdfVar);
 		if(rv == 0){
 			for (var i=1; i < table.length-1; i++){
 				pdfVar+='<table><tr><td>Subject</td><td>External</td><td>Internal</td><td>Total</td><td>Result</td></tr>';
