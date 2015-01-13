@@ -80,11 +80,10 @@ function incFail(){
 
 function incPass(){
 	document.getElementById("vp").setAttribute("value", ++p);
-	//Error
-	document.getElementById("result").setAttribute("value", ((p/t)*100)+"%");
 }
 
 function updatePerc(){
+	document.getElementById("result").setAttribute("value", ((p/t)*100).toFixed(2)+"%");
 }
 
 function openAdvResult(usn){
@@ -125,9 +124,11 @@ function openAdvResult(usn){
 		else{
 			document.getElementById("name"+usn).setAttribute("value", "Doesn't Exist");
 			strForText += "Doesn't Exist \n";
+			t=t-1;
 			document.getElementById("perc"+usn).setAttribute("value", "---");
 			document.getElementById("stat"+usn).setAttribute("value", "---");
 		}
+		updatePerc();
 		resizeOnChange();
 	}; //request load end
 
@@ -144,7 +145,7 @@ function openAdvResult(usn){
 }
 
 function advancedSearch(usnList){
-		
+	p=0,t=0,f=0;
 	var status=1, row, label0, label1, label2, label4, label3, lpass, lfail, vpass, vfail, vtotal, total, result;
 	strForText = "USN         : Name               :  Percentage  :   Result  \n";
 	document.getElementById('resultId').textContent = '';
