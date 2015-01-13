@@ -61,7 +61,7 @@ function getAvgMarks(t, s, b){
 						else if(b=='MCA')
 							branch = b;
 						else if(b=='MBA')
-							branck=b;
+							branch=b;
 						else
 							branch=0;
 						break;

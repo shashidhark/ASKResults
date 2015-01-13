@@ -101,6 +101,12 @@
 		.success{
 			color:green;
 		}
+		.pass{
+			color:green;
+		}
+		.fail{
+			color:red;
+		}
 	</html:style>
 	<script type="application/javascript" src="chrome://AskResults/content/lib/jquery-1.11.1.js" />	
 	<script type="application/javascript" src="chrome://AskResults/content/js/usnFields.js" />
