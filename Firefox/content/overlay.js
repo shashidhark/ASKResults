@@ -35,7 +35,7 @@ var AskResults = {
 	},
 
   onMenuItemCommand: function() {
-    window.open("chrome://AskResults/content/disp.xul", "", "chrome=yes, scrollbars=yes, resizable=yes, top=200, left=500");
+    window.open("chrome://AskResults/content/disp.xul", "", "chrome=yes, scrollbars=yes, resizable=yes, top=200, left=400");
   }
 };
 

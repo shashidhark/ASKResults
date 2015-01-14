@@ -114,10 +114,11 @@
 	<script type="application/javascript" src="chrome://AskResults/content/js/avgMarks.js" />	
 	<script type="application/javascript" src="chrome://AskResults/content/js/advancedSearch.js" />
 	<hbox class="bdy">
+		<!--spacer flex="1"/-->
+		<button id="advSearch" class="advSearch" label="Switch to Advanced Search" onclick="displayAdvUI()" />
+		
 	    <checkbox id="reval" class="chkbx" label="Revaluation result" checked="false"/>
 		<label id="msg" hidden="true" value="Maximum you can add 70 USNs.."/>
-		<spacer flex="1"/>
-		<button id="advSearch" class="advSearch" label="Switch to Advanced Search" onclick="displayAdvUI()" />
 	</hbox>
 	<hbox class="bdy" id="normal" hidden="false">
 		<description>
@@ -129,9 +130,7 @@
 	<hbox class="bdy" id="advance" hidden="true">
 		
 	</hbox>
-	<hbox class="bdy">
-		<description id='resultId'  >
-		</description>
+	<hbox class="bdy" id='resultId'>
 	</hbox>
 	<!--hbox class="bdy" id="box" align="right" hidden="true">
 		<label class="success" hidden="true" id="saveMsg">File is saved in Download folder.</label><button id="submit-button" class="loadButton"  label="Save to text file" onclick="writeToFile(strForText);"/>

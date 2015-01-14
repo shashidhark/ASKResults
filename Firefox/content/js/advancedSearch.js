@@ -72,6 +72,7 @@ function writeToFile(data)
 	  // Data has been written to the file.
 	});
 	//document.getElementById('saveMsg').hidden = false;
+	document.getElementById("sb").textContent="Saved to download folder..";
 }
 var p=0,f=0,t=0;
 function incFail(){	
@@ -84,6 +85,7 @@ function incPass(){
 
 function updatePerc(){
 	document.getElementById("result").setAttribute("value", ((p/t)*100).toFixed(2)+"%");
+	document.getElementById("vt").setAttribute("value", p+f);
 }
 
 function openAdvResult(usn){
@@ -119,12 +121,10 @@ function openAdvResult(usn){
 				incFail();
 				document.getElementById("stat"+usn).setAttribute("style", "color:#E30F17");
 			}
-			
 		}
 		else{
 			document.getElementById("name"+usn).setAttribute("value", "Doesn't Exist");
 			strForText += "Doesn't Exist \n";
-			t=t-1;
 			document.getElementById("perc"+usn).setAttribute("value", "---");
 			document.getElementById("stat"+usn).setAttribute("value", "---");
 		}
@@ -146,49 +146,64 @@ function openAdvResult(usn){
 
 function advancedSearch(usnList){
 	p=0,t=0,f=0;
-	var status=1, row, label0, label1, label2, label4, label3, lpass, lfail, vpass, vfail, vtotal, total, result;
+	var status=1, row, label0, label1, label2, label4, label3, lpass, lfail, vpass, vfail, vtotal, total, result, vresult, hb, saveButton, vbx, bx;
 	strForText = "USN         : Name               :  Percentage  :   Result  \n";
 	document.getElementById('resultId').textContent = '';
 	var resultId= document.getElementById("resultId");
-	
+	bx 	= document.createElement("vbox");
+	vbx 	= document.createElement("hbox");
 	lpass 	= document.createElement("label");	
 	lfail 	= document.createElement("label");
 	vpass 	= document.createElement("label");
 	vfail 	= document.createElement("label");
 	result 	= document.createElement("label");
+	vresult 	= document.createElement("label");
 	total 	= document.createElement("label");
 	vtotal 	= document.createElement("label");
+	
 
-	lpass.setAttribute("value", "Pass: ");
+	hb = document.createElement("description");
+	hb.setAttribute("id", "sb");
+	saveButton 	= document.createElement("button");
+	saveButton.setAttribute("label", "Save");
+	saveButton.setAttribute("class", "loadButton");
+	saveButton.setAttribute("onclick", "writeToFile(strForText);");
+	hb.appendChild(saveButton);
+
+	lpass.setAttribute("value", "Passed: ");
 	lpass.setAttribute("class", "pass");
 	vpass.setAttribute("value", '0');
 	vpass.setAttribute("id", "vp");
 	vpass.setAttribute("class", "pass");
 
-	lfail.setAttribute("value", "Fail: ");
+	lfail.setAttribute("value", "Failed: ");
 	lfail.setAttribute("class", "fail");
 	vfail.setAttribute("value", '0');
 	vfail.setAttribute("id", "vf");
 	vfail.setAttribute("class", "fail");
-
+	vresult.setAttribute("value", "Percentage: ");
 	result.setAttribute("value", "0%");
 	result.setAttribute("id", "result");
 
-	total.setAttribute("value", "Total USN: ");	
-	vtotal.setAttribute("value", usnList.length);
+	total.setAttribute("value", "Total: ");	
+	vtotal.setAttribute("value", '0');
 	t=usnList.length;
 	vtotal.setAttribute("id", "vt");	
-	resultId.appendChild(lpass);
-	resultId.appendChild(vpass);
-	resultId.appendChild(lfail);
-	resultId.appendChild(vfail);
-	resultId.appendChild(result);
-	resultId.appendChild(total);
-	resultId.appendChild(vtotal);
-
-	var place 	= document.createElement("vbox");
+	
+	vbx.appendChild(lpass);
+	vbx.appendChild(vpass);
+	vbx.appendChild(lfail);
+	vbx.appendChild(vfail);
+	vbx.appendChild(vresult);
+	vbx.appendChild(result);
+	vbx.appendChild(total);
+	vbx.appendChild(vtotal);
+	vbx.appendChild(hb);
+	
+	bx.appendChild(vbx);
+	var place 	= document.createElement("hbox");
 	place.setAttribute("flex", "1");
-	place.setAttribute("style", "overflow:scroll; width:100%; height:200px; overflow-x: hidden;");
+	place.setAttribute("style", "overflow:scroll; width:100%; height:300px; overflow-x: hidden;");
 
 	var grid 	= document.createElement("grid");
 	grid.setAttribute("flex", "1");
@@ -217,7 +232,7 @@ function advancedSearch(usnList){
 
 	grid.appendChild(columns);
 	place.appendChild(grid);	
-	resultId.appendChild(place);
+	bx.appendChild(place);
 
 	var rows 	= document.createElement("rows");
 	var u=0;
@@ -262,7 +277,7 @@ function advancedSearch(usnList){
 		rows.appendChild(row);
 	}
 	grid.appendChild(rows);
-	
+	resultId.appendChild(bx);
 	for(u=0; u<usnList.length; u++)
 	{	
 		openAdvResult(usnList[u]);
