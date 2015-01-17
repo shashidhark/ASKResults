@@ -43,9 +43,12 @@ function getTotal(table){
 	}
 	return s;
 }
-
+var p=0,f=0,t=0, fcd=0, fc=0;
 function writeToFile(data)
 {
+	data += "\n";	
+	data += "Passed: "+p+"  Failed: "+f+" Percentage: "+((p/t)*100).toFixed(2)+"%"+" Total: "+t+"\n";	
+	data += "FCD:"+fcd+" FC:"+fc;
 	// Get profile directory.
 	Components.utils.import("resource://gre/modules/FileUtils.jsm");
 	Components.utils.import("resource://gre/modules/NetUtil.jsm");
@@ -74,7 +77,7 @@ function writeToFile(data)
 	//document.getElementById('saveMsg').hidden = false;
 	document.getElementById("sb").textContent="Saved to download folder..";
 }
-var p=0,f=0,t=0;
+
 function incFail(){	
 	document.getElementById("vf").setAttribute("value", ++f);
 }
@@ -86,11 +89,44 @@ function incPass(){
 function updatePerc(){
 	document.getElementById("result").setAttribute("value", ((p/t)*100).toFixed(2)+"%");
 	document.getElementById("vt").setAttribute("value", p+f);
+	document.getElementById("fcd").setAttribute("value", fcd);
+	document.getElementById("fc").setAttribute("value", fc);
 }
 
+function getFailedSubjects(str){
+	var s="";
+	var tr = $(str).eq(1).find("tr");
+	for (var j = 1; j < tr.length; j++){
+		var td = $(tr).eq(j).find('td');
+		if(($(td).eq(4).text()).indexOf("F") > -1 || ($(td).eq(4).text()).indexOf("A") > -1){
+			//lbl = document.createElement("label");
+			//lbl.setAttribute("value", "$(td).eq(0).text()");
+			//tip.appendChild(lbl);
+			s+="| "+$(td).eq(0).text()+" |";
+		}
+	}
+	return s;
+}
+
+function getClass(str){
+//	alert(str.match(/\b\w/g).join(''));
+	return str.match(/\b\w/g).join('');
+}
+
+function incClass(s){
+	if(s == 'RFCWD')
+		fcd++;
+	else if(s == 'RFC')
+		fc++;
+}
+
+var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+                        .getService(Components.interfaces.nsIPromptService);
+
 function openAdvResult(usn){
-	//alert("request");
-	
+	//alert("request");	
+	var fs="";
+	var resultClass="";
 	let url = "http://results.vtu.ac.in/vitavi.php";
 	let request = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Components.interfaces.nsIXMLHttpRequest);
 	request.onload = function(aEvent)
@@ -99,26 +135,31 @@ function openAdvResult(usn){
 		var all = $(str).find('td[width=513]').eq(0);
 		//alert(all);
 		strForText += usn+" : ";
-
+		var name1;
 		var table = $(all).find('table');
 		if(table.length!=0)//If USN exist in db
-		{
+		{	
 			document.getElementById("name"+usn).setAttribute("value", getName($(all).find('B').eq(0).text()));
-			strForText += getName($(all).find('B').eq(0).text())+" : ";
+			name1 = getName($(all).find('B').eq(0).text());
+			strForText += name1+" : ";
 
 			document.getElementById("perc"+usn).setAttribute("value", findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text()));
 			strForText += findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())+" : ";
 
 			if(($(table).eq(0).find("tr").eq(0).find('td').eq(3).text()).indexOf("FAIL") == -1){
+				resultClass = getClass($(table).eq(0).find("tr").eq(0).find('td').eq(3).text());
+				incClass(resultClass);
 				document.getElementById("stat"+usn).setAttribute("value", "PASS");
 				strForText += "PASS \n";
 				incPass();
 				document.getElementById("stat"+usn).setAttribute("style", "color:#087F38");
 			}
-			else{
+			else{fs="";
 				document.getElementById("stat"+usn).setAttribute("value", "FAIL");
 				strForText += "FAIL \n";
-				incFail();
+				incFail();				
+				fs = getFailedSubjects(table);
+				document.getElementById("stat"+usn).setAttribute("onclick", 'prompts.alert(null, "Failed Subjects", "USN:'+usn+' Name:'+name1+' Failed in: '+fs+'");');
 				document.getElementById("stat"+usn).setAttribute("style", "color:#E30F17");
 			}
 		}
@@ -141,17 +182,35 @@ function openAdvResult(usn){
 	request.open("POST", url, true);
 	request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 	request.send("rid="+usn+"&submit=SUBMIT");
-
 }
 
 function advancedSearch(usnList){
-	p=0,t=0,f=0;
-	var status=1, row, label0, label1, label2, label4, label3, lpass, lfail, vpass, vfail, vtotal, total, result, vresult, hb, saveButton, vbx, bx;
-	strForText = "USN         : Name               :  Percentage  :   Result  \n";
+	p=0,t=0,f=0, fcd=0, fc=0;
+	var status=1, row, label0, label1, label2, label4, label3, lpass, lfail, vpass, vfail, vtotal, total, result, vresult, hb, hbx, saveButton, vbx, bx,fcdv, fcv,fcdv1, fcv1;
+	strForText = "\n";
 	document.getElementById('resultId').textContent = '';
+
 	var resultId= document.getElementById("resultId");
 	bx 	= document.createElement("vbox");
+	bx.setAttribute('class', 'rs');
 	vbx 	= document.createElement("hbox");
+
+	hbx 	= document.createElement("hbox");
+	fcdv 	= document.createElement("label");
+	fcdv.setAttribute('value', 'FCD:');
+	fcv 	= document.createElement("label");
+	fcv.setAttribute('value', 'FC:');
+	fcdv1 	= document.createElement("label");
+	fcdv1.setAttribute('value', '0');
+	fcdv1.setAttribute('id', 'fcd');
+	fcv1 	= document.createElement("label");
+	fcv1.setAttribute('value', '0');		
+	fcv1.setAttribute('id', 'fc');
+	hbx.appendChild(fcdv);
+	hbx.appendChild(fcdv1);
+	hbx.appendChild(fcv);
+	hbx.appendChild(fcv1);
+
 	lpass 	= document.createElement("label");	
 	lfail 	= document.createElement("label");
 	vpass 	= document.createElement("label");
@@ -159,8 +218,7 @@ function advancedSearch(usnList){
 	result 	= document.createElement("label");
 	vresult 	= document.createElement("label");
 	total 	= document.createElement("label");
-	vtotal 	= document.createElement("label");
-	
+	vtotal 	= document.createElement("label");	
 
 	hb = document.createElement("description");
 	hb.setAttribute("id", "sb");
@@ -170,22 +228,22 @@ function advancedSearch(usnList){
 	saveButton.setAttribute("onclick", "writeToFile(strForText);");
 	hb.appendChild(saveButton);
 
-	lpass.setAttribute("value", "Passed: ");
+	lpass.setAttribute("value", "Passed:");
 	lpass.setAttribute("class", "pass");
 	vpass.setAttribute("value", '0');
 	vpass.setAttribute("id", "vp");
 	vpass.setAttribute("class", "pass");
 
-	lfail.setAttribute("value", "Failed: ");
+	lfail.setAttribute("value", " Failed:");
 	lfail.setAttribute("class", "fail");
 	vfail.setAttribute("value", '0');
 	vfail.setAttribute("id", "vf");
 	vfail.setAttribute("class", "fail");
-	vresult.setAttribute("value", "Percentage: ");
+	vresult.setAttribute("value", " Percentage:");
 	result.setAttribute("value", "0%");
 	result.setAttribute("id", "result");
 
-	total.setAttribute("value", "Total: ");	
+	total.setAttribute("value", " Total:");	
 	vtotal.setAttribute("value", '0');
 	t=usnList.length;
 	vtotal.setAttribute("id", "vt");	
@@ -198,9 +256,10 @@ function advancedSearch(usnList){
 	vbx.appendChild(result);
 	vbx.appendChild(total);
 	vbx.appendChild(vtotal);
-	vbx.appendChild(hb);
 	
 	bx.appendChild(vbx);
+	bx.appendChild(hbx);
+	bx.appendChild(hb);
 	var place 	= document.createElement("hbox");
 	place.setAttribute("flex", "1");
 	place.setAttribute("style", "overflow:scroll; width:100%; height:300px; overflow-x: hidden;");
@@ -281,6 +340,6 @@ function advancedSearch(usnList){
 	for(u=0; u<usnList.length; u++)
 	{	
 		openAdvResult(usnList[u]);
-	}		
+	}	
 }
 

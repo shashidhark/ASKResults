@@ -252,7 +252,8 @@ function createAdvanceUI(){
 }
 
 function displayAdvUI(){
-	//	alert("hi");
+	//	alert("hi");	
+	resizeOnChange();
 	if(document.getElementById("advance").hidden){
 		document.getElementById("normal").hidden=true;	
 		document.getElementById("advance").hidden=false;	
@@ -260,7 +261,7 @@ function displayAdvUI(){
 		document.getElementById("advSearch").label="Switch to Normal Search";		
 		document.getElementById("reval").hidden=true;//Show revaluation option
 		createAdvanceUI();
-		document.getElementById("resultId").textContent="";	
+		
 		//document.getElementById('box').hidden = true;	
 		//document.getElementById('saveMsg').hidden = true;
 	}
@@ -271,6 +272,7 @@ function displayAdvUI(){
 		document.getElementById("msg").hidden=true;
 		document.getElementById("advSearch").label="Switch to Advanced Search";
 		document.getElementById("resultId").textContent="";
+		getMessage();
 		//document.getElementById('box').hidden = true;
 		//document.getElementById('saveMsg').hidden = true;
 	}
@@ -334,6 +336,41 @@ function checkFormat(str){
 	else{
 		return false;
 	}
+}
+
+//Result announcement
+function getMessage(){
+	let url = "http://results.vtu.ac.in";
+	var res = document.getElementById('resultId');
+	var vb = document.createElement("vbox");
+	let request = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Components.interfaces.nsIXMLHttpRequest);
+	request.onload = function(aEvent)
+	{	
+		var str = DOM(aEvent.target.responseText);
+		var all = $(str).find('td[width=513]').eq(0);
+		str = $(all).html();
+		var msgs = str.split("<br>");
+		var lbl;
+		for(var i=2;;i++){
+			if(msgs[i].indexOf("Enter") > -1)
+				break;
+			else if(msgs[i]!=""){
+				lbl = document.createElement("label");
+				lbl.setAttribute("value", msgs[i]);
+				vb.appendChild(lbl);
+			}
+		}
+		res.appendChild(vb);
+	}; //request load end
+
+	request.onerror = function(aEvent) {
+	   //window.alert("Error Status: " + aEvent.target.status);
+	   document.getElementById('resultId').textContent = "Check Internet connection. Error status : "+ aEvent.target.status;
+	};
+
+	request.open("GET", url, true);
+	request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	request.send();
 }
 
 // Function to do all the processing. Resquest and Display result.
@@ -642,7 +679,7 @@ function openResult(usn){
 
 		pdfVar+='</body></html>';
 		//alert(pdfVar);
-		pdfVar = DOM(pdfVar);
+		//pdfVar = DOM(pdfVar);
 		resizeOnChange();
 
 	}; //request load end
@@ -657,6 +694,7 @@ function openResult(usn){
 	request.send("rid="+usn+"&submit=SUBMIT");
 }
 
+
 window.addEventListener("load", function() {
 	const KEY_ENTER = 13;
   	const KEY_ESCAPE = 27;
@@ -669,7 +707,6 @@ window.addEventListener("load", function() {
 		}
 	}
 	textbox.addEventListener('keyup', keyPressed, true);
-	
 	
 	//printPdf.addEventListener('click', print, true);
 

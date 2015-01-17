@@ -16,13 +16,13 @@ var AskResults = {
   },
   
   addButton: function() {
-		toolbarButton = 'AskResults-button';
-		navBar = document.getElementById('nav-bar');
-		currentSet = navBar.getAttribute('currentset');
+		var toolbarButton = 'AskResults-button';
+		var navBar = document.getElementById('nav-bar');
+		var currentSet = navBar.getAttribute('currentset');
 		if (!currentSet) {
 			currentSet = navBar.currentSet;
 		}
-		curSet = currentSet.split(',');
+		var curSet = currentSet.split(',');
 		if (curSet.indexOf(toolbarButton) == -1) {
 			set = curSet.concat(toolbarButton);
 			navBar.setAttribute("currentset", set.join(','));
