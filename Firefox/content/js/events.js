@@ -260,6 +260,8 @@ function displayAdvUI(){
 		document.getElementById("msg").hidden=false;
 		document.getElementById("advSearch").label="Switch to Normal Search";		
 		document.getElementById("reval").hidden=true;//Show revaluation option
+		document.getElementById("print").hidden=true;
+		document.getElementById("saveImsg").hidden=true;
 		createAdvanceUI();
 		
 		//document.getElementById('box').hidden = true;	
@@ -272,6 +274,8 @@ function displayAdvUI(){
 		document.getElementById("msg").hidden=true;
 		document.getElementById("advSearch").label="Switch to Advanced Search";
 		document.getElementById("resultId").textContent="";
+		document.getElementById("print").hidden=true;
+		document.getElementById("saveImsg").hidden=true;
 		getMessage();
 		//document.getElementById('box').hidden = true;
 		//document.getElementById('saveMsg').hidden = true;
@@ -343,6 +347,7 @@ function getMessage(){
 	let url = "http://results.vtu.ac.in";
 	var res = document.getElementById('resultId');
 	var vb = document.createElement("vbox");
+	vb.setAttribute("style", "border: #000000 solid 2px;");
 	let request = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Components.interfaces.nsIXMLHttpRequest);
 	request.onload = function(aEvent)
 	{	
@@ -372,13 +377,16 @@ function getMessage(){
 	request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 	request.send();
 }
-
+var strForTextI="";
 // Function to do all the processing. Resquest and Display result.
 function openResult(usn){
 	
 	//Color codes
+	strForTextI="";
 	var passColor='#087F38', failColor='#E30F17' ;
 	var marksRow ='#F0FFF0', tableHead='#90B890', failedSub='#FFCCCC';
+	document.getElementById('print').hidden=false;
+	document.getElementById('saveImsg').hidden=true;
 	if(usn.length==0){
 		document.getElementById('resultId').textContent = "Please Enter Your USN...";
 		document.getElementById('resultId').setAttribute("style", "color:red");
@@ -473,6 +481,7 @@ function openResult(usn){
 			name1.setAttribute('value', "Name: "+getNameUsn($(all).find('B').eq(0).text()));
 			name1.setAttribute("style", "font-weight:bold;");
 
+			strForTextI += "Name: "+getNameUsn($(all).find('B').eq(0).text()) +"\n";
 			pdfVar+='<tr><td>'+$(all).find('B').eq(0).text()+'</td>';
 
 			var s=0;
@@ -491,14 +500,16 @@ function openResult(usn){
 			totalt.setAttribute('value', "Total: "+s);
 			//alert(s);
 		}
-
+		strForTextI += "Total: "+s+"\n";
     	pdfVar+='<td>'+s+'</td></tr></table><table><tr><td>Subject</td><td>External</td><td>Internal</td><td>Total</td><td>Result</td></tr><tr><td>Semester</td><td>';
 
 		totalt.setAttribute("style", "font-weight:bold");
 		status1.setAttribute('value', ""+$(table).eq(0).find("tr").eq(0).find('td').eq(3).text());
 		status1.setAttribute("style", "font-weight:bold");
 		var semPerc = "Semester:  "+$(table).eq(0).find("tr").eq(0).find('td').eq(1).text();
-
+		
+		strForTextI += $(table).eq(0).find("tr").eq(0).find('td').eq(3).text()+"\n";
+		strForTextI += "Semester: "+$(table).eq(0).find("tr").eq(0).find('td').eq(1).text()+"\n";
 		//pdfVar+=$(table).eq(0).find("tr").eq(0).find('td').eq(1).text()+'</td><td>';
 		//alert($(table).eq(0).find("tr").eq(0).find('td').eq(1).text());
 		
@@ -510,10 +521,11 @@ function openResult(usn){
 		if((avg = findAvg(usn, s, $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())) != ''){
 			perc = "Percentage: "+avg+"%";
 		}
+		strForTextI += "Percentage: "+avg+"% \n\n";
 		//alert(perc);
 		sem1.setAttribute('value', semPerc+'   '+perc);
 		sem1.setAttribute("style", "font-weight:bold");
-//alert(pdfVar);
+		//alert(pdfVar);
 		vbox.appendChild(grid);
 		grid.appendChild(rows);
 		rows.appendChild(row1);
@@ -568,9 +580,11 @@ function openResult(usn){
 						if($(td).eq(k).text() != ""){
 							lbl.setAttribute("value", $(td).eq(k).text());
 							pdfVar+='<td>'+$(td).eq(k).text()+'</td>';
+							strForTextI += $(td).eq(k).text()+" ";
 						}
 						row11.appendChild(lbl);
 					}
+					strForTextI += "\n";
 					if(($(td).eq(4).text()).indexOf("F") > -1 || ($(td).eq(4).text()).indexOf("A") > -1)
 					{
 						row11.setAttribute("style", "background-color:"+failedSub+"; color:red");
@@ -650,10 +664,11 @@ function openResult(usn){
 							//alert($(td).eq(k).text());
 							lbl.setAttribute("value", $(td).eq(k).text());
 							pdfVar+='<td>'+$(td).eq(k).text()+'</td>';
+							strForTextI += $(td).eq(k).text()+" ";
 						}
 						row11.appendChild(lbl);
 					}
-
+					strForTextI += "\n";
 					//alert(pdfVar);
 					if(($(td).eq(5).text()).indexOf("F") > -1 || ($(td).eq(5).text()).indexOf("A") > -1)//Absent and Fail
 					{

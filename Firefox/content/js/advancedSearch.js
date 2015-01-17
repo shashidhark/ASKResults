@@ -43,12 +43,12 @@ function getTotal(table){
 	}
 	return s;
 }
-var p=0,f=0,t=0, fcd=0, fc=0;
+var p=0,f=0,t=0, fcd=0, fc=0, sc=0;
 function writeToFile(data)
 {
 	data += "\n";	
 	data += "Passed: "+p+"  Failed: "+f+" Percentage: "+((p/t)*100).toFixed(2)+"%"+" Total: "+t+"\n";	
-	data += "FCD:"+fcd+" FC:"+fc;
+	data += "FCD:"+fcd+" FC:"+fc+" SC:"+sc;
 	// Get profile directory.
 	Components.utils.import("resource://gre/modules/FileUtils.jsm");
 	Components.utils.import("resource://gre/modules/NetUtil.jsm");
@@ -78,6 +78,38 @@ function writeToFile(data)
 	document.getElementById("sb").textContent="Saved to download folder..";
 }
 
+function writeToFile1()
+{
+	var data=strForTextI;
+	// Get profile directory.
+	Components.utils.import("resource://gre/modules/FileUtils.jsm");
+	Components.utils.import("resource://gre/modules/NetUtil.jsm");
+	var file = Components.classes["@mozilla.org/file/local;1"].
+		       createInstance(Components.interfaces.nsILocalFile);
+	var file = FileUtils.getFile("DfltDwnld", ["Individual_VTUResult_ASKResults.txt"]);
+
+	// You can also optionally pass a flags parameter here. It defaults to
+	// FileUtils.MODE_WRONLY | FileUtils.MODE_CREATE | FileUtils.MODE_TRUNCATE;
+	var ostream = FileUtils.openSafeFileOutputStream(file);
+
+	var converter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].
+		            createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
+	converter.charset = "UTF-8";
+	var istream = converter.convertToInputStream(data);
+
+	// The last argument (the callback) is optional.
+	NetUtil.asyncCopy(istream, ostream, function(status) {
+	  if (!Components.isSuccessCode(status)) {
+		// Handle error!
+		return;
+	  }
+
+	  // Data has been written to the file.
+	});
+	document.getElementById('saveImsg').hidden=false;
+	document.getElementById('print').hidden=true;
+}
+
 function incFail(){	
 	document.getElementById("vf").setAttribute("value", ++f);
 }
@@ -91,6 +123,7 @@ function updatePerc(){
 	document.getElementById("vt").setAttribute("value", p+f);
 	document.getElementById("fcd").setAttribute("value", fcd);
 	document.getElementById("fc").setAttribute("value", fc);
+	document.getElementById("sc").setAttribute("value", sc);
 }
 
 function getFailedSubjects(str){
@@ -118,6 +151,8 @@ function incClass(s){
 		fcd++;
 	else if(s == 'RFC')
 		fc++;
+	else if(s == 'RSC')
+		sc++;
 }
 
 var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
@@ -185,8 +220,9 @@ function openAdvResult(usn){
 }
 
 function advancedSearch(usnList){
-	p=0,t=0,f=0, fcd=0, fc=0;
-	var status=1, row, label0, label1, label2, label4, label3, lpass, lfail, vpass, vfail, vtotal, total, result, vresult, hb, hbx, saveButton, vbx, bx,fcdv, fcv,fcdv1, fcv1;
+	p=0,t=0,f=0, fcd=0, fc=0, sc=0;
+	var status=1, row, label0, label1, label2, label4, label3, lpass, lfail, vpass, vfail, vtotal, total, result;
+	var vresult, hb, hbx, saveButton, vbx, bx,fcdv, fcv,fcdv1, fcv1, scv, scv1, noti;
 	strForText = "\n";
 	document.getElementById('resultId').textContent = '';
 
@@ -200,17 +236,25 @@ function advancedSearch(usnList){
 	fcdv.setAttribute('value', 'FCD:');
 	fcv 	= document.createElement("label");
 	fcv.setAttribute('value', 'FC:');
+	scv 	= document.createElement("label");
+	scv.setAttribute('value', 'SC:');
 	fcdv1 	= document.createElement("label");
 	fcdv1.setAttribute('value', '0');
 	fcdv1.setAttribute('id', 'fcd');
 	fcv1 	= document.createElement("label");
 	fcv1.setAttribute('value', '0');		
 	fcv1.setAttribute('id', 'fc');
+	scv1 	= document.createElement("label");
+	scv1.setAttribute('value', '0');		
+	scv1.setAttribute('id', 'sc');
 	hbx.appendChild(fcdv);
 	hbx.appendChild(fcdv1);
 	hbx.appendChild(fcv);
 	hbx.appendChild(fcv1);
+	hbx.appendChild(scv);
+	hbx.appendChild(scv1);
 
+	noti 	= document.createElement("label");	
 	lpass 	= document.createElement("label");	
 	lfail 	= document.createElement("label");
 	vpass 	= document.createElement("label");
@@ -220,6 +264,8 @@ function advancedSearch(usnList){
 	total 	= document.createElement("label");
 	vtotal 	= document.createElement("label");	
 
+	noti.setAttribute('value', 'Click on FAIL to know failed subjects.');
+	noti.setAttribute('style', 'color:blue');
 	hb = document.createElement("description");
 	hb.setAttribute("id", "sb");
 	saveButton 	= document.createElement("button");
@@ -260,6 +306,7 @@ function advancedSearch(usnList){
 	bx.appendChild(vbx);
 	bx.appendChild(hbx);
 	bx.appendChild(hb);
+	bx.appendChild(noti);
 	var place 	= document.createElement("hbox");
 	place.setAttribute("flex", "1");
 	place.setAttribute("style", "overflow:scroll; width:100%; height:300px; overflow-x: hidden;");

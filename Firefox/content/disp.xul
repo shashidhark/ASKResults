@@ -122,15 +122,18 @@
 	<script type="application/javascript" src="chrome://AskResults/content/js/advancedSearch.js" />
 	<hbox class="bdy">
 		<checkbox id="reval" class="chkbx"  label="Revaluation result" checked="false"/>
-		<label id="msg" hidden="true" value="Maximum you can add 70 USNs.."/>
-		<!--spacer flex="1"/-->
+		<label id="msg" hidden="true" value=""/>
+		<spacer flex="1"/>
 		<button id="advSearch" class="advSearch" label="Switch to Advanced Search" onclick="displayAdvUI()" />
 	</hbox>
 	<hbox class="bdy" id="normal" hidden="false">
 		<description>
 			Enter Your University Seat No : <textbox id='usn_id' class="inputs" maxlength="10" size="9" placeholder="USN" value=""/>
 			<button id="submit-button" class="loadButton"  label="Load result" onclick="openResult(document.getElementById('usn_id').value);"/>
-			<!--button id="print" hidden="true" class="loadButton" label="Save as PDF" onclick="downloadFile();"/-->
+		</description>
+		<description id="sbi">		
+			<button id="print" hidden="true" class="loadButton" label="Save" onclick="writeToFile1();"/>
+			<label id="saveImsg" hidden="true" value="Saved to download folder.."/>
 		</description>
 	</hbox>
 	<hbox class="bdy" id="advance" hidden="true">
