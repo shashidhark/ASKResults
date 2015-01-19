@@ -22,7 +22,7 @@ var fields={
 				],
 				4:[
 					"AD","AI","AL","BW","BB","BD","BP","CB","CI","DM","EK","MG","GM","GE",
-					"GH","GL","GK","GW","JN","KV","KM","MH","MT","MK","NN","PA","PM","PR",
+					"GH","GL","GK","GW","JN","KV","KM","MH","MT","MK","NN","PA","PM","PR","QB",
 					"RA","SF","SH","MW","SM","SU","SN","ES","SO","UB","VV","VM","VP","YG"
 				]
 			},

@@ -19,10 +19,10 @@ var BE_BRANCH = ['AU', 'BM', 'CV', 'EC', 'EE', 'BT', 'CS', 'ME', 'EV', 'IM', 'IP
 
 								  /* 	1				2			3				4			5				6				7			8			9				10			11		12		13*/
 var MTECH_BRANCH = [  'CCS', 'EPE', 'EPS', 'LDC', 'LDE', 'LDS', 'LEC', 'LEL', 'LIE', 'LPE', 'MMD', 'MPD', 'MPE',
-											'MPM', 'MPY', 'CSE', 'MCM', 'MDE', 'MPT', 'MSE', 'MTE',	'MTP', 'LVS', 'LNI', 'LDN', 'SCN',
-											'SIT', 'CNT', 'EMS', 'FTE', 'HCE', 'SCE', 'SCS', 'LSP',	'MAU', 'CCT', 'CEE', 'CGT', 'JTT',
-											'LBI', 'LCS', 'MEM', 'SSE', 'MEA', 'MAE', 'ECD', 'CTM',	'MCS', 'BBT', 'BBI', 'MAR', 'CGI',
-											'MTR', 'BBC', 'MIA', 'MCE', 'MAP'];
+					  'MPM', 'MPY', 'CSE', 'MCM', 'MDE', 'MPT', 'MSE', 'MTE',	'MTP', 'LVS', 'LNI', 'LDN', 'SCN',
+					  'SIT', 'CNT', 'EMS', 'FTE', 'HCE', 'SCE', 'SCS', 'LSP',	'MAU', 'CCT', 'CEE', 'CGT', 'JTT',
+					  'LBI', 'LCS', 'MEM', 'SSE', 'MEA', 'MAE', 'ECD', 'CTM',	'MCS', 'BBT', 'BBI', 'MAR', 'CGI',
+					  'MTR', 'BBC', 'MIA', 'MCE', 'MAP'];
 
 var MAX_MARKS={
 							// BE   [0,  1,  2,   3,   4,   5,   6,   7,    8  ]

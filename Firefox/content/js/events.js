@@ -377,6 +377,7 @@ function getMessage(){
 	request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 	request.send();
 }
+
 var strForTextI="";
 // Function to do all the processing. Resquest and Display result.
 function openResult(usn){

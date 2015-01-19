@@ -178,7 +178,7 @@ function openAdvResult(usn){
 			name1 = getName($(all).find('B').eq(0).text());
 			strForText += name1+" : ";
 
-			document.getElementById("perc"+usn).setAttribute("value", findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text()));
+			document.getElementById("perc"+usn).setAttribute("value", findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())+"%");
 			strForText += findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())+" : ";
 
 			if(($(table).eq(0).find("tr").eq(0).find('td').eq(3).text()).indexOf("FAIL") == -1){
@@ -201,6 +201,7 @@ function openAdvResult(usn){
 		else{
 			document.getElementById("name"+usn).setAttribute("value", "Doesn't Exist");
 			strForText += "Doesn't Exist \n";
+			t--;
 			document.getElementById("perc"+usn).setAttribute("value", "---");
 			document.getElementById("stat"+usn).setAttribute("value", "---");
 		}
@@ -389,4 +390,3 @@ function advancedSearch(usnList){
 		openAdvResult(usnList[u]);
 	}	
 }
-
