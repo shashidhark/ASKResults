@@ -365,6 +365,7 @@ function getMessage(){
 			}
 		}
 		res.appendChild(vb);
+		resizeOnChange();
 	}; //request load end
 
 	request.onerror = function(aEvent) {
@@ -411,7 +412,6 @@ function openResult(usn){
 	pbar.setAttribute("mode", "undetermined");
  	phbox.appendChild(pbar);
 	place.appendChild(phbox);
-
 	resizeOnChange();
 
 	  let url, rv=0;
