@@ -121,10 +121,9 @@
 	<script type="application/javascript" src="chrome://AskResults/content/js/avgMarks.js" />	
 	<script type="application/javascript" src="chrome://AskResults/content/js/advancedSearch.js" />
 	<hbox class="bdy">
+		<button id="advSearch" class="advSearch" label="Switch to Advanced Search" onclick="displayAdvUI()" />
 		<checkbox id="reval" class="chkbx"  label="Revaluation result" checked="false"/>
 		<label id="msg" hidden="true" value=""/>
-		<spacer flex="1"/>
-		<button id="advSearch" class="advSearch" label="Switch to Advanced Search" onclick="displayAdvUI()" />
 	</hbox>
 	<hbox class="bdy" id="normal" hidden="false">
 		<description>

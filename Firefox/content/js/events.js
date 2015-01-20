@@ -136,7 +136,6 @@ function addYear()
 		menul.setAttribute("size", "2");
 		desc.appendChild(menul);
 	
-
 		menul = document.createElement("menulist");
 		menul.setAttribute("class", "advSearch1");
 		menul.setAttribute("id", "branch");	
