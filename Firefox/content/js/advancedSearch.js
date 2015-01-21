@@ -119,7 +119,7 @@ function incPass(){
 }
 
 function updatePerc(){
-	document.getElementById("result").setAttribute("value", ((p/t)*100).toFixed(2)+"%");
+	document.getElementById("result").setAttribute("value", ((p/(p+f))*100).toFixed(2)+"%");
 	document.getElementById("vt").setAttribute("value", p+f);
 	document.getElementById("fcd").setAttribute("value", fcd);
 	document.getElementById("fc").setAttribute("value", fc);
