@@ -120,8 +120,16 @@
 	<script type="application/javascript" src="chrome://AskResults/content/js/events.js" />
 	<script type="application/javascript" src="chrome://AskResults/content/js/avgMarks.js" />	
 	<script type="application/javascript" src="chrome://AskResults/content/js/advancedSearch.js" />
+	<menubar id="sample-menubar">
+	  <menu id="action-menu" label="Mode">
+		<menupopup id="action-popup">
+		  <menuitem label="Normal" onclick="displayAdvUI()" id="normalMenu"/>
+		  <menuitem label="Advances" onclick="displayAdvUI()" id="advanced"/>
+		</menupopup>
+	  </menu>
+	</menubar>
 	<hbox class="bdy">
-		<button id="advSearch" class="advSearch" label="Switch to Advanced Search" onclick="displayAdvUI()" />
+		<!--button id="advSearch" class="advSearch" label="Switch to Advanced Search" onclick="displayAdvUI()" /-->
 		<checkbox id="reval" class="chkbx"  label="Revaluation result" checked="false"/>
 		<label id="msg" hidden="true" value=""/>
 	</hbox>

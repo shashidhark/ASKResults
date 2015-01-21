@@ -43,7 +43,19 @@ function getTotal(table){
 	}
 	return s;
 }
+
 var p=0,f=0,t=0, fcd=0, fc=0, sc=0;
+var subject="", staken=0;
+
+function getSubjects(str){
+	staken=1;
+	var tr = $(str).eq(1).find("tr");
+	for (var j = 1; j < tr.length; j++){
+		var td = $(tr).eq(j).find('td');
+			document.getElementById("sub"+j).setAttribute("value", $(td).eq(0).text());
+	}
+}
+
 function writeToFile(data)
 {
 	data += "\n";	
@@ -127,7 +139,7 @@ function updatePerc(){
 }
 
 function getFailedSubjects(str){
-	var s="";
+	var s="", v=0;
 	var tr = $(str).eq(1).find("tr");
 	for (var j = 1; j < tr.length; j++){
 		var td = $(tr).eq(j).find('td');
@@ -136,6 +148,27 @@ function getFailedSubjects(str){
 			//lbl.setAttribute("value", "$(td).eq(0).text()");
 			//tip.appendChild(lbl);
 			s+="| "+$(td).eq(0).text()+" |";
+			v=parseInt(document.getElementById("subF"+j).value);
+			v++;
+			document.getElementById("subF"+j).setAttribute("value", v);
+		}
+	}
+	return s;
+}
+
+function getPassedSubjects(str){
+	var s="", v=0;
+	var tr = $(str).eq(1).find("tr");
+	for (var j = 1; j < tr.length; j++){
+		var td = $(tr).eq(j).find('td');
+		if(($(td).eq(4).text()).indexOf("P") > -1){
+			//lbl = document.createElement("label");
+			//lbl.setAttribute("value", "$(td).eq(0).text()");
+			//tip.appendChild(lbl);
+			s+="| "+$(td).eq(0).text()+" |";
+			v=parseInt(document.getElementById("subP"+j).value);
+			v++;
+			document.getElementById("subP"+j).setAttribute("value", v);
 		}
 	}
 	return s;
@@ -159,7 +192,6 @@ var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
                         .getService(Components.interfaces.nsIPromptService);
 
 function openAdvResult(usn){
-	//alert("request");	
 	var fs="";
 	var resultClass="";
 	let url = "http://results.vtu.ac.in/vitavi.php";
@@ -180,6 +212,9 @@ function openAdvResult(usn){
 
 			document.getElementById("perc"+usn).setAttribute("value", findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())+"%");
 			strForText += findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())+" : ";
+			
+			if(staken==0)
+				subject = getSubjects(table);
 
 			if(($(table).eq(0).find("tr").eq(0).find('td').eq(3).text()).indexOf("FAIL") == -1){
 				resultClass = getClass($(table).eq(0).find("tr").eq(0).find('td').eq(3).text());
@@ -187,6 +222,7 @@ function openAdvResult(usn){
 				document.getElementById("stat"+usn).setAttribute("value", "PASS");
 				strForText += "PASS \n";
 				incPass();
+				getPassedSubjects(table);
 				document.getElementById("stat"+usn).setAttribute("style", "color:#087F38");
 			}
 			else{fs="";
@@ -221,7 +257,7 @@ function openAdvResult(usn){
 }
 
 function advancedSearch(usnList){
-	p=0,t=0,f=0, fcd=0, fc=0, sc=0;
+	p=0,t=0,f=0, fcd=0, fc=0, sc=0;staken=0;
 	var status=1, row, label0, label1, label2, label4, label3, lpass, lfail, vpass, vfail, vtotal, total, result;
 	var vresult, hb, hbx, saveButton, vbx, bx,fcdv, fcv,fcdv1, fcv1, scv, scv1, noti;
 	strForText = "\n";
@@ -308,6 +344,29 @@ function advancedSearch(usnList){
 	bx.appendChild(hbx);
 	bx.appendChild(hb);
 	bx.appendChild(noti);
+		
+	var subl, hbox1;
+	for(var i=1;i<=8;i++){
+		hbox1 	= document.createElement("hbox");	
+		subl 	= document.createElement("label");
+		subl.setAttribute("value", "Loading..");
+		subl.setAttribute("id", "sub"+i);	
+		hbox1.appendChild(subl);
+		subl 	= document.createElement("label");	
+		subl.setAttribute("value", "0");
+		subl.setAttribute("id", "subP"+i);
+		subl.setAttribute("style", "color:green");
+		hbox1.appendChild(subl);
+		
+		subl 	= document.createElement("hbox");
+		subl 	= document.createElement("label");	
+		subl.setAttribute("value", "0");
+		subl.setAttribute("id", "subF"+i);
+		subl.setAttribute("style", "color:red");
+		hbox1.appendChild(subl);
+		bx.appendChild(hbox1);
+	}
+
 	var place 	= document.createElement("hbox");
 	place.setAttribute("flex", "1");
 	place.setAttribute("style", "overflow:scroll; width:100%; height:300px; overflow-x: hidden;");
