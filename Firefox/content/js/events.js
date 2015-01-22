@@ -157,6 +157,21 @@ function addYear()
 
 		desc.appendChild(menul);	
 
+		menul = document.createElement("menulist");
+		menul.setAttribute("class", "advSearch1");
+		menul.setAttribute("id", "sem");	
+
+		menupp = document.createElement("menupopup");
+		menul.appendChild(menupp);
+	
+		for(var r=1; r<=8; r++)
+		{
+			var menui = document.createElement("menuitem");
+			menui.setAttribute("label", r);	
+			menupp.appendChild(menui);
+		}
+		desc.appendChild(menul);
+	
 		var nums = document.createElement("textbox");
 		nums.setAttribute("value", "");
 		nums.setAttribute("class", "inputs1");
@@ -583,7 +598,7 @@ function openResult(usn){
 						if($(td).eq(k).text() != ""){
 							lbl.setAttribute("value", $(td).eq(k).text());
 							pdfVar+='<td>'+$(td).eq(k).text()+'</td>';
-							strForTextI += $(td).eq(k).text()+" ";
+							strForTextI += $(td).eq(k).text()+", ";
 						}
 						row11.appendChild(lbl);
 					}
@@ -667,7 +682,7 @@ function openResult(usn){
 							//alert($(td).eq(k).text());
 							lbl.setAttribute("value", $(td).eq(k).text());
 							pdfVar+='<td>'+$(td).eq(k).text()+'</td>';
-							strForTextI += $(td).eq(k).text()+" ";
+							strForTextI += $(td).eq(k).text()+", ";
 						}
 						row11.appendChild(lbl);
 					}

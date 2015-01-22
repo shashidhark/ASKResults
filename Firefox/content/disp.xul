@@ -121,13 +121,13 @@
 	<script type="application/javascript" src="chrome://AskResults/content/js/avgMarks.js" />	
 	<script type="application/javascript" src="chrome://AskResults/content/js/advancedSearch.js" />
 	<menubar id="sample-menubar">
-	  <menu id="action-menu" label="Mode">
-		<menupopup id="action-popup">
-		  <menuitem label="Normal" onclick="displayAdvUI()" id="normalMenu"/>
-		  <menuitem label="Advances" onclick="displayAdvUI()" id="advanced"/>
-		</menupopup>
-	  </menu>
-	</menubar>
+  <menu id="file-menu" label="Search mode">
+    <menupopup id="file-popup">
+      <menuitem label="Normal" id="normalMenu" oncommand="displayAdvUI()"/>
+      <menuitem label="Advanced" id="advanced" disables="true" oncommand="displayAdvUI()"/>
+    </menupopup>
+  </menu>
+</menubar>
 	<hbox class="bdy">
 		<!--button id="advSearch" class="advSearch" label="Switch to Advanced Search" onclick="displayAdvUI()" /-->
 		<checkbox id="reval" class="chkbx"  label="Revaluation result" checked="false"/>

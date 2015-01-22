@@ -44,8 +44,8 @@ function getTotal(table){
 	return s;
 }
 
-var p=0,f=0,t=0, fcd=0, fc=0, sc=0;
-var subject="", staken=0;
+var p=0,f=0,t=0, fcd=0, ab=0, fc=0, sc=0, totla_sub=0;
+var  staken=0;
 
 function getSubjects(str){
 	staken=1;
@@ -54,19 +54,30 @@ function getSubjects(str){
 		var td = $(tr).eq(j).find('td');
 			document.getElementById("sub"+j).setAttribute("value", $(td).eq(0).text());
 	}
+	totla_sub=(tr.length)-1;
 }
 
 function writeToFile(data)
 {
 	data += "\n";	
-	data += "Passed: "+p+"  Failed: "+f+" Percentage: "+((p/t)*100).toFixed(2)+"%"+" Total: "+t+"\n";	
-	data += "FCD:"+fcd+" FC:"+fc+" SC:"+sc;
+	data += "Subjects,Passed,Failed,Absent,Percentage\n"
+	for (var j = 1; j <= totla_sub; j++){
+		data += document.getElementById("sub"+j).value+",";
+		data += document.getElementById("subP"+j).value+",";		
+		data += document.getElementById("subF"+j).value+","
+		data += document.getElementById("subA"+j).value+",";
+		data += ((parseInt(document.getElementById("subP"+j).value)/(p+f))*100).toFixed(2)+"%" +"\n";
+	}
+	data += "\n";
+	data += "Passed: "+p+" , Failed: "+f+", Absent:"+ab+", Percentage: "+((p/(p+f))*100).toFixed(2)+"%"+", Total: "+(p+f)+"\n";	
+	data += "FCD:"+fcd+", FC:"+fc+", SC:"+sc;
+	
 	// Get profile directory.
 	Components.utils.import("resource://gre/modules/FileUtils.jsm");
 	Components.utils.import("resource://gre/modules/NetUtil.jsm");
 	var file = Components.classes["@mozilla.org/file/local;1"].
 		       createInstance(Components.interfaces.nsILocalFile);
-	var file = FileUtils.getFile("DfltDwnld", ["VTUResult_ASKResults.txt"]);
+	var file = FileUtils.getFile("DfltDwnld", ["VTUResult_ASKResults.csv"]);
 
 	// You can also optionally pass a flags parameter here. It defaults to
 	// FileUtils.MODE_WRONLY | FileUtils.MODE_CREATE | FileUtils.MODE_TRUNCATE;
@@ -98,7 +109,7 @@ function writeToFile1()
 	Components.utils.import("resource://gre/modules/NetUtil.jsm");
 	var file = Components.classes["@mozilla.org/file/local;1"].
 		       createInstance(Components.interfaces.nsILocalFile);
-	var file = FileUtils.getFile("DfltDwnld", ["Individual_VTUResult_ASKResults.txt"]);
+	var file = FileUtils.getFile("DfltDwnld", ["Individual_VTUResult_ASKResults.csv"]);
 
 	// You can also optionally pass a flags parameter here. It defaults to
 	// FileUtils.MODE_WRONLY | FileUtils.MODE_CREATE | FileUtils.MODE_TRUNCATE;
@@ -148,30 +159,39 @@ function getFailedSubjects(str){
 			//lbl.setAttribute("value", "$(td).eq(0).text()");
 			//tip.appendChild(lbl);
 			s+="| "+$(td).eq(0).text()+" |";
-			v=parseInt(document.getElementById("subF"+j).value);
+			/*v=parseInt(document.getElementById("subF"+j).value);
 			v++;
-			document.getElementById("subF"+j).setAttribute("value", v);
+			document.getElementById("subF"+j).setAttribute("value", v);*/
 		}
 	}
 	return s;
 }
 
-function getPassedSubjects(str){
+function getSubjectsStatus(str){
 	var s="", v=0;
 	var tr = $(str).eq(1).find("tr");
 	for (var j = 1; j < tr.length; j++){
 		var td = $(tr).eq(j).find('td');
 		if(($(td).eq(4).text()).indexOf("P") > -1){
-			//lbl = document.createElement("label");
-			//lbl.setAttribute("value", "$(td).eq(0).text()");
-			//tip.appendChild(lbl);
-			s+="| "+$(td).eq(0).text()+" |";
 			v=parseInt(document.getElementById("subP"+j).value);
 			v++;
 			document.getElementById("subP"+j).setAttribute("value", v);
 		}
+		else if(($(td).eq(4).text()).indexOf("F") > -1){	
+			v=parseInt(document.getElementById("subF"+j).value);
+			v++;
+			document.getElementById("subF"+j).setAttribute("value", v);
+		}
+		else if(($(td).eq(4).text()).indexOf("A") > -1){
+			v=parseInt(document.getElementById("subA"+j).value);
+			v++;
+			document.getElementById("subA"+j).setAttribute("value", v);
+			ab++;
+		}	
+		//alert(document.getElementById("subP"+j).value+" "+(p+f)+" "+parseInt(document.getElementById("subP"+j).value)/(p+f))*100).toFixed(2)+"%");
+		//alert((p+f)+" "+(parseInt(document.getElementById("subP"+j).value))+" "+((parseInt(document.getElementById("subP"+j).value)/(p+f))*100).toFixed(2)+"%");
+		document.getElementById("subPerc"+j).setAttribute("value", ((parseInt(document.getElementById("subP"+j).value)/(p+f))*100).toFixed(2)+"%");
 	}
-	return s;
 }
 
 function getClass(str){
@@ -192,6 +212,7 @@ var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
                         .getService(Components.interfaces.nsIPromptService);
 
 function openAdvResult(usn){
+	var sem = document.getElementById('sem').label;
 	var fs="";
 	var resultClass="";
 	let url = "http://results.vtu.ac.in/vitavi.php";
@@ -201,42 +222,51 @@ function openAdvResult(usn){
 		var str = DOM(aEvent.target.responseText);
 		var all = $(str).find('td[width=513]').eq(0);
 		//alert(all);
-		strForText += usn+" : ";
 		var name1;
 		var table = $(all).find('table');
 		if(table.length!=0)//If USN exist in db
-		{	
-			document.getElementById("name"+usn).setAttribute("value", getName($(all).find('B').eq(0).text()));
-			name1 = getName($(all).find('B').eq(0).text());
-			strForText += name1+" : ";
+		{		
+			//alert(sem+" "+parseInt($(table).eq(0).find("tr").eq(0).find('td').eq(1).text()));
+			if(sem == parseInt($(table).eq(0).find("tr").eq(0).find('td').eq(1).text()))
+			{	
+				strForText += usn+" , ";
+				document.getElementById("name"+usn).setAttribute("value", getName($(all).find('B').eq(0).text()));
+				name1 = getName($(all).find('B').eq(0).text());
+				strForText += name1+" , ";
 
-			document.getElementById("perc"+usn).setAttribute("value", findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())+"%");
-			strForText += findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())+" : ";
-			
-			if(staken==0)
-				subject = getSubjects(table);
+				document.getElementById("perc"+usn).setAttribute("value", findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())+"%");
+				strForText += findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())+" , ";
 
-			if(($(table).eq(0).find("tr").eq(0).find('td').eq(3).text()).indexOf("FAIL") == -1){
-				resultClass = getClass($(table).eq(0).find("tr").eq(0).find('td').eq(3).text());
-				incClass(resultClass);
-				document.getElementById("stat"+usn).setAttribute("value", "PASS");
-				strForText += "PASS \n";
-				incPass();
-				getPassedSubjects(table);
-				document.getElementById("stat"+usn).setAttribute("style", "color:#087F38");
+				if(staken==0)
+					getSubjects(table);
+
+				if(($(table).eq(0).find("tr").eq(0).find('td').eq(3).text()).indexOf("FAIL") == -1){
+					resultClass = getClass($(table).eq(0).find("tr").eq(0).find('td').eq(3).text());
+					incClass(resultClass);
+					document.getElementById("stat"+usn).setAttribute("value", "PASS");
+					strForText += "PASS \n";
+					incPass();
+					document.getElementById("stat"+usn).setAttribute("style", "color:#087F38");
+				}
+				else{fs="";
+					document.getElementById("stat"+usn).setAttribute("value", "FAIL");
+					strForText += "FAIL \n";
+					incFail();				
+					fs = getFailedSubjects(table);
+					document.getElementById("stat"+usn).setAttribute("onclick", 'prompts.alert(null, "Failed Subjects", "USN:'+usn+' Name:'+name1+' Failed in: '+fs+'");');
+					document.getElementById("stat"+usn).setAttribute("style", "color:#E30F17");
+				}				
+				getSubjectsStatus(table);
 			}
-			else{fs="";
-				document.getElementById("stat"+usn).setAttribute("value", "FAIL");
-				strForText += "FAIL \n";
-				incFail();				
-				fs = getFailedSubjects(table);
-				document.getElementById("stat"+usn).setAttribute("onclick", 'prompts.alert(null, "Failed Subjects", "USN:'+usn+' Name:'+name1+' Failed in: '+fs+'");');
-				document.getElementById("stat"+usn).setAttribute("style", "color:#E30F17");
+			else{
+				document.getElementById("name"+usn).setAttribute("value", "Other sem");
+				document.getElementById("perc"+usn).setAttribute("value", "---");
+				document.getElementById("stat"+usn).setAttribute("value", "---");
 			}
 		}
 		else{
 			document.getElementById("name"+usn).setAttribute("value", "Doesn't Exist");
-			strForText += "Doesn't Exist \n";
+			//strForText += "Doesn't Exist \n";
 			t--;
 			document.getElementById("perc"+usn).setAttribute("value", "---");
 			document.getElementById("stat"+usn).setAttribute("value", "---");
@@ -257,10 +287,10 @@ function openAdvResult(usn){
 }
 
 function advancedSearch(usnList){
-	p=0,t=0,f=0, fcd=0, fc=0, sc=0;staken=0;
+	p=0,t=0,f=0, fcd=0, ab=0, fc=0, sc=0, staken=0;
 	var status=1, row, label0, label1, label2, label4, label3, lpass, lfail, vpass, vfail, vtotal, total, result;
 	var vresult, hb, hbx, saveButton, vbx, bx,fcdv, fcv,fcdv1, fcv1, scv, scv1, noti;
-	strForText = "\n";
+	strForText = "";
 	document.getElementById('resultId').textContent = '';
 
 	var resultId= document.getElementById("resultId");
@@ -328,7 +358,6 @@ function advancedSearch(usnList){
 
 	total.setAttribute("value", " Total:");	
 	vtotal.setAttribute("value", '0');
-	t=usnList.length;
 	vtotal.setAttribute("id", "vt");	
 	
 	vbx.appendChild(lpass);
@@ -346,24 +375,52 @@ function advancedSearch(usnList){
 	bx.appendChild(noti);
 		
 	var subl, hbox1;
+	hbox1 	= document.createElement("hbox");	
+	subl 	= document.createElement("label");
+	subl.setAttribute("value", "PASS");
+	subl.setAttribute("style", "color:green");	
+	hbox1.appendChild(subl);
+	subl 	= document.createElement("label");
+	subl.setAttribute("value", "FAIL");
+	subl.setAttribute("style", "color:red");	
+	hbox1.appendChild(subl);
+	subl 	= document.createElement("label");
+	subl.setAttribute("value", "ABSENT");
+	subl.setAttribute("style", "color:yellow");	
+	hbox1.appendChild(subl);
+	bx.appendChild(hbox1);
+
 	for(var i=1;i<=8;i++){
 		hbox1 	= document.createElement("hbox");	
 		subl 	= document.createElement("label");
 		subl.setAttribute("value", "Loading..");
 		subl.setAttribute("id", "sub"+i);	
 		hbox1.appendChild(subl);
+
 		subl 	= document.createElement("label");	
 		subl.setAttribute("value", "0");
 		subl.setAttribute("id", "subP"+i);
 		subl.setAttribute("style", "color:green");
 		hbox1.appendChild(subl);
 		
-		subl 	= document.createElement("hbox");
 		subl 	= document.createElement("label");	
 		subl.setAttribute("value", "0");
 		subl.setAttribute("id", "subF"+i);
 		subl.setAttribute("style", "color:red");
 		hbox1.appendChild(subl);
+		
+		subl 	= document.createElement("label");	
+		subl.setAttribute("value", "0");
+		subl.setAttribute("id", "subA"+i);
+		subl.setAttribute("style", "color:yellow");
+		hbox1.appendChild(subl);
+
+		subl 	= document.createElement("label");	
+		subl.setAttribute("value", "0%");
+		subl.setAttribute("id", "subPerc"+i);
+		subl.setAttribute("style", "color:blue");
+		hbox1.appendChild(subl);
+
 		bx.appendChild(hbox1);
 	}
 
