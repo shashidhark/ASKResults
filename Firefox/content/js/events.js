@@ -273,8 +273,8 @@ function displayAdvUI(){
 		document.getElementById("advance").hidden=false;	
 		document.getElementById("msg").hidden=false;
 		//document.getElementById("advSearch").label="Switch to Normal Search";		
-		document.getElementById("advanced").disabled=true;
-		document.getElementById("normalMenu").disabled=false;	
+		document.getElementById("advanced").hidden=true;
+		document.getElementById("normalMenu").hidden=false;	
 		document.getElementById("reval").hidden=true;//Show revaluation option
 		document.getElementById("print").hidden=true;
 		document.getElementById("saveImsg").hidden=true;
@@ -288,8 +288,8 @@ function displayAdvUI(){
 		document.getElementById("normal").hidden=false;	
 		document.getElementById("advance").hidden=true;
 		document.getElementById("msg").hidden=true;
-		document.getElementById("advanced").disabled=false;
-		document.getElementById("normalMenu").disabled=true;
+		document.getElementById("advanced").hidden=false;
+		document.getElementById("normalMenu").hidden=true;
 		document.getElementById("resultId").textContent="";
 		document.getElementById("print").hidden=true;
 		document.getElementById("saveImsg").hidden=true;

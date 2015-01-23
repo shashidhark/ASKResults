@@ -226,15 +226,17 @@ function openAdvResult(usn){
 		var table = $(all).find('table');
 		if(table.length!=0)//If USN exist in db
 		{		
+			//alert("name"+usn);
 			//alert(sem+" "+parseInt($(table).eq(0).find("tr").eq(0).find('td').eq(1).text()));
 			if(sem == parseInt($(table).eq(0).find("tr").eq(0).find('td').eq(1).text()))
 			{	
 				strForText += usn+" , ";
-				document.getElementById("name"+usn).setAttribute("value", getName($(all).find('B').eq(0).text()));
+				document.getElementById("name"+usn).setAttribute("label", getName($(all).find('B').eq(0).text()));
+				
 				name1 = getName($(all).find('B').eq(0).text());
 				strForText += name1+" , ";
 
-				document.getElementById("perc"+usn).setAttribute("value", findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())+"%");
+				document.getElementById("perc"+usn).setAttribute("label", findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())+"%");
 				strForText += findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())+" , ";
 
 				if(staken==0)
@@ -243,36 +245,36 @@ function openAdvResult(usn){
 				if(($(table).eq(0).find("tr").eq(0).find('td').eq(3).text()).indexOf("FAIL") == -1){
 					resultClass = getClass($(table).eq(0).find("tr").eq(0).find('td').eq(3).text());
 					incClass(resultClass);
-					document.getElementById("stat"+usn).setAttribute("value", "PASS");
+					document.getElementById("stat"+usn).setAttribute("label", "PASS");
 					strForText += "PASS \n";
 					incPass();
 					document.getElementById("stat"+usn).setAttribute("style", "color:#087F38");
 				}
 				else{fs="";
-					document.getElementById("stat"+usn).setAttribute("value", "FAIL");
-					strForText += "FAIL \n";
-					incFail();				
+					document.getElementById("stat"+usn).setAttribute("label", "FAIL");
+					strForText += "FAIL,";
+					incFail();									
 					fs = getFailedSubjects(table);
+					strForText += fs.replace('|', ' ')+"\n";
 					document.getElementById("stat"+usn).setAttribute("onclick", 'prompts.alert(null, "Failed Subjects", "USN:'+usn+' Name:'+name1+' Failed in: '+fs+'");');
 					document.getElementById("stat"+usn).setAttribute("style", "color:#E30F17");
 				}				
 				getSubjectsStatus(table);
 			}
 			else{
-				document.getElementById("name"+usn).setAttribute("value", "Other sem");
-				document.getElementById("perc"+usn).setAttribute("value", "---");
-				document.getElementById("stat"+usn).setAttribute("value", "---");
+				document.getElementById("name"+usn).setAttribute("label", "Other sem");
+				document.getElementById("perc"+usn).setAttribute("label", "---");
+				document.getElementById("stat"+usn).setAttribute("label", "---");
 			}
 		}
 		else{
-			document.getElementById("name"+usn).setAttribute("value", "Doesn't Exist");
+			document.getElementById("name"+usn).setAttribute("label", "Doesn't Exist");
 			//strForText += "Doesn't Exist \n";
 			t--;
-			document.getElementById("perc"+usn).setAttribute("value", "---");
-			document.getElementById("stat"+usn).setAttribute("value", "---");
+			document.getElementById("perc"+usn).setAttribute("label", "---");
+			document.getElementById("stat"+usn).setAttribute("label", "---");
 		}
 		updatePerc();
-		resizeOnChange();
 	}; //request load end
 
 	request.onerror = function(aEvent) {
@@ -295,8 +297,10 @@ function advancedSearch(usnList){
 
 	var resultId= document.getElementById("resultId");
 	bx 	= document.createElement("vbox");
+	bx.setAttribute("style", "margin-left:2em;width:100%;");
 	bx.setAttribute('class', 'rs');
 	vbx 	= document.createElement("hbox");
+	vbx.setAttribute("style", "width:100%;");
 
 	hbx 	= document.createElement("hbox");
 	fcdv 	= document.createElement("label");
@@ -375,7 +379,7 @@ function advancedSearch(usnList){
 	bx.appendChild(noti);
 		
 	var subl, hbox1;
-	hbox1 	= document.createElement("hbox");	
+	/*hbox1 	= document.createElement("hbox");	
 	subl 	= document.createElement("label");
 	subl.setAttribute("value", "PASS");
 	subl.setAttribute("style", "color:green");	
@@ -388,118 +392,146 @@ function advancedSearch(usnList){
 	subl.setAttribute("value", "ABSENT");
 	subl.setAttribute("style", "color:yellow");	
 	hbox1.appendChild(subl);
-	bx.appendChild(hbox1);
+	bx.appendChild(hbox1);*/
 
-	for(var i=1;i<=8;i++){
-		hbox1 	= document.createElement("hbox");	
-		subl 	= document.createElement("label");
-		subl.setAttribute("value", "Loading..");
-		subl.setAttribute("id", "sub"+i);	
-		hbox1.appendChild(subl);
+	var vbox = document.createElement("vbox");
+	vbox.setAttribute("style", "width:100%;");
+	var grid2 = document.createElement("grid");
+	grid2.setAttribute("flex", "1");
+	grid2.setAttribute("style", "border: #000000 solid 1px;width:100%;");
+	vbox.appendChild(grid2);
+	
+	var rows1 = document.createElement("rows");
+	grid2.appendChild(rows1);
 
-		subl 	= document.createElement("label");	
-		subl.setAttribute("value", "0");
-		subl.setAttribute("id", "subP"+i);
-		subl.setAttribute("style", "color:green");
-		hbox1.appendChild(subl);
+	var row11;
+	for(var i=0;i<=8;i++){
+		if(i!=0){
+			row11 = document.createElement("row");
+			subl 	= document.createElement("label");
+			subl.setAttribute("value", "Loading..");
+			subl.setAttribute("id", "sub"+i);	
+			row11.appendChild(subl);
+
+			subl 	= document.createElement("label");	
+			subl.setAttribute("value", "0");
+			subl.setAttribute("id", "subP"+i);
+			subl.setAttribute("style", "color:green");
+			row11.appendChild(subl);
 		
-		subl 	= document.createElement("label");	
-		subl.setAttribute("value", "0");
-		subl.setAttribute("id", "subF"+i);
-		subl.setAttribute("style", "color:red");
-		hbox1.appendChild(subl);
+			subl 	= document.createElement("label");	
+			subl.setAttribute("value", "0");
+			subl.setAttribute("id", "subF"+i);
+			subl.setAttribute("style", "color:red");
+			row11.appendChild(subl);
 		
-		subl 	= document.createElement("label");	
-		subl.setAttribute("value", "0");
-		subl.setAttribute("id", "subA"+i);
-		subl.setAttribute("style", "color:yellow");
-		hbox1.appendChild(subl);
+			subl 	= document.createElement("label");	
+			subl.setAttribute("value", "0");
+			subl.setAttribute("id", "subA"+i);
+			subl.setAttribute("style", "color:yellow");
+			row11.appendChild(subl);
 
-		subl 	= document.createElement("label");	
-		subl.setAttribute("value", "0%");
-		subl.setAttribute("id", "subPerc"+i);
-		subl.setAttribute("style", "color:blue");
-		hbox1.appendChild(subl);
+			subl 	= document.createElement("label");	
+			subl.setAttribute("value", "0%");
+			subl.setAttribute("id", "subPerc"+i);
+			subl.setAttribute("style", "color:blue");
+			row11.appendChild(subl);
 
-		bx.appendChild(hbox1);
+			rows1.appendChild(row11);
+		}
+		else{
+			row11 = document.createElement("row");
+			row11.setAttribute("style", "font-weight:bold; width:6em;");
+			subl 	= document.createElement("label");
+			subl.setAttribute("value", "Subjects");
+			row11.appendChild(subl);
+
+			subl 	= document.createElement("label");	
+			subl.setAttribute("value", "Pass");
+			subl.setAttribute("style", "color:green");
+			row11.appendChild(subl);
+		
+			subl 	= document.createElement("label");	
+			subl.setAttribute("value", "Fail");
+			subl.setAttribute("style", "color:red");
+			row11.appendChild(subl);
+		
+			subl 	= document.createElement("label");	
+			subl.setAttribute("value", "Absent");
+			subl.setAttribute("style", "color:yellow");
+			row11.appendChild(subl);
+
+			subl 	= document.createElement("label");	
+			subl.setAttribute("value", "Percentage");
+			subl.setAttribute("style", "color:blue");
+			row11.appendChild(subl);
+
+			rows1.appendChild(row11);
+		}
 	}
+	bx.appendChild(vbox);
 
 	var place 	= document.createElement("hbox");
 	place.setAttribute("flex", "1");
-	place.setAttribute("style", "overflow:scroll; width:100%; height:300px; overflow-x: hidden;");
 
-	var grid 	= document.createElement("grid");
-	grid.setAttribute("flex", "1");
-	//listbox.setAttribute("width", "500");
-	var columns = document.createElement("columns");
-	var column0 = document.createElement("column");
-	var column1 = document.createElement("column");
-	var column2 = document.createElement("column");
-	var column3 = document.createElement("column");
-	var column4 = document.createElement("column");
-	var sp = document.createElement("spacer");
+	var tree 	= document.createElement("tree");
+	tree.setAttribute("flex", "1");
+	tree.setAttribute("rows", 10);
+	place.appendChild(tree);
 
-	column0.setAttribute("flex", "1");
-	column1.setAttribute("flex", "1");
-	column2.setAttribute("flex", "1");
-	column3.setAttribute("flex", "1");
-	column4.setAttribute("flex", "1");
-	sp.setAttribute("flex", "1");
+	var treecols = document.createElement("treecols");
+	treecols.setAttribute("style", "font-weight:bold");
+	var treecol = document.createElement("treecol");
+	treecol.setAttribute("label", "Sl no");
+	treecols.appendChild(treecol);
+	treecol = document.createElement("treecol");
+	treecol.setAttribute("label", "USN       ");
+	treecols.appendChild(treecol);
+	treecol = document.createElement("treecol");
+	treecol.setAttribute("label", "Student Name");
+	treecols.appendChild(treecol);
+	treecol = document.createElement("treecol");
+	treecol.setAttribute("label", "Percentage");
+	treecols.appendChild(treecol);
+	treecol = document.createElement("treecol");
+	treecol.setAttribute("label", "Result");	
+	treecols.appendChild(treecol);
 
-	columns.appendChild(column0);
-	columns.appendChild(column1);
-	columns.appendChild(column2);
-	columns.appendChild(column3);
-	columns.appendChild(column4);
-	columns.appendChild(sp);
-
-	grid.appendChild(columns);
-	place.appendChild(grid);	
+	tree.appendChild(treecols);
 	bx.appendChild(place);
 
-	var rows 	= document.createElement("rows");
+	var treechildren 	= document.createElement("treechildren");
+	treechildren.setAttribute("label", "Result");
+	var treeitem, treecell1, treecell2, treecell3, treecell4, treecell5, treerow;
 	var u=0;
-	for(var u=-1; u<usnList.length; u++)
+	for(var u=0; u<usnList.length; u++)
 	{
-		row 	= document.createElement("row");
-		label0 	= document.createElement("label");	
-		label1 	= document.createElement("label");
-		label2 	= document.createElement("label");
-		label3 	= document.createElement("label");
-		label4 	= document.createElement("label");
-		sp = document.createElement("spacer");
-		if(u==-1){
-			label0.setAttribute("value", "Sl no");
-			label0.setAttribute("style", "font-weight:bold");
-			label1.setAttribute("value", "USN");
-			label1.setAttribute("style", "font-weight:bold");
-			label2.setAttribute("value", "Student Name");
-			label2.setAttribute("style", "width:180px; font-weight:bold");
-			label3.setAttribute("value", "Percentage");
-			label3.setAttribute("style", "font-weight:bold");
-			label4.setAttribute("value", "Result");
-			label4.setAttribute("style", "font-weight:bold");
-		}
-		else{
-			label0.setAttribute("value", u+1);
-			label1.setAttribute("value", usnList[u]);
-			label2.setAttribute("id", "name"+usnList[u]);
-			label2.setAttribute("value", "Load..");
-			label3.setAttribute("id", "perc"+usnList[u]);
-			label3.setAttribute("value", "Load..");
-			label4.setAttribute("id", "stat"+usnList[u]);
-			label4.setAttribute("value", "Load..");
-		}
-		sp.setAttribute("flex", "1");
-		row.appendChild(label0);
-		row.appendChild(label1);
-		row.appendChild(label2);
-		row.appendChild(label3);
-		row.appendChild(label4);
-		row.appendChild(sp);
-		rows.appendChild(row);
+		treeitem 	= document.createElement("treeitem");
+		treerow 	= document.createElement("treerow");	
+		treecell1 	= document.createElement("treecell");
+		treecell2 	= document.createElement("treecell");
+		treecell3 	= document.createElement("treecell");
+		treecell4 	= document.createElement("treecell");
+		treecell5	= document.createElement("treecell");
+		//alert(usnList[u]);
+		treecell1.setAttribute("label", u+1);
+		treecell2.setAttribute("label", usnList[u]);
+		treecell3.setAttribute("id", "name"+usnList[u]);
+		treecell3.setAttribute("label", "Load..");
+		treecell4.setAttribute("id", "perc"+usnList[u]);
+		treecell4.setAttribute("label", "Load..");
+		treecell5.setAttribute("id", "stat"+usnList[u]);
+		treecell5.setAttribute("label", "Load..");
+	
+		treerow.appendChild(treecell1);
+		treerow.appendChild(treecell2);
+		treerow.appendChild(treecell3);
+		treerow.appendChild(treecell4);
+		treerow.appendChild(treecell5);
+		treeitem.appendChild(treerow);
+		treechildren.appendChild(treeitem);
 	}
-	grid.appendChild(rows);
+	tree.appendChild(treechildren);
 	resultId.appendChild(bx);
 	for(u=0; u<usnList.length; u++)
 	{	

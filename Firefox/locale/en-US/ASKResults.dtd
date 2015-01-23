@@ -1,0 +1,12 @@
+<!ENTITY askresults.version "Version 0.6.4">
+<!ENTITY askresults.name "ASKResults">
+
+<!ENTITY askresults.createdBy "Created By: ">
+<!ENTITY askresults.creator "Shashidhar and Alwyn Edison Mendonca">
+
+<!ENTITY askresults.contribution "Contributions By: ">
+<!ENTITY askresults.copyright "Copyright 2014-2015 ASK, Inc">
+<!ENTITY askresults.right "All Rights Reserved">
+<!ENTITY askresults.release "Released under the GPL license">
+<!ENTITY askresults.gitLink "Git">
+
