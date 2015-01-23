@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/global.css"  type="text/css"?>
-<window xmlns:html="http://www.w3.org/1999/xhtml" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" title="ASKResults"  windowtype="navigator:browser" onload="getMessage()">
+<window xmlns:html="http://www.w3.org/1999/xhtml" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" title="ASKResults"  windowtype="navigator:browser" onload="getMessage()" class="bdy">
 
 	<html:style type="text/css">
 		.loadButton {
@@ -149,7 +149,6 @@
 	<hbox class="bdy" id='resultId'>
 	</hbox>
 	<hbox class="bdy" id="sbi">	
-			<separaator />
 			<button id="print" hidden="true" class="loadButton" label="Save" onclick="writeToFile1();"/>
 			<label id="saveImsg" hidden="true" value="Saved to download folder.."/>
 	</hbox>

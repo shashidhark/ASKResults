@@ -443,8 +443,6 @@ function openResult(usn){
 	let request = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Components.interfaces.nsIXMLHttpRequest);
 	request.onload = function(aEvent)
 	{	
-		document.getElementById('print').hidden=false;
-		document.getElementById('saveImsg').hidden=true;
 		//Call to DOM function.. To convert string to HTMLDocument object.
 		var str = DOM(aEvent.target.responseText);
 		var all = $(str).find('td[width=513]').eq(0);
@@ -496,6 +494,9 @@ function openResult(usn){
 		}
 		else
 		{
+			
+			document.getElementById('print').hidden=false;
+			document.getElementById('saveImsg').hidden=true;
 			name1.setAttribute('value', "Name: "+getNameUsn($(all).find('B').eq(0).text()));
 			name1.setAttribute("style", "font-weight:bold;");
 
