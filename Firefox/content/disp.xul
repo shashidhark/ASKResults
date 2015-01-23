@@ -143,15 +143,14 @@
 			Enter Your University Seat No : <textbox id='usn_id' class="inputs" maxlength="10" size="9" placeholder="USN" value=""/>
 			<button id="submit-button" class="loadButton"  label="Load result" onclick="openResult(document.getElementById('usn_id').value);"/>
 		</description>
-		<description id="sbi">		
-			<button id="print" hidden="true" class="loadButton" label="Save" onclick="writeToFile1();"/>
-			<label id="saveImsg" hidden="true" value="Saved to download folder.."/>
-		</description>
 	</hbox>
 	<hbox class="bdy" id="advance" hidden="true">
-		
 	</hbox>
 	<hbox class="bdy" id='resultId'>
 	</hbox>
-
+	<hbox class="bdy" id="sbi">	
+			<separaator />
+			<button id="print" hidden="true" class="loadButton" label="Save" onclick="writeToFile1();"/>
+			<label id="saveImsg" hidden="true" value="Saved to download folder.."/>
+	</hbox>
 </window>

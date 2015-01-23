@@ -4,10 +4,10 @@
 <dialog  title="ASKResults" orient="vertical" autostretch="always" buttons="accept" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:svg="http://www.w3.org/2000/svg" windowtype="navigator:browser" persist="screenX screenY">
 	<script src="about.js" />
 	<hbox>
-	<vbox style="margin-top:2em; margin-left:2em;">
+	<vbox style="margin-top:1em; margin-left:1em;">
 		 <image width="100px" height="100px" src="chrome://ASKResults/skin/images/logo64.png"/>
 	</vbox>	
-	<vbox style="padding:2em;">
+	<vbox>
           <hbox style="margin-left: 1em;">
             <label value="&askresults.version;" style="font-weight: bold; font-size: large;" />
           </hbox>
@@ -35,10 +35,9 @@
 		   <hbox style="margin-left: 1em;">
 			<label value="&askresults.release;" />
            </hbox>
-			<separator />
-          <hbox style="margin-left: 1em;">
+          <!--hbox style="margin-left: 1em;">
           	<label value="&askresults.gitLink;" class="text-link" onclick='openAndReuseOneTabPerURL("http://www.google.com");' />
-          </hbox>
+          </hbox-->
 	</vbox>
 	</hbox>
 </dialog>

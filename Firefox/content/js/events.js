@@ -404,8 +404,6 @@ function openResult(usn){
 	strForTextI="";
 	var passColor='#087F38', failColor='#E30F17' ;
 	var marksRow ='#F0FFF0', tableHead='#90B890', failedSub='#FFCCCC';
-	document.getElementById('print').hidden=false;
-	document.getElementById('saveImsg').hidden=true;
 	if(usn.length==0){
 		document.getElementById('resultId').textContent = "Please Enter Your USN...";
 		document.getElementById('resultId').setAttribute("style", "color:red");
@@ -444,7 +442,9 @@ function openResult(usn){
 
 	let request = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Components.interfaces.nsIXMLHttpRequest);
 	request.onload = function(aEvent)
-	{
+	{	
+		document.getElementById('print').hidden=false;
+		document.getElementById('saveImsg').hidden=true;
 		//Call to DOM function.. To convert string to HTMLDocument object.
 		var str = DOM(aEvent.target.responseText);
 		var all = $(str).find('td[width=513]').eq(0);

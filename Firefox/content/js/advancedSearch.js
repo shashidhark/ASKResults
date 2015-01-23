@@ -97,8 +97,9 @@ function writeToFile(data)
 
 	  // Data has been written to the file.
 	});
-	//document.getElementById('saveMsg').hidden = false;
-	document.getElementById("sb").textContent="Saved to download folder..";
+	//document.getElementById('saveMsg').hidden = false;saveAdvButton
+	document.getElementById("saveAdvButton").hidden=true;
+	document.getElementById("noti").hidden=false;
 }
 
 function writeToFile1()
@@ -218,7 +219,9 @@ function openAdvResult(usn){
 	let url = "http://results.vtu.ac.in/vitavi.php";
 	let request = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Components.interfaces.nsIXMLHttpRequest);
 	request.onload = function(aEvent)
-	{
+	{		
+		document.getElementById("saveAdvButton").hidden=false;
+		document.getElementById("noti").hidden=true;
 		var str = DOM(aEvent.target.responseText);
 		var all = $(str).find('td[width=513]').eq(0);
 		//alert(all);
@@ -256,7 +259,7 @@ function openAdvResult(usn){
 					incFail();									
 					fs = getFailedSubjects(table);
 					strForText += fs.replace('|', ' ')+"\n";
-					document.getElementById("stat"+usn).setAttribute("onclick", 'prompts.alert(null, "Failed Subjects", "USN:'+usn+' Name:'+name1+' Failed in: '+fs+'");');
+					document.getElementById("stat"+usn).setAttribute("onselect", "prompts.alert(null,'failed','Failed in: "+fs+"');");
 					document.getElementById("stat"+usn).setAttribute("style", "color:#E30F17");
 				}				
 				getSubjectsStatus(table);
@@ -275,6 +278,7 @@ function openAdvResult(usn){
 			document.getElementById("stat"+usn).setAttribute("label", "---");
 		}
 		updatePerc();
+		resizeOnChange();
 	}; //request load end
 
 	request.onerror = function(aEvent) {
@@ -325,7 +329,7 @@ function advancedSearch(usnList){
 	hbx.appendChild(scv);
 	hbx.appendChild(scv1);
 
-	noti 	= document.createElement("label");	
+	//noti 	= document.createElement("label");	
 	lpass 	= document.createElement("label");	
 	lfail 	= document.createElement("label");
 	vpass 	= document.createElement("label");
@@ -335,15 +339,21 @@ function advancedSearch(usnList){
 	total 	= document.createElement("label");
 	vtotal 	= document.createElement("label");	
 
-	noti.setAttribute('value', 'Click on FAIL to know failed subjects.');
-	noti.setAttribute('style', 'color:blue');
+	//noti.setAttribute('value', 'Click on FAIL to know failed subjects.');
+	//noti.setAttribute('style', 'color:blue');
 	hb = document.createElement("description");
 	hb.setAttribute("id", "sb");
+	label0 	= document.createElement("label");
+	label0.setAttribute("value", "Saved to Download folder");
+	label0.setAttribute("id", "noti");
 	saveButton 	= document.createElement("button");
 	saveButton.setAttribute("label", "Save");
+	saveButton.setAttribute("id", "saveAdvButton");
 	saveButton.setAttribute("class", "loadButton");
 	saveButton.setAttribute("onclick", "writeToFile(strForText);");
 	hb.appendChild(saveButton);
+	hb.appendChild(label0);
+	
 
 	lpass.setAttribute("value", "Passed:");
 	lpass.setAttribute("class", "pass");
@@ -375,24 +385,9 @@ function advancedSearch(usnList){
 	
 	bx.appendChild(vbx);
 	bx.appendChild(hbx);
-	bx.appendChild(hb);
-	bx.appendChild(noti);
+	//bx.appendChild(noti);
 		
 	var subl, hbox1;
-	/*hbox1 	= document.createElement("hbox");	
-	subl 	= document.createElement("label");
-	subl.setAttribute("value", "PASS");
-	subl.setAttribute("style", "color:green");	
-	hbox1.appendChild(subl);
-	subl 	= document.createElement("label");
-	subl.setAttribute("value", "FAIL");
-	subl.setAttribute("style", "color:red");	
-	hbox1.appendChild(subl);
-	subl 	= document.createElement("label");
-	subl.setAttribute("value", "ABSENT");
-	subl.setAttribute("style", "color:yellow");	
-	hbox1.appendChild(subl);
-	bx.appendChild(hbox1);*/
 
 	var vbox = document.createElement("vbox");
 	vbox.setAttribute("style", "width:100%;");
@@ -471,6 +466,8 @@ function advancedSearch(usnList){
 	}
 	bx.appendChild(vbox);
 
+	var sep = document.createElement("separator");
+	bx.appendChild(sep);
 	var place 	= document.createElement("hbox");
 	place.setAttribute("flex", "1");
 
@@ -479,23 +476,38 @@ function advancedSearch(usnList){
 	tree.setAttribute("rows", 10);
 	place.appendChild(tree);
 
+	var splitter = document.createElement("splitter");
+	splitter.setAttribute("class", "tree-splitter");
 	var treecols = document.createElement("treecols");
 	treecols.setAttribute("style", "font-weight:bold");
 	var treecol = document.createElement("treecol");
 	treecol.setAttribute("label", "Sl no");
 	treecols.appendChild(treecol);
+	treecols.appendChild(splitter);
 	treecol = document.createElement("treecol");
-	treecol.setAttribute("label", "USN       ");
+	treecol.setAttribute("label", "USN         ");
 	treecols.appendChild(treecol);
+	splitter = document.createElement("splitter");
+	splitter.setAttribute("class", "tree-splitter");
+	treecols.appendChild(splitter);
 	treecol = document.createElement("treecol");
 	treecol.setAttribute("label", "Student Name");
 	treecols.appendChild(treecol);
+	splitter = document.createElement("splitter");
+	splitter.setAttribute("class", "tree-splitter");
+	treecols.appendChild(splitter);
 	treecol = document.createElement("treecol");
 	treecol.setAttribute("label", "Percentage");
 	treecols.appendChild(treecol);
+	splitter = document.createElement("splitter");
+	splitter.setAttribute("class", "tree-splitter");
+	treecols.appendChild(splitter);
 	treecol = document.createElement("treecol");
 	treecol.setAttribute("label", "Result");	
 	treecols.appendChild(treecol);
+	splitter = document.createElement("splitter");
+	splitter.setAttribute("class", "tree-splitter");
+	treecols.appendChild(splitter);
 
 	tree.appendChild(treecols);
 	bx.appendChild(place);
@@ -531,8 +543,12 @@ function advancedSearch(usnList){
 		treeitem.appendChild(treerow);
 		treechildren.appendChild(treeitem);
 	}
-	tree.appendChild(treechildren);
+	tree.appendChild(treechildren);	
+	bx.appendChild(hb);
 	resultId.appendChild(bx);
+	
+	document.getElementById("saveAdvButton").hidden=false;
+	document.getElementById("noti").hidden=true;
 	for(u=0; u<usnList.length; u++)
 	{	
 		openAdvResult(usnList[u]);
