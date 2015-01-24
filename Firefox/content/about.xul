@@ -13,7 +13,10 @@
           </hbox>
 		  <hbox style="margin-left: 1em;">
             <label value="&askresults.createdBy;" />
-			<label value="&askresults.creator;" />
+			<vbox>
+				<label class="text-link" style="text-decoration:none;" value="&askresults.creator1;" />
+				<label class="text-link" style="text-decoration:none;" value="&askresults.creator2;" />
+			</vbox>
           </hbox>
 		  <hbox style="margin-left: 1em;">
             <label value="&askresults.contribution;" />

@@ -2,7 +2,8 @@
 <!ENTITY askresults.name "ASKResults">
 
 <!ENTITY askresults.createdBy "Created By: ">
-<!ENTITY askresults.creator "Shashidhar and Alwyn Edison Mendonca">
+<!ENTITY askresults.creator1 "Shashidhar">
+<!ENTITY askresults.creator2 "Alwyn Edison Mendonca">
 
 <!ENTITY askresults.contribution "Contributions By: ">
 <!ENTITY askresults.copyright "Copyright 2014-2015 ASK, Inc">

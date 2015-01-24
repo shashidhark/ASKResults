@@ -49,10 +49,43 @@ var  staken=0;
 
 function getSubjects(str){
 	staken=1;
+	var row11, subl;
+	var rows1 = document.getElementById("subRow");
 	var tr = $(str).eq(1).find("tr");
 	for (var j = 1; j < tr.length; j++){
 		var td = $(tr).eq(j).find('td');
-			document.getElementById("sub"+j).setAttribute("value", $(td).eq(0).text());
+		row11 = document.createElement("row");
+		subl  = document.createElement("label");
+		subl.setAttribute("value", "Loading..");
+		subl.setAttribute("id", "sub"+j);	
+		row11.appendChild(subl);
+
+		subl = document.createElement("label");	
+		subl.setAttribute("value", "0");
+		subl.setAttribute("id", "subP"+j);
+		subl.setAttribute("style", "color:green");
+		row11.appendChild(subl);
+		
+		subl = document.createElement("label");	
+		subl.setAttribute("value", "0");
+		subl.setAttribute("id", "subF"+j);
+		subl.setAttribute("style", "color:red");
+		row11.appendChild(subl);
+		
+		subl = document.createElement("label");	
+		subl.setAttribute("value", "0");
+		subl.setAttribute("id", "subA"+j);
+		subl.setAttribute("style", "color:yellow");
+		row11.appendChild(subl);
+
+		subl = document.createElement("label");	
+		subl.setAttribute("value", "0%");
+		subl.setAttribute("id", "subPerc"+j);
+		subl.setAttribute("style", "color:blue");
+		row11.appendChild(subl);
+
+		rows1.appendChild(row11);
+		document.getElementById("sub"+j).setAttribute("value", $(td).eq(0).text());
 	}
 	totla_sub=(tr.length)-1;
 }
@@ -283,8 +316,8 @@ function openAdvResult(usn){
 
 	request.onerror = function(aEvent) {
 	   //alert(aEvent.target.status);
-	   //document.getElementById("resultId").textContent = "Check Internet connection. Error status : "+ aEvent.target.status;
-		//resizeOnChange();
+	   document.getElementById("resultId").textContent = "Check Internet connection. Error status : "+ aEvent.target.status;
+	   resizeOnChange();
 	};
 
 	request.open("POST", url, true);
@@ -294,14 +327,14 @@ function openAdvResult(usn){
 
 function advancedSearch(usnList){
 	p=0,t=0,f=0, fcd=0, ab=0, fc=0, sc=0, staken=0;
-	var status=1, row, label0, label1, label2, label4, label3, lpass, lfail, vpass, vfail, vtotal, total, result;
+	var status=1, row, label0, lpass, lfail, vpass, vfail, vtotal, total, result;
 	var vresult, hb, hbx, saveButton, vbx, bx,fcdv, fcv,fcdv1, fcv1, scv, scv1, noti;
 	strForText = "";
 	document.getElementById('resultId').textContent = '';
 
 	var resultId= document.getElementById("resultId");
 	bx 	= document.createElement("vbox");
-	bx.setAttribute("style", "margin-left:2em;width:100%;");
+	bx.setAttribute("style", "margin-left:2em;margin-right:2em;width:100%;");
 	bx.setAttribute('class', 'rs');
 	vbx 	= document.createElement("hbox");
 	vbx.setAttribute("style", "width:100%;");
@@ -393,77 +426,41 @@ function advancedSearch(usnList){
 	vbox.setAttribute("style", "width:100%;");
 	var grid2 = document.createElement("grid");
 	grid2.setAttribute("flex", "1");
-	grid2.setAttribute("style", "border: #000000 solid 1px;width:100%;");
+	grid2.setAttribute("style", "border: #000000 dotted 1px;width:100%;");
 	vbox.appendChild(grid2);
 	
 	var rows1 = document.createElement("rows");
+	rows1.setAttribute("id", "subRow");
 	grid2.appendChild(rows1);
 
 	var row11;
-	for(var i=0;i<=8;i++){
-		if(i!=0){
-			row11 = document.createElement("row");
-			subl 	= document.createElement("label");
-			subl.setAttribute("value", "Loading..");
-			subl.setAttribute("id", "sub"+i);	
-			row11.appendChild(subl);
+	row11 = document.createElement("row");
+	row11.setAttribute("style", "font-weight:bold; width:6em;");
+	subl 	= document.createElement("label");
+	subl.setAttribute("value", "Subjects");
+	row11.appendChild(subl);
 
-			subl 	= document.createElement("label");	
-			subl.setAttribute("value", "0");
-			subl.setAttribute("id", "subP"+i);
-			subl.setAttribute("style", "color:green");
-			row11.appendChild(subl);
+	subl 	= document.createElement("label");	
+	subl.setAttribute("value", "Pass");
+	subl.setAttribute("style", "color:green");
+	row11.appendChild(subl);
 		
-			subl 	= document.createElement("label");	
-			subl.setAttribute("value", "0");
-			subl.setAttribute("id", "subF"+i);
-			subl.setAttribute("style", "color:red");
-			row11.appendChild(subl);
+	subl 	= document.createElement("label");	
+	subl.setAttribute("value", "Fail");
+	subl.setAttribute("style", "color:red");
+	row11.appendChild(subl);
 		
-			subl 	= document.createElement("label");	
-			subl.setAttribute("value", "0");
-			subl.setAttribute("id", "subA"+i);
-			subl.setAttribute("style", "color:yellow");
-			row11.appendChild(subl);
+	subl 	= document.createElement("label");	
+	subl.setAttribute("value", "Absent");
+	subl.setAttribute("style", "color:yellow");
+	row11.appendChild(subl);
 
-			subl 	= document.createElement("label");	
-			subl.setAttribute("value", "0%");
-			subl.setAttribute("id", "subPerc"+i);
-			subl.setAttribute("style", "color:blue");
-			row11.appendChild(subl);
+	subl 	= document.createElement("label");	
+	subl.setAttribute("value", "Percentage");
+	subl.setAttribute("style", "color:blue");
+	row11.appendChild(subl);
 
-			rows1.appendChild(row11);
-		}
-		else{
-			row11 = document.createElement("row");
-			row11.setAttribute("style", "font-weight:bold; width:6em;");
-			subl 	= document.createElement("label");
-			subl.setAttribute("value", "Subjects");
-			row11.appendChild(subl);
-
-			subl 	= document.createElement("label");	
-			subl.setAttribute("value", "Pass");
-			subl.setAttribute("style", "color:green");
-			row11.appendChild(subl);
-		
-			subl 	= document.createElement("label");	
-			subl.setAttribute("value", "Fail");
-			subl.setAttribute("style", "color:red");
-			row11.appendChild(subl);
-		
-			subl 	= document.createElement("label");	
-			subl.setAttribute("value", "Absent");
-			subl.setAttribute("style", "color:yellow");
-			row11.appendChild(subl);
-
-			subl 	= document.createElement("label");	
-			subl.setAttribute("value", "Percentage");
-			subl.setAttribute("style", "color:blue");
-			row11.appendChild(subl);
-
-			rows1.appendChild(row11);
-		}
-	}
+	rows1.appendChild(row11);
 	bx.appendChild(vbox);
 
 	var sep = document.createElement("separator");
