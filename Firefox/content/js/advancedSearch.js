@@ -1,7 +1,15 @@
-// Function to do all the processing. Resquest and Display result.
-
-// Function to convert response string to HTMLDocument object.
-
+/*
+|===============================================================================
+|		Last Modified Date 	: 24/01/2015
+|		Developer			: Shashidhar and alwyn
+|===============================================================================
+|	   	File Name		: advancedSearch.js
+|			Description	:
+|			 Function to do all the processing. Resquest and Display result.
+|			 Function to convert response string to HTMLDocument object.
+|
+|===============================================================================
+*/
 var strForText="";
 
 function DOM(string){
