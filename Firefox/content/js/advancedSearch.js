@@ -258,6 +258,11 @@ function openAdvResult(usn){
 	var fs="";
 	var resultClass="";
 	let url = "http://results.vtu.ac.in/vitavi.php";
+
+	document.getElementById("saveAdvButton").hidden=true;
+	document.getElementById("noti").hidden=true;
+	resizeOnChange();
+
 	let request = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Components.interfaces.nsIXMLHttpRequest);
 	request.onload = function(aEvent)
 	{		

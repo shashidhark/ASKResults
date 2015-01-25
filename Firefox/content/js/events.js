@@ -404,6 +404,10 @@ function openResult(usn){
 	strForTextI="";
 	var passColor='#087F38', failColor='#E30F17' ;
 	var marksRow ='#F0FFF0', tableHead='#90B890', failedSub='#FFCCCC';
+	
+	document.getElementById('print').hidden=true;
+	document.getElementById('saveImsg').hidden=true;
+
 	if(usn.length==0){
 		document.getElementById('resultId').textContent = "Please Enter Your USN...";
 		document.getElementById('usn_id').setAttribute("style", "border:1px solid red");
@@ -432,7 +436,7 @@ function openResult(usn){
 	  let url, rv=0;
 	  var rg = document.getElementById("reval");
 	  if(rg.checked){
-			rv=1;
+		rv=1;
 		url = "http://results.vtu.ac.in/vitavireval.php";
 	  }
 	  else{
@@ -489,6 +493,8 @@ function openResult(usn){
 
 		if(table.length==0){
 			document.getElementById('resultId').textContent = 'Results are not yet available for this university seat number or Wrong USN..';
+			document.getElementById('print').hidden=true;
+			document.getElementById('saveImsg').hidden=true;
 			resizeOnChange();
 		}
 		else
@@ -720,6 +726,8 @@ function openResult(usn){
 	request.onerror = function(aEvent) {
 	   //window.alert("Error Status: " + aEvent.target.status);
 	   document.getElementById('resultId').textContent = "Check Internet connection. Error status : "+ aEvent.target.status;
+	   document.getElementById('print').hidden=true;
+	   document.getElementById('saveImsg').hidden=true;
 	};
 
 	request.open("POST", url, true);
