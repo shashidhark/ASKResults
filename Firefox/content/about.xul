@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/global.css"  type="text/css"?>
 <!DOCTYPE overlay SYSTEM "chrome://ASKResults/locale/ASKResults.dtd">
-<dialog  title="ASKResults" orient="vertical" autostretch="always" buttons="accept" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:svg="http://www.w3.org/2000/svg" windowtype="navigator:browser" persist="screenX screenY">
+<dialog  title="ASKResults" orient="vertical" autostretch="always" buttons="accept" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:svg="http://www.w3.org/2000/svg" windowtype="navigator:browser" persist="screenX screenY"  style="-moz-appearance :none;background-color:#A0B0E0;">
 	<script src="about.js" />
 	<hbox>
 	<vbox style="margin-top:1em; margin-left:1em;">

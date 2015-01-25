@@ -284,7 +284,7 @@ function openAdvResult(usn){
 					document.getElementById("stat"+usn).setAttribute("label", "PASS");
 					strForText += "PASS \n";
 					incPass();
-					document.getElementById("stat"+usn).setAttribute("style", "color:#087F38");
+					document.getElementById("stat"+usn).setAttribute("property", "pass");
 				}
 				else{fs="";
 					document.getElementById("stat"+usn).setAttribute("label", "FAIL");
@@ -293,7 +293,7 @@ function openAdvResult(usn){
 					fs = getFailedSubjects(table);
 					strForText += fs.replace('|', ' ')+"\n";
 					document.getElementById("stat"+usn).setAttribute("onselect", "prompts.alert(null,'failed','Failed in: "+fs+"');");
-					document.getElementById("stat"+usn).setAttribute("style", "color:#E30F17");
+					document.getElementById("stat"+usn).setAttribute("property", "fail");
 				}				
 				getSubjectsStatus(table);
 			}
@@ -471,6 +471,7 @@ function advancedSearch(usnList){
 	var tree 	= document.createElement("tree");
 	tree.setAttribute("flex", "1");
 	tree.setAttribute("rows", 10);
+	tree.setAttribute("id", "mainTree_treechildren");
 	place.appendChild(tree);
 
 	var splitter = document.createElement("splitter");

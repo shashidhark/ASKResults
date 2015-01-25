@@ -406,7 +406,6 @@ function openResult(usn){
 	var marksRow ='#F0FFF0', tableHead='#90B890', failedSub='#FFCCCC';
 	if(usn.length==0){
 		document.getElementById('resultId').textContent = "Please Enter Your USN...";
-		document.getElementById('resultId').setAttribute("style", "color:red");
 		document.getElementById('usn_id').setAttribute("style", "border:1px solid red");
 		resizeOnChange();
 		return;

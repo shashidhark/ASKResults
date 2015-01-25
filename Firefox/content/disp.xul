@@ -114,6 +114,10 @@
 	      padding: 4px;
 	      margin: 2px;
 		}
+	treechildren::-moz-tree-row(makeItBlue)
+{
+  background-color: blue;
+}
 	</html:style>
 	<script type="application/javascript" src="chrome://AskResults/content/lib/jquery-1.11.1.js" />	
 	<script type="application/javascript" src="chrome://AskResults/content/js/usnFields.js" />
@@ -158,4 +162,5 @@
 			<button id="print" hidden="true" class="loadButton" label="Save" onclick="writeToFile1();"/>
 			<label id="saveImsg" hidden="true" value="Saved to download folder.."/>
 	</hbox>
+
 </window>
