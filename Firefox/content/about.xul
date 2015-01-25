@@ -14,8 +14,8 @@
 		  <hbox style="margin-left: 1em;">
             <label value="&askresults.createdBy;" />
 			<vbox>
-				<label class="text-link" style="text-decoration:none;" value="&askresults.creator1;" />
-				<label class="text-link" style="text-decoration:none;" value="&askresults.creator2;" />
+				<label class="text-link" style="text-decoration:none;" value="&askresults.creator1;" onclick='window.open("https://github.com/shashidhark/ASKResults")'/>
+				<label class="text-link" style="text-decoration:none;" value="&askresults.creator2;" onclick='window.open("https://github.com/shashidhark/ASKResults")'/>
 			</vbox>
           </hbox>
 		  <hbox style="margin-left: 1em;">
@@ -38,9 +38,6 @@
 		   <hbox style="margin-left: 1em;">
 			<label value="&askresults.release;" />
            </hbox>
-          <!--hbox style="margin-left: 1em;">
-          	<label value="&askresults.gitLink;" class="text-link" onclick='openAndReuseOneTabPerURL("http://www.google.com");' />
-          </hbox-->
 	</vbox>
 	</hbox>
 </dialog>
