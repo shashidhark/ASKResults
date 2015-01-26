@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/global.css"  type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://ASKResults/locale/ASKResults.dtd">
+<dialog  title="ASKResults" orient="vertical" autostretch="always" buttons="accept" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:svg="http://www.w3.org/2000/svg" windowtype="navigator:browser" persist="screenX screenY"  style="-moz-appearance :none;background-color:#A0B0E0;">
+	<script src="about.js" />
+	<vbox style="margin-top:1em; margin-left:1em; margin-right:1em;">
+		<label value="&askresults.version;" style="font-weight: bold; font-size: large;" />
+		<label align="right" value="Advanced Search option added under add-on Menu Bar under Search Mode" />
+		<label align="right" value="Advanced search window now looks more prettier. " />
+		<label align="right" value='Instead "Text File" saving "CSV File" saving is added - Use MS Excel or LibreOffice calc to open it, for better viewing.' />
+		<label align="right" value="Subject wise percentage, passed and failed is added." />
+		<label align="right" value='Version info added under "Help->About".' />
+		<label align="right" value='Many bug fixes - Sem option. ' />
+	</vbox>	
+	
+</dialog>

@@ -10,6 +10,9 @@
 	<vbox>
           <hbox style="margin-left: 1em;">
             <label value="&askresults.version;" style="font-weight: bold; font-size: large;" />
+		  </hbox>
+		  <hbox style="margin-left: 1em;">
+			<label  class="text-link" style="text-decoration:none;" value="Version Info" onclick="window.open('chrome://AskResults/content/versionInfo.xul', '', 'chrome=yes, scrollbars=yes, resizable=yes, top=200, left=500');"/>
           </hbox>
 		  <hbox style="margin-left: 1em;">
             <label value="&askresults.createdBy;" />
@@ -39,6 +42,7 @@
 		   <hbox style="margin-left: 1em;">
 			<label value="&askresults.release;" />
            </hbox>
+		   
 	</vbox>
 	</hbox>
 </dialog>
