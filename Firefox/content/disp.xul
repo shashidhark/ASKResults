@@ -124,6 +124,8 @@
 	<script type="application/javascript" src="chrome://AskResults/content/js/events.js" />
 	<script type="application/javascript" src="chrome://AskResults/content/js/avgMarks.js" />	
 	<script type="application/javascript" src="chrome://AskResults/content/js/advancedSearch.js" />
+	<script type="application/javascript" src="chrome://AskResults/content/js/functions.js" />
+
 	<keyset>
 	  <key id="nkey" modifiers="accel" key="n" oncommand="displayAdvUI()"/>
 	  <key id="akey" modifiers="accel" key="a" oncommand="displayAdvUI()"/>
@@ -162,5 +164,5 @@
 			<button id="print" hidden="true" class="loadButton" label="Save" onclick="writeToFile1();"/>
 			<label id="saveImsg" hidden="true" value="Saved to download folder.."/>
 	</hbox>
-
+<button id="x"  class="loadButton" label="Save" onclick="filePicker();"/>
 </window>

@@ -254,7 +254,14 @@ var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
                         .getService(Components.interfaces.nsIPromptService);
 
 function openAdvResult(usn){
-	var sem = document.getElementById('sem').label;
+	
+	var sem=0, fileFetch=0;
+	if(document.getElementById('sem') != null)
+		sem = document.getElementById('sem').label;
+	else{
+		fileFetch=1;
+		sem=0;
+	}
 	var fs="";
 	var resultClass="";
 	let url = "http://results.vtu.ac.in/vitavi.php";
@@ -277,7 +284,7 @@ function openAdvResult(usn){
 		{		
 			//alert("name"+usn);
 			//alert(sem+" "+parseInt($(table).eq(0).find("tr").eq(0).find('td').eq(1).text()));
-			if(sem == parseInt($(table).eq(0).find("tr").eq(0).find('td').eq(1).text()))
+			if((sem == parseInt($(table).eq(0).find("tr").eq(0).find('td').eq(1).text())) || (fileFetch==1))
 			{	
 				strForText += usn+" , ";
 				document.getElementById("name"+usn).setAttribute("label", getName($(all).find('B').eq(0).text()));

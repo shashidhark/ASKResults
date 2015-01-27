@@ -12,28 +12,8 @@
 */
 
 var pdfVar;
-//Function to append zero
-function get23D(n, s){
-	if(s){
-	     if( n.toString().length == 1 )
-    	    return "00" + n;
-		 else if(n.toString().length == 2)
-			return "0" + n;
-    }	
-	else
-	{
-		if( n.toString().length == 1 )
-    	    return "0" + n;
-	}
-	return n.toString();
-}
 
-//Resize window depending of contenet size.
-function resizeOnChange(){
-	var height = document.getElementById("resultId").clientHeight;
-	var width = document.getElementById("resultId").clientWidth;
-	window.resizeTo(width, height);
-}
+
 
 //Generate usn list for Advanced search
 function usnGeneration(){
@@ -111,13 +91,6 @@ function usnGeneration(){
 	
 	//Call search with usn_list
 	advancedSearch(usnList);
-}
-
-function checkEnterKey(evt){
-	  if (evt.keyCode == 13)
-	    usnGeneration();
-	  else 
-		return true;
 }
 
 function addYear()
@@ -300,51 +273,11 @@ function displayAdvUI(){
 	resizeOnChange();
 }
 
-// Input: DDXXDDBBDDD
-// Returns: BB ( Branch )
-function getBranch(usn){
-	var b = usn.split( /\d+/ );
-	return b[2].toUpperCase();
-}
-
-// Input: Capital letter sentance
-// Returns: Same sentance with starting letter of each word uppercase
-function ucwords(str){
-	return str.replace(/\w\S*/g, function(txt){
-  	return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-  });
-}
-
-// Input: String of format "Nameofstudent (DAADDAADDD)"
-// Returns : Name and USN Separately "NameOfStudent  DAADDAADDD".
-function getNameUsn(usnName){
-	var name = usnName.substring(0, usnName.indexOf('('));
-  	var aftBractket = usnName.substr(usnName.indexOf("(") + 1);
-	var usn = aftBractket.substring(0, aftBractket.indexOf(')'));
-  	return ucwords(name+'  '+usn);
-}
-
-//Return avg marks
-function findAvg(usn, total, sem){
-	//return ' '+total+' '+sem+' '+getBranch();
-	//alert(' '+total+' '+sem+' '+getBranch(usn));
-	return getAvgMarks(total, sem, getBranch(usn));
-}
-
-// Input: String of format "SubjectName (SUBJECTCODE)"
-// Returns : SUBJECTCODE
-function getScode(sub_name_code){
-	return  sub_name_code.substring(sub_name_code.indexOf('(')+1, sub_name_code.indexOf(')'));
-}
-
 //To focus the text box in addon
 window.addEventListener("load", function focus_element(){
 	window.removeEventListener("load", focus_element, false);
 	document.getElementById('usn_id').focus()
 }, false);
-
-
-
 
 //Validate the input(usn)
 function checkFormat(str){
