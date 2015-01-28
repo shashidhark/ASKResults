@@ -107,7 +107,8 @@ function writeToFile(data)
 		data += document.getElementById("subP"+j).value+",";		
 		data += document.getElementById("subF"+j).value+","
 		data += document.getElementById("subA"+j).value+",";
-		data += ((parseInt(document.getElementById("subP"+j).value)/(p+f))*100).toFixed(2)+"%" +"\n";
+		var abVal = parseInt(document.getElementById("subA"+j).value);
+		data += ((parseInt(document.getElementById("subP"+j).value)/(p+f-abVal))*100).toFixed(2)+"%" +"\n";
 	}
 	data += "\n";
 	data += "Passed: "+p+" , Failed: "+f+", Absent:"+ab+", Percentage: "+((p/(p+f))*100).toFixed(2)+"%"+", Total: "+(p+f)+"\n";	
@@ -212,6 +213,7 @@ function getFailedSubjects(str){
 function getSubjectsStatus(str){
 	var s="", v=0;
 	var tr = $(str).eq(1).find("tr");
+	//alert(str);
 	for (var j = 1; j < tr.length; j++){
 		var td = $(tr).eq(j).find('td');
 		if(($(td).eq(4).text()).indexOf("P") > -1){
@@ -232,7 +234,8 @@ function getSubjectsStatus(str){
 		}	
 		//alert(document.getElementById("subP"+j).value+" "+(p+f)+" "+parseInt(document.getElementById("subP"+j).value)/(p+f))*100).toFixed(2)+"%");
 		//alert((p+f)+" "+(parseInt(document.getElementById("subP"+j).value))+" "+((parseInt(document.getElementById("subP"+j).value)/(p+f))*100).toFixed(2)+"%");
-		document.getElementById("subPerc"+j).setAttribute("value", ((parseInt(document.getElementById("subP"+j).value)/(p+f))*100).toFixed(2)+"%");
+		var abVal = parseInt(document.getElementById("subA"+j).value);
+		document.getElementById("subPerc"+j).setAttribute("value", ((parseInt(document.getElementById("subP"+j).value)/(p+f-abVal))*100).toFixed(2)+"%");
 	}
 }
 
@@ -331,7 +334,7 @@ function openAdvResult(usn){
 			document.getElementById("stat"+usn).setAttribute("label", "---");
 		}
 		updatePerc();
-		resizeOnChange();
+		//resizeOnChange();
 	}; //request load end
 
 	request.onerror = function(aEvent) {

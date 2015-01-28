@@ -2,9 +2,10 @@
 	Functions
 */
 
-
-function readFile(file)
+function readFile()
 {
+	resizeOnChange();
+	var file=document.getElementById("filePath").value;
 	Components.utils.import("resource://gre/modules/NetUtil.jsm");
 	NetUtil.asyncFetch(file, function(inputStream, status) {
 	  if (!Components.isSuccessCode(status)) {
@@ -16,18 +17,19 @@ function readFile(file)
 	  // You can read it into a string with
 	  var data = NetUtil.readInputStreamToString(inputStream, inputStream.available());
 		//alert(data);
-		data = data.replace(/ /g,'');
-		data = data.split("\n");
+		//data = data.replace(/ /g,'');
+		data = data.match(/[1-4][a-zA-Z]{2}[0-9]{2}(([a-zA-Z]{2}[0-9]{3})|([a-zA-Z]{3}[0-9]{2}))/g)
 		advancedSearch(data);
 	});	
+	
 }
 
-function filePicker(){
+function filePicker()
+{
 	const nsIFilePicker = Components.interfaces.nsIFilePicker;
-
 	var fp = Components.classes["@mozilla.org/filepicker;1"]
 			       .createInstance(nsIFilePicker);
-	fp.init(window, "Dialog Title", nsIFilePicker.modeOpen);
+	fp.init(window, "ASKResults File picker", nsIFilePicker.modeOpen);
 	fp.appendFilters(nsIFilePicker.filterAll | nsIFilePicker.filterText);
 
 	var rv = fp.show();
@@ -37,8 +39,9 @@ function filePicker(){
 	  // need to work with the string paths.
 	  var path = fp.file.path;
 	  // work with returned nsILocalFile...
-		//alert(path);
-		readFile("file://"+path);
+		//alert(path);		
+		document.getElementById("filePath").value="file://"+path;
+		//file="file://"+path;
 	}
 }
 

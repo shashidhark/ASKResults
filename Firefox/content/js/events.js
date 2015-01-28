@@ -13,8 +13,6 @@
 
 var pdfVar;
 
-
-
 //Generate usn list for Advanced search
 function usnGeneration(){
 	var usnNew = "";
@@ -238,16 +236,19 @@ function createAdvanceUI(){
 	advUI.appendChild(desc);
 }
 
-function displayAdvUI(){
+function displayAdvUI(mode){
 	//	alert("hi");	
 	resizeOnChange();
-	if(document.getElementById("advance").hidden){
+	if(mode=='a'){
 		document.getElementById("normal").hidden=true;	
 		document.getElementById("advance").hidden=false;	
 		document.getElementById("msg").hidden=false;
-		//document.getElementById("advSearch").label="Switch to Normal Search";		
+		//document.getElementById("advSearch").label="Switch to Normal Search";
+		
 		document.getElementById("advanced").hidden=true;
-		document.getElementById("normalMenu").hidden=false;	
+		document.getElementById("normalMenu").hidden=false;
+		document.getElementById("fileImp").hidden=false;	
+
 		document.getElementById("reval").hidden=true;//Show revaluation option
 		document.getElementById("print").hidden=true;
 		document.getElementById("saveImsg").hidden=true;
@@ -256,13 +257,16 @@ function displayAdvUI(){
 		//document.getElementById('box').hidden = true;	
 		//document.getElementById('saveMsg').hidden = true;
 	}
-	else{
+	else if(mode=='n'){
 		document.getElementById("reval").hidden=false; //Hide revaluation option
 		document.getElementById("normal").hidden=false;	
 		document.getElementById("advance").hidden=true;
 		document.getElementById("msg").hidden=true;
+
 		document.getElementById("advanced").hidden=false;
 		document.getElementById("normalMenu").hidden=true;
+		document.getElementById("fileImp").hidden=false;
+
 		document.getElementById("resultId").textContent="";
 		document.getElementById("print").hidden=true;
 		document.getElementById("saveImsg").hidden=true;
@@ -270,6 +274,54 @@ function displayAdvUI(){
 		//document.getElementById('box').hidden = true;
 		//document.getElementById('saveMsg').hidden = true;
 	}
+	resizeOnChange();
+}
+
+function fileImpUI()
+{
+	document.getElementById("normalMenu").hidden=false;	
+	document.getElementById("advanced").hidden=false;
+	document.getElementById("fileImp").hidden=true;
+
+	document.getElementById("advance").textContent="";
+	document.getElementById("resultId").textContent="";
+	document.getElementById("reval").hidden=true;
+	document.getElementById("normal").hidden=true;
+	document.getElementById("advance").hidden=false;
+	
+	var advUI = document.getElementById("advance");
+
+	var hbox = document.createElement("hbox");
+	var button1 = document.createElement("button");
+	button1.setAttribute("label", "Browse file");
+	button1.setAttribute("id", "browseFile");
+	button1.setAttribute("width", "100");
+	button1.setAttribute("class", "loadButton");
+	button1.setAttribute("onclick", "filePicker()");
+
+	var button2 = document.createElement("button");
+	button2.setAttribute("label", "Search Result");
+	button2.setAttribute("id", "searchFile");
+	button2.setAttribute("width", "100");
+	button2.setAttribute("class", "loadButton");
+	button2.setAttribute("onclick", "readFile()");
+
+	var spacer = document.createElement("spacer");
+	spacer.setAttribute("flex", "1");
+	
+	var msg = document.createElement("label");
+	msg.setAttribute("value", "Choose file containing USN list.");
+
+	var textbox = document.createElement("textbox");
+	textbox.setAttribute("class", "inputs");
+	textbox.setAttribute("id", "filePath");
+
+	advUI.appendChild(msg);
+	advUI.appendChild(textbox);	
+	hbox.appendChild(button1);	
+	hbox.appendChild(spacer);
+	hbox.appendChild(button2);
+	advUI.appendChild(hbox);
 	resizeOnChange();
 }
 

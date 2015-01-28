@@ -127,23 +127,25 @@
 	<script type="application/javascript" src="chrome://AskResults/content/js/functions.js" />
 
 	<keyset>
-	  <key id="nkey" modifiers="accel" key="n" oncommand="displayAdvUI()"/>
-	  <key id="akey" modifiers="accel" key="a" oncommand="displayAdvUI()"/>
+	  <key id="nkey" modifiers="accel" key="n" oncommand="displayAdvUI('n')"/>
+	  <key id="akey" modifiers="accel" key="a" oncommand="displayAdvUI('a')"/>
+	  <key id="fkey" modifiers="accel" key="f" oncommand="fileImpUI('f')"/>
 	  <key id="abkey" modifiers="shift" key="a" oncommand="window.open('chrome://AskResults/content/about.xul', '', 'chrome=yes, scrollbars=yes, resizable=yes, top=200, left=500');"/>
 	</keyset>
 
 	<menubar id="sample-menubar">
-	  <menu id="file-menu" label="Search mode" accesskey="s">
-		<menupopup id="file-popup">
-		  <menuitem label="Normal" id="normalMenu" hidden="true" key="nkey" oncommand="displayAdvUI()"/>
-		  <menuitem label="Advanced" id="advanced" key="akey" oncommand="displayAdvUI()"/>
-		</menupopup>
-	  </menu>
-	  <menu id="edit-menu" label="Help" accesskey="h">
-		<menupopup id="edit-popup">
-		  <menuitem label="About" accesskey="a" key="abkey" oncommand="window.open('chrome://AskResults/content/about.xul', '', 'chrome=yes, scrollbars=yes, resizable=yes, top=200, left=500');"/>
-		</menupopup>
-	  </menu>
+		<menu id="file-menu" label="Search mode" accesskey="s">
+			<menupopup id="file-popup">
+		  		<menuitem label="Normal" id="normalMenu" hidden="true" key="nkey" oncommand="displayAdvUI('n')"/>
+		  		<menuitem label="Advanced" id="advanced" key="akey" oncommand="displayAdvUI('a')"/>
+		  		<menuitem label="File import" id="fileImp" key="fkey" oncommand="fileImpUI('f')"/>
+			</menupopup>
+	  	</menu>
+	  	<menu id="edit-menu" label="Help" accesskey="h">
+			<menupopup id="edit-popup">
+		 		<menuitem label="About" accesskey="a" key="abkey" oncommand="window.open('chrome://AskResults/content/about.xul', '', 'chrome=yes, scrollbars=yes, resizable=yes, top=200, left=500');"/>
+			</menupopup>
+	  	</menu>
 	</menubar>
 	<hbox class="bdy">
 		<!--button id="advSearch" class="advSearch" label="Switch to Advanced Search" onclick="displayAdvUI()" /-->
@@ -156,13 +158,13 @@
 			<button id="submit-button" class="loadButton"  label="Load result" onclick="openResult(document.getElementById('usn_id').value);"/>
 		</description>
 	</hbox>
-	<hbox class="bdy" id="advance" hidden="true" style="margin-left:2em; margin-right:2em;">
-	</hbox>
+	<vbox class="bdy" id="advance" hidden="true" style="margin-left:2em; margin-top:2em; margin-right:2em; margin-bottom:2em;">
+	</vbox>
 	<vbox class="bdy" id='resultId' >
 	</vbox>
 	<hbox class="bdy" id="sbi">	
-			<button id="print" hidden="true" class="loadButton" label="Save" onclick="writeToFile1();"/>
-			<label id="saveImsg" hidden="true" value="Saved to download folder.."/>
+		<spacer flex="1" />
+		<button id="print" hidden="true" class="loadButton" label="Save" onclick="writeToFile1();"/>
+		<label id="saveImsg" hidden="true" value="Saved to download folder.."/>
 	</hbox>
-<button id="x"  class="loadButton" label="Save" onclick="filePicker();"/>
 </window>
