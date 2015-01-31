@@ -127,6 +127,7 @@
 	  <key id="akey" modifiers="accel" key="a" oncommand="displayAdvUI('a')"/>
 	  <key id="fkey" modifiers="accel" key="f" oncommand="fileImpUI('f')"/>
 	  <key id="abkey" modifiers="shift" key="a" oncommand="window.open('chrome://AskResults/content/about.xul', '', 'chrome=yes, scrollbars=yes, resizable=yes, top=200, left=500');"/>
+	  <key id="gukey" modifiers="shift" key="g" oncommand="window.open('chrome://AskResults/content/guid.xul', '', 'chrome=yes, scrollbars=yes, resizable=yes, top=200, left=500');"/>
 	</keyset>
 
 	<menubar id="sample-menubar">
@@ -140,6 +141,7 @@
 	  	<menu id="edit-menu" label="Help" accesskey="h">
 			<menupopup id="edit-popup">
 		 		<menuitem label="About" accesskey="a" key="abkey" oncommand="window.open('chrome://AskResults/content/about.xul', '', 'chrome=yes, scrollbars=yes, resizable=yes, top=200, left=500');"/>
+				<menuitem label="Help" id="fileImp" key="gukey" oncommand="window.open('chrome://AskResults/content/guid.xul', '', 'chrome=yes, scrollbars=yes, resizable=yes, top=200, left=500');"/>
 			</menupopup>
 	  	</menu>
 	</menubar>
