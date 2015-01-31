@@ -114,10 +114,6 @@
 	      padding: 4px;
 	      margin: 2px;
 		}
-	treechildren::-moz-tree-row(makeItBlue)
-{
-  background-color: blue;
-}
 	</html:style>
 	<script type="application/javascript" src="chrome://AskResults/content/lib/jquery-1.11.1.js" />	
 	<script type="application/javascript" src="chrome://AskResults/content/js/usnFields.js" />
@@ -147,23 +143,26 @@
 			</menupopup>
 	  	</menu>
 	</menubar>
-	<hbox class="bdy">
-		<!--button id="advSearch" class="advSearch" label="Switch to Advanced Search" onclick="displayAdvUI()" /-->
-		<checkbox id="reval" class="chkbx"  label="Revaluation result" checked="false"/>
-		<label id="msg" hidden="true" value=""/>
-	</hbox>
-	<hbox class="bdy" id="normal" hidden="false">
-		<description>
-			Enter Your University Seat No : <textbox id='usn_id' class="inputs" maxlength="10" size="9" placeholder="USN" value=""/>
-			<button id="submit-button" class="loadButton"  label="Load result" onclick="openResult(document.getElementById('usn_id').value);"/>
-		</description>
-	</hbox>
-	<vbox class="bdy" id="advance" hidden="true" style="margin-left:2em; margin-top:2em; margin-right:2em; margin-bottom:2em;">
+	<vbox style="margin-left:2em; margin-right:2em; margin-bottom:2em; ">
+		<hbox class="bdy">
+			<!--button id="advSearch" class="advSearch" label="Switch to Advanced Search" onclick="displayAdvUI()" /-->
+			<checkbox id="reval" class="chkbx"  label="Revaluation result" checked="false"/>
+			<label id="msg" hidden="true" value=""/>
+		</hbox>
+		<hbox class="bdy" id="normal" hidden="false">
+			<description>
+				Enter Your University Seat No : <textbox id='usn_id' class="inputs" maxlength="10" size="9" placeholder="USN" value=""/>
+				<button id="submit-button" class="loadButton"  label="Load Result" onclick="openResult(document.getElementById('usn_id').value);"/>
+			</description>
+		</hbox>
+		<vbox class="bdy" id="advance" hidden="true">
+		</vbox>
+		<vbox class="bdy" id='resultId' >
+		</vbox>
+		<hbox class="bdy" id="sbi">
+			<spacer flex="1"/>
+			<button id="print" hidden="true" class="loadButton" label="Save Result" onclick="writeToFileIndividual();"/>
+			<label id="saveImsg" hidden="true" value="Result is saved to download folder."/>
+		</hbox>
 	</vbox>
-	<vbox class="bdy" id='resultId' >
-	</vbox>
-	<hbox class="bdy" id="sbi">	
-		<button id="print" hidden="true" class="loadButton" label="Save" onclick="writeToFileIndividual();"/>
-		<label id="saveImsg" hidden="true" value="Saved to download folder.."/>
-	</hbox>
 </window>

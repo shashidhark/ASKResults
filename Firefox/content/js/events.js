@@ -210,8 +210,16 @@ function createAdvanceUI(){
 	document.getElementById("resultId").textContent="";
 
 	var advUI = document.getElementById("advance");
-	var desc = document.createElement("description");
-	desc.setAttribute("id", "d");
+
+	var guid = document.createElement("label");
+	guid.setAttribute("value", "Select Region Code, College Code, Year, Branch, Sem and USN Range.");
+
+	var vbox = document.createElement("vbox");
+	vbox.appendChild(guid);	
+	
+	var desc = document.createElement("hbox");
+	desc.setAttribute("id", "d");	
+	vbox.appendChild(desc);
 
 	var menul;
 	
@@ -231,11 +239,12 @@ function createAdvanceUI(){
 	menul.setAttribute("oncommand", "return addCC(this.label)");
 	desc.appendChild(menul);
 
-	advUI.appendChild(desc);
+	advUI.appendChild(vbox);
 }
 
 function displayAdvUI(mode){
 	//	alert("hi");
+	advancedGoingOn=0;
 	resizeOnChange();
 	if(mode=='a'){		
 		abortFunc();
@@ -270,7 +279,7 @@ function displayAdvUI(mode){
 		document.getElementById("resultId").textContent="";
 		document.getElementById("print").hidden=true;
 		document.getElementById("saveImsg").hidden=true;
-		getMessage();
+		getMessage();		
 		//document.getElementById('box').hidden = true;
 		//document.getElementById('saveMsg').hidden = true;
 	}
@@ -301,17 +310,14 @@ function fileImpUI()
 	button1.setAttribute("onclick", "filePicker()");
 
 	var button2 = document.createElement("button");
-	button2.setAttribute("label", "Search Result");
+	button2.setAttribute("label", "Load Result");
 	button2.setAttribute("id", "searchFile");
 	button2.setAttribute("width", "100");
 	button2.setAttribute("class", "loadButton");
 	button2.setAttribute("onclick", "readFile()");
-
-	var spacer = document.createElement("spacer");
-	spacer.setAttribute("flex", "1");
 	
 	var msg = document.createElement("label");
-	msg.setAttribute("value", "Choose file containing USN list.");
+	msg.setAttribute("value", "Choose text, csv or xsl file containing USN list.");
 
 	var textbox = document.createElement("textbox");
 	textbox.setAttribute("class", "inputs");

@@ -102,9 +102,14 @@ function writeToFileIndividual()
 	// Get profile directory.
 	Components.utils.import("resource://gre/modules/FileUtils.jsm");
 	Components.utils.import("resource://gre/modules/NetUtil.jsm");
-	var file = Components.classes["@mozilla.org/file/local;1"].
-		       createInstance(Components.interfaces.nsILocalFile);
-	var file = FileUtils.getFile("DfltDwnld", ["Individual_VTUResult_ASKResults.csv"]);
+
+	var fileName="";
+	if(advancedGoingOn==1)
+		fileName = getNormalFileName();	
+	else
+		fileName = getSingleFileName();	
+
+	var file = FileUtils.getFile("DfltDwnld", [fileName]);
 
 	// You can also optionally pass a flags parameter here. It defaults to
 	// FileUtils.MODE_WRONLY | FileUtils.MODE_CREATE | FileUtils.MODE_TRUNCATE;
@@ -154,9 +159,10 @@ function writeToFile(data)
 	// Get profile directory.
 	Components.utils.import("resource://gre/modules/FileUtils.jsm");
 	Components.utils.import("resource://gre/modules/NetUtil.jsm");
-	var file = Components.classes["@mozilla.org/file/local;1"].
-		       createInstance(Components.interfaces.nsILocalFile);
-	var file = FileUtils.getFile("DfltDwnld", ["VTUResult_ASKResults.csv"]);
+
+	var fileName="";
+	fileName = getAdvancedFileName();
+	var file = FileUtils.getFile("DfltDwnld", [fileName]);
 
 	// You can also optionally pass a flags parameter here. It defaults to
 	// FileUtils.MODE_WRONLY | FileUtils.MODE_CREATE | FileUtils.MODE_TRUNCATE;
@@ -372,7 +378,7 @@ function advancedSearch(usnList)
 
 	var resultId= document.getElementById("resultId");
 	bx 	= document.createElement("vbox");
-	bx.setAttribute("style", "margin-left:2em;margin-right:2em;width:100%;");
+	bx.setAttribute("style", "width:100%;");
 	bx.setAttribute('class', 'rs');
 	vbx 	= document.createElement("hbox");
 	vbx.setAttribute("style", "width:100%;");
@@ -412,15 +418,15 @@ function advancedSearch(usnList)
 
 	//noti.setAttribute('value', 'Click on FAIL to know failed subjects.');
 	//noti.setAttribute('style', 'color:blue');
-	hb = document.createElement("description");
+	hb = document.createElement("hbox");
 	hb.setAttribute("id", "sb");
 	spacer = document.createElement("spacer");
 	spacer.setAttribute("flex", "1");
 	label0 	= document.createElement("label");
-	label0.setAttribute("value", "Saved to Download folder");
+	label0.setAttribute("value", "Result is saved to download folder.");
 	label0.setAttribute("id", "noti");
 	saveButton 	= document.createElement("button");
-	saveButton.setAttribute("label", "Save");
+	saveButton.setAttribute("label", "Save Result");
 	saveButton.setAttribute("id", "saveAdvButton");
 	saveButton.setAttribute("class", "loadButton");
 	saveButton.setAttribute("onclick", "writeToFile(strForText);");
@@ -428,7 +434,6 @@ function advancedSearch(usnList)
 	hb.appendChild(saveButton);
 	hb.appendChild(label0);
 	
-
 	lpass.setAttribute("value", "Passed:");
 	lpass.setAttribute("class", "pass");
 	vpass.setAttribute("value", '0');

@@ -29,6 +29,21 @@ var advancedGoingOn=0;
 var passColor='#087F38', failColor='#E30F17' ;
 var marksRow ='#F0FFF0', tableHead='#90B890', failedSub='#FFCCCC';
 
+function getAdvancedFileName(){
+	var d = new Date();
+	return "VTUResult_ASKResults"+(d.toUTCString()).replace(' ', '_')+".csv";
+}
+
+function getNormalFileName(){
+	var d = new Date();
+	return "Individual_List_VTUResult_ASKResults"+(d.toUTCString()).replace(' ', '_')+".csv";
+}
+
+function getSingleFileName(){
+	var d = new Date();
+	return "Individual_VTUResult_ASKResults"+(d.toUTCString()).replace(' ', '_')+".csv";
+}
+
 function readFile()
 {
 	resizeOnChange();
@@ -91,8 +106,9 @@ function get23D(n, s){
 
 //Resize window depending of contenet size.
 function resizeOnChange(){
+	var width = 700;
 	var height = document.getElementById("resultId").clientHeight;
-	var width = document.getElementById("resultId").clientWidth;
+	//var width = document.getElementById("resultId").clientWidth;
 	window.resizeTo(width, height);
 }
 
