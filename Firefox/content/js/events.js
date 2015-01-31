@@ -11,8 +11,6 @@
 |===============================================================================
 */
 
-var pdfVar;
-
 //Generate usn list for Advanced search
 function usnGeneration(){
 	var usnNew = "";
@@ -237,9 +235,10 @@ function createAdvanceUI(){
 }
 
 function displayAdvUI(mode){
-	//	alert("hi");	
+	//	alert("hi");
 	resizeOnChange();
-	if(mode=='a'){
+	if(mode=='a'){		
+		abortFunc();
 		document.getElementById("normal").hidden=true;	
 		document.getElementById("advance").hidden=false;	
 		document.getElementById("msg").hidden=false;
@@ -257,7 +256,8 @@ function displayAdvUI(mode){
 		//document.getElementById('box').hidden = true;	
 		//document.getElementById('saveMsg').hidden = true;
 	}
-	else if(mode=='n'){
+	else if(mode=='n'){		
+		abortFunc();
 		document.getElementById("reval").hidden=false; //Hide revaluation option
 		document.getElementById("normal").hidden=false;	
 		document.getElementById("advance").hidden=true;
@@ -278,7 +278,8 @@ function displayAdvUI(mode){
 }
 
 function fileImpUI()
-{
+{	
+	abortFunc();
 	document.getElementById("normalMenu").hidden=false;	
 	document.getElementById("advanced").hidden=false;
 	document.getElementById("fileImp").hidden=true;
@@ -317,9 +318,8 @@ function fileImpUI()
 	textbox.setAttribute("id", "filePath");
 
 	advUI.appendChild(msg);
-	advUI.appendChild(textbox);	
-	hbox.appendChild(button1);	
-	hbox.appendChild(spacer);
+	hbox.appendChild(textbox);	
+	hbox.appendChild(button1);
 	hbox.appendChild(button2);
 	advUI.appendChild(hbox);
 	resizeOnChange();
@@ -346,13 +346,18 @@ function checkFormat(str){
 
 //Result announcement
 function getMessage(){
+
+	abort.push("0");
 	let url = "http://results.vtu.ac.in";
 	var res = document.getElementById('resultId');
 	var vb = document.createElement("vbox");
 	vb.setAttribute("style", "border: #000000 solid 2px;");
-	let request = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Components.interfaces.nsIXMLHttpRequest);
-	request.onload = function(aEvent)
+
+	var index=abort.length-1;
+	abort[index] = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Components.interfaces.nsIXMLHttpRequest);
+	abort[index].onload = function(aEvent)
 	{	
+
 		var str = DOM(aEvent.target.responseText);
 		var all = $(str).find('td[width=513]').eq(0);
 		str = $(all).html();
@@ -371,24 +376,338 @@ function getMessage(){
 		resizeOnChange();
 	}; //request load end
 
-	request.onerror = function(aEvent) {
+	abort[index].onerror = function(aEvent) {
 	   //window.alert("Error Status: " + aEvent.target.status);
 	   document.getElementById('resultId').textContent = "Check Internet connection. Error status : "+ aEvent.target.status;
 	};
 
-	request.open("GET", url, true);
-	request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-	request.send();
+	abort[index].open("GET", url, true);
+	abort[index].setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	abort[index].send();
 }
 
-var strForTextI="";
+var rv=0;
+function fetchTable(str, usn)
+{
+	var all = $(str).find('td[width=513]').eq(0);
+		//alert(all);
+	var table = $(all).find('table');
+		
+		//return str;
+		//alert(aEvent.target.responseText);
+		//These lines tetch the table fields fron HTMLDocument object.
+	document.getElementById('resultId').textContent = '';
+
+	var aBox = document.getElementById("resultId");
+	var vbox = document.createElement("vbox");
+	vbox.setAttribute("pack", "center");
+	vbox.setAttribute("style", "border: #000000 solid 2px;");
+	aBox.appendChild(vbox);
+
+	var grid = document.createElement("grid");
+	grid.setAttribute("flex", "1");
+	var rows = document.createElement("rows");
+
+	var row1 = document.createElement("row");
+	var row2 = document.createElement("row");
+	var row3 = document.createElement("row");
+	var name1 = document.createElement("label");
+	var sem1 = document.createElement("label");
+	var status1 = document.createElement("label");
+	var totalt = document.createElement("label");
+
+	var all = $(str).find('td[width=513]').eq(0);
+	var table = $(all).find('table');
+	//alert(table);
+	if(($(table).eq(0).find("tr").eq(0).find('td').eq(3).text()).indexOf("FAIL") == -1){
+		//if(adv==1)	return 1;
+		grid.setAttribute("style", "background-color:"+passColor);		
+	}
+	else{
+		//if(adv==1)	return 0;
+		grid.setAttribute("style", "background-color:"+failColor);
+	}
+	pdfVar='<!DOCTYPE html><html><body><table><tr><td>name</td><td>total</td></tr>';
+	if(table.length==0){
+		document.getElementById('resultId').textContent = 'Results are not yet available for this university seat number or Wrong USN..';
+		document.getElementById('print').hidden=true;
+		document.getElementById('saveImsg').hidden=true;
+		resizeOnChange();
+	}
+	else
+	{
+		document.getElementById('print').hidden=false;
+		document.getElementById('saveImsg').hidden=true;
+		name1.setAttribute('value', "Name: "+getNameUsn($(all).find('B').eq(0).text()));
+		name1.setAttribute("style", "font-weight:bold;");
+		strForTextI += "Name: "+getNameUsn($(all).find('B').eq(0).text()) +"\n";
+		pdfVar+='<tr><td>'+$(all).find('B').eq(0).text()+'</td>';
+
+		var s=0;
+		if(rv==0){
+			s=getTotal(table);
+		}else{
+			for (var i = 3; i < table.length; i++){
+			 	//	alert($(table).eq(j).html());
+				var tr = $(table).eq(i).find("tr");
+				for (var j = 0; j < tr.length; j++){
+					var td = $(tr).eq(j).find('td');
+					s += Number($(td).eq(4).text());
+				}
+			}
+		}
+		totalt.setAttribute('value', "Total: "+s);
+		//alert(s);
+	}
+	strForTextI += "Total: "+s+"\n";
+   	pdfVar+='<td>'+s+'</td></tr></table><table><tr><td>Subject</td><td>External</td><td>Internal</td><td>Total</td><td>Result</td></tr><tr><td>Semester</td><td>';
+	totalt.setAttribute("style", "font-weight:bold");
+	status1.setAttribute('value', ""+$(table).eq(0).find("tr").eq(0).find('td').eq(3).text());
+	status1.setAttribute("style", "font-weight:bold");
+	var semPerc = "Semester:  "+$(table).eq(0).find("tr").eq(0).find('td').eq(1).text();
+	
+	strForTextI += $(table).eq(0).find("tr").eq(0).find('td').eq(3).text()+"\n";
+	strForTextI += "Semester: "+$(table).eq(0).find("tr").eq(0).find('td').eq(1).text()+"\n";
+	//pdfVar+=$(table).eq(0).find("tr").eq(0).find('td').eq(1).text()+'</td><td>';
+	//alert($(table).eq(0).find("tr").eq(0).find('td').eq(1).text());
+	
+	pdfVar+=$(table).eq(0).find("tr").eq(0).find('td').eq(1).text()+'</td><td>';
+	pdfVar+=$(table).eq(0).find("tr").eq(0).find('td').eq(3).find('b').text()+'</td></tr></table>';
+	var perc='';
+	var avg;
+	if((avg = findAvg(usn, s, $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())) != ''){
+		perc = "Percentage: "+avg+"%";
+	}
+	strForTextI += "Percentage: "+avg+"% \n\n";
+	//alert(perc);
+	sem1.setAttribute('value', semPerc+'   '+perc);
+	sem1.setAttribute("style", "font-weight:bold");
+	//alert(pdfVar);
+	vbox.appendChild(grid);
+	grid.appendChild(rows);
+	rows.appendChild(row1);
+	rows.appendChild(row2);
+	rows.appendChild(row3);
+	row1.appendChild(name1);
+	row2.appendChild(sem1);
+	row2.appendChild(totalt);
+	row2.appendChild(status1);
+
+	var sp = document.createElement("spacer");
+	sp.setAttribute("flex", "1");
+	vbox.appendChild(sp);
+	//alert(table.length);
+	var row11, lbl;
+	//alert(pdfVar);
+	if(rv == 0){
+		for (var i=1; i < table.length-1; i++){
+			pdfVar+='<table><tr><td>Subject</td><td>External</td><td>Internal</td><td>Total</td><td>Result</td></tr>';
+			var grid2 = document.createElement("grid");
+			grid2.setAttribute("flex", "1");
+			grid2.setAttribute("style", "border: #000000 solid 1px;");
+			vbox.appendChild(grid2);
+
+			var rows1 = document.createElement("rows");
+			grid2.appendChild(rows1);
+			//Store repeated subject codes
+			var scodes=[];
+			var tr = $(table).eq(i).find("tr");
+			for (var j = 0; j < tr.length; j++){
+			 	//To avoid repeated subjecs
+				if(getScode($(tr).eq(j).find('td').eq(0).text())!=""){
+					if(scodes.indexOf(getScode($(tr).eq(j).find('td').eq(0).text()))!=-1){
+						continue;
+					}
+					else{
+						scodes.push(getScode($(tr).eq(j).find('td').eq(0).text()));
+					}
+				}
+				//alert(scodes);
+				pdfVar+='<tr>';
+       			row11 = document.createElement("row");
+				if(j==0)
+					row11.setAttribute("style", "font-weight:bold; background-color:"+tableHead);
+				else
+					row11.setAttribute("style", "background-color:"+marksRow);
+
+				var td = $(tr).eq(j).find('td');
+				for (var k = 0; k < td.length; k++){
+					lbl = document.createElement("label");
+					if($(td).eq(k).text() != ""){
+						lbl.setAttribute("value", $(td).eq(k).text());
+						pdfVar+='<td>'+$(td).eq(k).text()+'</td>';
+						strForTextI += $(td).eq(k).text()+", ";
+					}
+					row11.appendChild(lbl);
+				}
+				strForTextI += "\n";
+				if(($(td).eq(4).text()).indexOf("F") > -1 || ($(td).eq(4).text()).indexOf("A") > -1)
+				{
+					row11.setAttribute("style", "background-color:"+failedSub+"; color:red");
+				}
+				if(($(td).eq(3).text()).indexOf("FAIL") > -1)
+					row11.setAttribute("style", "background-color:"+failColor+";");
+				else if(($(td).eq(3).text()).indexOf("CLASS") > -1 || ($(td).eq(3).text()).indexOf("PASS") > -1)
+					row11.setAttribute("style", "background-color:"+passColor+";");
+
+				rows1.appendChild(row11);
+				pdfVar+='</tr>';
+			}
+			pdfVar+='</table>';
+		}
+	}else{
+		var grid2 = document.createElement("grid");
+		grid2.setAttribute("flex", "1");
+		grid2.setAttribute("style", "border: #000000 solid 1px;");
+		vbox.appendChild(grid2);
+
+		var row11;
+		var rows1 = document.createElement("rows");
+		var heads = ['Subject', 'Ext Old', 'Ext New', 'Internal', 'Total', 'Result'];
+		grid2.appendChild(rows1);
+		row11 = document.createElement("row");
+		row11.setAttribute("style", "font-weight:bold; background-color:"+tableHead);
+		for(i=0; i<heads.length;i++){
+			lbl = document.createElement("label");
+			lbl.setAttribute("value", heads[i]);
+			row11.appendChild(lbl);
+		}
+
+		rows1.appendChild(row11);
+		//TODO create table head in the above for-loop .. Find why these two lines.
+		pdfVar+='<table><tr><td>Subject</td><td>Ext Old</td><td>Ext New</td><td>Internal</td><td>Total</td><td>Result</td></tr>';
+		pdfVar+='<tr><td>Subject</td><td>Ext Old</td><td>Ext New</td><td>Internal</td><td>Total</td><td>Result</td></tr>';
+		//alert(table.length);
+		var prv=0;
+		for(var i=3; i < table.length; i++)
+		{			
+			row11 = document.createElement("row");
+			var tr = $(table).eq(i).find("tr");
+			//alert(tr.html());
+			//Check if new sem is met
+			if($(tr).eq(0).find('td').eq(0).text().indexOf("Subject")!=-1 || $(tr).eq(0).find('td').eq(0).text().indexOf("Old")!=-1 || $(tr).eq(0).find('td').eq(0).text().indexOf("External")!=-1)
+			{
+				if(prv==0)
+				{ 
+					pdfVar += "</tr></table><table><tr><td>Subject</td><td>Ext Old</td><td>Ext New</td><td>Internal</td><td>Total</td><td>Result</td></tr><tr>";
+				}
+			}
+			else {
+				pdfVar+='<tr>';
+				prv=1;
+			}
+
+				//Skip unwanted rows. If new sem in revaluation
+			if($(tr).eq(0).find('td').eq(0).text().indexOf("Subject")!=-1 || $(tr).eq(0).find('td').eq(0).text().indexOf("Old")!=-1 || $(tr).eq(0).find('td').eq(0).text().indexOf("External")!=-1)
+			{ 
+				continue;  
+			}
+			for (var j = 0; j < tr.length; j++){
+			//alert($(tr).eq(j).find('td').eq(0).text());
+				var semSet=0;
+				if($(tr).eq(j).find('td').eq(0).text().indexOf("Semester")!=-1){
+					pdfVar += "</table><table><tr><td>Subject</td><td>Ext Old</td><td>Ext New</td><td>Internal</td><td>Total</td><td>Result</td></tr><tr><td>Semester:</td>";semSet=1;
+				} 
+				var td = $(tr).eq(j).find('td');
+				for (var k = 0; k < td.length; k++){
+					lbl = document.createElement("label");
+					if($(td).eq(k).text() != ""){
+						//alert($(td).eq(k).text());
+						lbl.setAttribute("value", $(td).eq(k).text());
+						pdfVar+='<td>'+$(td).eq(k).text()+'</td>';
+						strForTextI += $(td).eq(k).text()+", ";
+					}
+					row11.appendChild(lbl);
+				}
+				strForTextI += "\n";
+				//alert(pdfVar);
+				if(($(td).eq(5).text()).indexOf("F") > -1 || ($(td).eq(5).text()).indexOf("A") > -1)//Absent and Fail
+				{
+					row11.setAttribute("style", "background-color:"+failedSub+"; color:red");
+				}
+				else
+					row11.setAttribute("style", "background-color:#F5F7CB;");
+		
+				if(semSet==1)
+				{ // If new sem in revaluation met, then check for fail or pass to set color 
+					if(($(td).eq(3).text()).indexOf("FAIL") > -1)
+						row11.setAttribute("style", "background-color:"+failColor+";");
+					else if(($(td).eq(3).text()).indexOf("CLASS") > -1 || ($(td).eq(3).text()).indexOf("PASS") > -1)
+						row11.setAttribute("style", "background-color:"+passColor+";");
+					
+					pdfVar+="</tr></table><table><tr><td>Subject</td><td>Ext Old</td><td>Ext New</td><td>Internal</td><td>Total</td><td>Result</td></tr><tr><td>Subject</td><td>Ext Old</td><td>Ext New</td><td>Internal</td><td>Total</td><td>Result</td></tr>";
+				}
+				else if(prv == 1){
+					pdfVar+='</tr>';
+				}
+			}
+			rows1.appendChild(row11);
+		}
+		pdfVar+='</table>';
+	}
+	rv=0;
+}
+
+function fetchTableAdv(str, usn){
+	strForTextI+="\n\n";
+	var all = $(str).find('td[width=513]').eq(0);
+	var s=0;
+		//alert(all);
+	var table = $(all).find('table');
+	var all = $(str).find('td[width=513]').eq(0);
+	var table = $(all).find('table');
+	
+	if(table.length==0){
+	}
+	else
+	{
+		strForTextI += "Name: "+getNameUsn($(all).find('B').eq(0).text()) +"\n";
+		s=0;
+		s=getTotal(table);
+	}
+
+	strForTextI += "Total: "+s+"\n";
+	strForTextI += $(table).eq(0).find("tr").eq(0).find('td').eq(3).text()+"\n";
+	strForTextI += "Semester: "+$(table).eq(0).find("tr").eq(0).find('td').eq(1).text()+"\n";
+
+	var perc='';
+	var avg;
+	if((avg = findAvg(usn, s, $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())) != ''){
+		perc = "Percentage: "+avg+"%";
+	}
+	strForTextI += "Percentage: "+avg+"% \n\n";
+
+	for (var i=1; i < table.length-1; i++){
+		//Store repeated subject codes
+		var scodes=[];
+		var tr = $(table).eq(i).find("tr");
+		for (var j = 0; j < tr.length; j++){
+		 	//To avoid repeated subjecs
+			if(getScode($(tr).eq(j).find('td').eq(0).text())!=""){
+				if(scodes.indexOf(getScode($(tr).eq(j).find('td').eq(0).text()))!=-1){
+					continue;
+				}
+				else{
+					scodes.push(getScode($(tr).eq(j).find('td').eq(0).text()));
+				}
+			}
+			var td = $(tr).eq(j).find('td');
+			for (var k = 0; k < td.length; k++){
+				if($(td).eq(k).text() != ""){
+					strForTextI += $(td).eq(k).text()+", ";
+				}
+			}
+			strForTextI += "\n";
+		}
+	}
+	return strForTextI;
+}
+
 // Function to do all the processing. Resquest and Display result.
 function openResult(usn){
 	
 	//Color codes
 	strForTextI="";
-	var passColor='#087F38', failColor='#E30F17' ;
-	var marksRow ='#F0FFF0', tableHead='#90B890', failedSub='#FFCCCC';
 	
 	document.getElementById('print').hidden=true;
 	document.getElementById('saveImsg').hidden=true;
@@ -418,14 +737,14 @@ function openResult(usn){
 	place.appendChild(phbox);
 	resizeOnChange();
 
-	  let url, rv=0;
+	  let url;
 	  var rg = document.getElementById("reval");
 	  if(rg.checked){
 		rv=1;
 		url = "http://results.vtu.ac.in/vitavireval.php";
 	  }
 	  else{
-			url = "http://results.vtu.ac.in/vitavi.php";
+		url = "http://results.vtu.ac.in/vitavi.php";
 	  }
 
 	let request = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Components.interfaces.nsIXMLHttpRequest);
@@ -433,279 +752,9 @@ function openResult(usn){
 	{	
 		//Call to DOM function.. To convert string to HTMLDocument object.
 		var str = DOM(aEvent.target.responseText);
-		var all = $(str).find('td[width=513]').eq(0);
-		//alert(all);
-		var table = $(all).find('table');
-		
-		//return str;
-		//alert(aEvent.target.responseText);
-		//These lines tetch the table fields fron HTMLDocument object.
-		document.getElementById('resultId').textContent = '';
+		fetchTable(str, usn);	
 
-		var aBox = document.getElementById("resultId");
-		var vbox = document.createElement("vbox");
-		vbox.setAttribute("pack", "center");
-		vbox.setAttribute("style", "border: #000000 solid 2px;");
-		aBox.appendChild(vbox);
-
-		var grid = document.createElement("grid");
-		grid.setAttribute("flex", "1");
-
-		var rows = document.createElement("rows");
-
-		var row1 = document.createElement("row");
-		var row2 = document.createElement("row");
-		var row3 = document.createElement("row");
-
-		var name1 = document.createElement("label");
-		var sem1 = document.createElement("label");
-		var status1 = document.createElement("label");
-		var totalt = document.createElement("label");
-
-		var all = $(str).find('td[width=513]').eq(0);
-		var table = $(all).find('table');
-		//alert(table);
-		if(($(table).eq(0).find("tr").eq(0).find('td').eq(3).text()).indexOf("FAIL") == -1){
-			//if(adv==1)	return 1;
-			grid.setAttribute("style", "background-color:"+passColor);		
-		}
-		else{
-			//if(adv==1)	return 0;
-			grid.setAttribute("style", "background-color:"+failColor);
-		}
-
-		pdfVar='<!DOCTYPE html><html><body><table><tr><td>name</td><td>total</td></tr>';
-
-		if(table.length==0){
-			document.getElementById('resultId').textContent = 'Results are not yet available for this university seat number or Wrong USN..';
-			document.getElementById('print').hidden=true;
-			document.getElementById('saveImsg').hidden=true;
-			resizeOnChange();
-		}
-		else
-		{
-			
-			document.getElementById('print').hidden=false;
-			document.getElementById('saveImsg').hidden=true;
-			name1.setAttribute('value', "Name: "+getNameUsn($(all).find('B').eq(0).text()));
-			name1.setAttribute("style", "font-weight:bold;");
-
-			strForTextI += "Name: "+getNameUsn($(all).find('B').eq(0).text()) +"\n";
-			pdfVar+='<tr><td>'+$(all).find('B').eq(0).text()+'</td>';
-
-			var s=0;
-			if(rv==0){
-				s=getTotal(table);
-			}else{
-				for (var i = 3; i < table.length; i++){
-				 	//	alert($(table).eq(j).html());
-					var tr = $(table).eq(i).find("tr");
-					for (var j = 0; j < tr.length; j++){
-						var td = $(tr).eq(j).find('td');
-						s += Number($(td).eq(4).text());
-					}
-				}
-			}
-			totalt.setAttribute('value', "Total: "+s);
-			//alert(s);
-		}
-		strForTextI += "Total: "+s+"\n";
-    	pdfVar+='<td>'+s+'</td></tr></table><table><tr><td>Subject</td><td>External</td><td>Internal</td><td>Total</td><td>Result</td></tr><tr><td>Semester</td><td>';
-
-		totalt.setAttribute("style", "font-weight:bold");
-		status1.setAttribute('value', ""+$(table).eq(0).find("tr").eq(0).find('td').eq(3).text());
-		status1.setAttribute("style", "font-weight:bold");
-		var semPerc = "Semester:  "+$(table).eq(0).find("tr").eq(0).find('td').eq(1).text();
-		
-		strForTextI += $(table).eq(0).find("tr").eq(0).find('td').eq(3).text()+"\n";
-		strForTextI += "Semester: "+$(table).eq(0).find("tr").eq(0).find('td').eq(1).text()+"\n";
-		//pdfVar+=$(table).eq(0).find("tr").eq(0).find('td').eq(1).text()+'</td><td>';
-		//alert($(table).eq(0).find("tr").eq(0).find('td').eq(1).text());
-		
-		pdfVar+=$(table).eq(0).find("tr").eq(0).find('td').eq(1).text()+'</td><td>';
-		pdfVar+=$(table).eq(0).find("tr").eq(0).find('td').eq(3).find('b').text()+'</td></tr></table>';
-
-		var perc='';
-		var avg;
-		if((avg = findAvg(usn, s, $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())) != ''){
-			perc = "Percentage: "+avg+"%";
-		}
-		strForTextI += "Percentage: "+avg+"% \n\n";
-		//alert(perc);
-		sem1.setAttribute('value', semPerc+'   '+perc);
-		sem1.setAttribute("style", "font-weight:bold");
-		//alert(pdfVar);
-		vbox.appendChild(grid);
-		grid.appendChild(rows);
-		rows.appendChild(row1);
-		rows.appendChild(row2);
-		rows.appendChild(row3);
-		row1.appendChild(name1);
-		row2.appendChild(sem1);
-		row2.appendChild(totalt);
-		row2.appendChild(status1);
-
-		var sp = document.createElement("spacer");
-		sp.setAttribute("flex", "1");
-		vbox.appendChild(sp);
-		//alert(table.length);
-		var row11, lbl;
-//alert(pdfVar);
-		if(rv == 0){
-			for (var i=1; i < table.length-1; i++){
-				pdfVar+='<table><tr><td>Subject</td><td>External</td><td>Internal</td><td>Total</td><td>Result</td></tr>';
-				var grid2 = document.createElement("grid");
-				grid2.setAttribute("flex", "1");
-				grid2.setAttribute("style", "border: #000000 solid 1px;");
-				vbox.appendChild(grid2);
-
-				var rows1 = document.createElement("rows");
-				grid2.appendChild(rows1);
-				//Store repeated subject codes
-				var scodes=[];
-				var tr = $(table).eq(i).find("tr");
-				for (var j = 0; j < tr.length; j++){
-
-				 	//To avoid repeated subjecs
-					if(getScode($(tr).eq(j).find('td').eq(0).text())!=""){
-						if(scodes.indexOf(getScode($(tr).eq(j).find('td').eq(0).text()))!=-1){
-							continue;
-						}
-						else{
-							scodes.push(getScode($(tr).eq(j).find('td').eq(0).text()));
-						}
-					}
-					//alert(scodes);
-					pdfVar+='<tr>';
-          			row11 = document.createElement("row");
-					if(j==0)
-						row11.setAttribute("style", "font-weight:bold; background-color:"+tableHead);
-					else
-						row11.setAttribute("style", "background-color:"+marksRow);
-
-					var td = $(tr).eq(j).find('td');
-					for (var k = 0; k < td.length; k++){
-						lbl = document.createElement("label");
-						if($(td).eq(k).text() != ""){
-							lbl.setAttribute("value", $(td).eq(k).text());
-							pdfVar+='<td>'+$(td).eq(k).text()+'</td>';
-							strForTextI += $(td).eq(k).text()+", ";
-						}
-						row11.appendChild(lbl);
-					}
-					strForTextI += "\n";
-					if(($(td).eq(4).text()).indexOf("F") > -1 || ($(td).eq(4).text()).indexOf("A") > -1)
-					{
-						row11.setAttribute("style", "background-color:"+failedSub+"; color:red");
-					}
-
-					if(($(td).eq(3).text()).indexOf("FAIL") > -1)
-						row11.setAttribute("style", "background-color:"+failColor+";");
-					else if(($(td).eq(3).text()).indexOf("CLASS") > -1 || ($(td).eq(3).text()).indexOf("PASS") > -1)
-						row11.setAttribute("style", "background-color:"+passColor+";");
-
-					rows1.appendChild(row11);
-					pdfVar+='</tr>';
-				}
-				pdfVar+='</table>';
-			}
-		}else{
-			var grid2 = document.createElement("grid");
-			grid2.setAttribute("flex", "1");
-			grid2.setAttribute("style", "border: #000000 solid 1px;");
-			vbox.appendChild(grid2);
-
-			var row11;
-			var rows1 = document.createElement("rows");
-			var heads = ['Subject', 'Ext Old', 'Ext New', 'Internal', 'Total', 'Result'];
-			grid2.appendChild(rows1);
-
-			row11 = document.createElement("row");
-			row11.setAttribute("style", "font-weight:bold; background-color:"+tableHead);
-
-			for(i=0; i<heads.length;i++){
-				lbl = document.createElement("label");
-				lbl.setAttribute("value", heads[i]);
-				row11.appendChild(lbl);
-			}
-
-			rows1.appendChild(row11);
-			//TODO create table head in the above for-loop .. Find why these two lines.
-			pdfVar+='<table><tr><td>Subject</td><td>Ext Old</td><td>Ext New</td><td>Internal</td><td>Total</td><td>Result</td></tr>';
-			pdfVar+='<tr><td>Subject</td><td>Ext Old</td><td>Ext New</td><td>Internal</td><td>Total</td><td>Result</td></tr>';
-			//alert(table.length);
-			var prv=0;
-			for(var i=3; i < table.length; i++){
-				
-				row11 = document.createElement("row");
-				var tr = $(table).eq(i).find("tr");
-				//alert(tr.html());
-				//Check if new sem is met
-				if($(tr).eq(0).find('td').eq(0).text().indexOf("Subject")!=-1 || $(tr).eq(0).find('td').eq(0).text().indexOf("Old")!=-1 || $(tr).eq(0).find('td').eq(0).text().indexOf("External")!=-1)
-				{
-					if(prv==0)
-					{ 
-						pdfVar += "</tr></table><table><tr><td>Subject</td><td>Ext Old</td><td>Ext New</td><td>Internal</td><td>Total</td><td>Result</td></tr><tr>";
-					}
-				}
-				else {
-					pdfVar+='<tr>';
-					prv=1;
-				}
-
-				//Skip unwanted rows. If new sem in revaluation
-				if($(tr).eq(0).find('td').eq(0).text().indexOf("Subject")!=-1 || $(tr).eq(0).find('td').eq(0).text().indexOf("Old")!=-1 || $(tr).eq(0).find('td').eq(0).text().indexOf("External")!=-1)
-				{ 
-					continue;  
-				}
-
-				for (var j = 0; j < tr.length; j++){
-				//alert($(tr).eq(j).find('td').eq(0).text());
-					var semSet=0;
-					if($(tr).eq(j).find('td').eq(0).text().indexOf("Semester")!=-1){
-						pdfVar += "</table><table><tr><td>Subject</td><td>Ext Old</td><td>Ext New</td><td>Internal</td><td>Total</td><td>Result</td></tr><tr><td>Semester:</td>";semSet=1;
-					} 
-
-					var td = $(tr).eq(j).find('td');
-					for (var k = 0; k < td.length; k++){
-						lbl = document.createElement("label");
-						if($(td).eq(k).text() != ""){
-							//alert($(td).eq(k).text());
-							lbl.setAttribute("value", $(td).eq(k).text());
-							pdfVar+='<td>'+$(td).eq(k).text()+'</td>';
-							strForTextI += $(td).eq(k).text()+", ";
-						}
-						row11.appendChild(lbl);
-					}
-					strForTextI += "\n";
-					//alert(pdfVar);
-					if(($(td).eq(5).text()).indexOf("F") > -1 || ($(td).eq(5).text()).indexOf("A") > -1)//Absent and Fail
-					{
-						row11.setAttribute("style", "background-color:"+failedSub+"; color:red");
-					}
-					else
-						row11.setAttribute("style", "background-color:#F5F7CB;");
-			
-					if(semSet==1)
-					{ // If new sem in revaluation met, then check for fail or pass to set color 
-						if(($(td).eq(3).text()).indexOf("FAIL") > -1)
-							row11.setAttribute("style", "background-color:"+failColor+";");
-						else if(($(td).eq(3).text()).indexOf("CLASS") > -1 || ($(td).eq(3).text()).indexOf("PASS") > -1)
-							row11.setAttribute("style", "background-color:"+passColor+";");
-						
-						pdfVar+="</tr></table><table><tr><td>Subject</td><td>Ext Old</td><td>Ext New</td><td>Internal</td><td>Total</td><td>Result</td></tr><tr><td>Subject</td><td>Ext Old</td><td>Ext New</td><td>Internal</td><td>Total</td><td>Result</td></tr>";}
-					else if(prv == 1){pdfVar+='</tr>';}
-				}
-				rows1.appendChild(row11);
-			}
-			pdfVar+='</table>';
-		}
-
-		pdfVar+='</body></html>';
-		//alert(pdfVar);
-		//pdfVar = DOM(pdfVar);
 		resizeOnChange();
-
 	}; //request load end
 
 	request.onerror = function(aEvent) {

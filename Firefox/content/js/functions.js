@@ -2,6 +2,33 @@
 	Functions
 */
 
+//Global variables
+
+// nsIHTTPRequest references.
+var abort=[];
+
+// File write string
+var strForText="";  // Adv
+var strForTextI=""; // Normal
+
+// Result table detail count line p->PASS f->FAIL ..
+var p=0,f=0,t=0, fcd=0, ab=0, fc=0, sc=0, total_sub=0;
+
+// If subjects already read or not in advanced search
+var staken=0;
+
+// Subject code list. Used as ID for labels
+var scodes=[];
+
+// pdf Write. Not used yet
+var pdfVar;
+
+//
+var advancedGoingOn=0;
+//Color
+var passColor='#087F38', failColor='#E30F17' ;
+var marksRow ='#F0FFF0', tableHead='#90B890', failedSub='#FFCCCC';
+
 function readFile()
 {
 	resizeOnChange();
@@ -113,5 +140,16 @@ function findAvg(usn, total, sem){
 // Returns : SUBJECTCODE
 function getScode(sub_name_code){
 	return  sub_name_code.substring(sub_name_code.indexOf('(')+1, sub_name_code.indexOf(')'));
+}
+
+//Abort on switching
+function abortFunc(){
+	var len;	
+	len=abort.length;
+	if(len!=0){
+		for(var i=0; i<len; i++)
+			abort[i].abort();
+		abort=[];
+	}
 }
 

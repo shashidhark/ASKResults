@@ -10,7 +10,6 @@
 |
 |===============================================================================
 */
-var strForText="";
 
 function DOM(string){
  	const Cc = Components.classes;
@@ -52,63 +51,101 @@ function getTotal(table){
 	return s;
 }
 
-var p=0,f=0,t=0, fcd=0, ab=0, fc=0, sc=0, totla_sub=0;
-var  staken=0;
-
 function getSubjects(str){
 	staken=1;
-	var row11, subl;
+	var row11, subl, scode;
 	var rows1 = document.getElementById("subRow");
 	var tr = $(str).eq(1).find("tr");
 	for (var j = 1; j < tr.length; j++){
 		var td = $(tr).eq(j).find('td');
+		scode = getScode($(td).eq(0).text());
+		scodes.push(scode);
 		row11 = document.createElement("row");
 		subl  = document.createElement("label");
 		subl.setAttribute("value", "Loading..");
-		subl.setAttribute("id", "sub"+j);	
+		subl.setAttribute("id", "sub"+scode);	
 		row11.appendChild(subl);
 
 		subl = document.createElement("label");	
 		subl.setAttribute("value", "0");
-		subl.setAttribute("id", "subP"+j);
+		subl.setAttribute("id", "subP"+scode);
 		subl.setAttribute("style", "color:green");
 		row11.appendChild(subl);
 		
 		subl = document.createElement("label");	
 		subl.setAttribute("value", "0");
-		subl.setAttribute("id", "subF"+j);
+		subl.setAttribute("id", "subF"+scode);
 		subl.setAttribute("style", "color:red");
 		row11.appendChild(subl);
 		
 		subl = document.createElement("label");	
 		subl.setAttribute("value", "0");
-		subl.setAttribute("id", "subA"+j);
+		subl.setAttribute("id", "subA"+scode);
 		subl.setAttribute("style", "color:yellow");
 		row11.appendChild(subl);
 
 		subl = document.createElement("label");	
 		subl.setAttribute("value", "0%");
-		subl.setAttribute("id", "subPerc"+j);
+		subl.setAttribute("id", "subPerc"+scode);
 		subl.setAttribute("style", "color:blue");
 		row11.appendChild(subl);
 
 		rows1.appendChild(row11);
-		document.getElementById("sub"+j).setAttribute("value", $(td).eq(0).text());
+		document.getElementById("sub"+scode).setAttribute("value", $(td).eq(0).text());
 	}
-	totla_sub=(tr.length)-1;
+	total_sub=(tr.length)-1;
+}
+
+function writeToFileIndividual()
+{
+	var data=strForTextI;
+	// Get profile directory.
+	Components.utils.import("resource://gre/modules/FileUtils.jsm");
+	Components.utils.import("resource://gre/modules/NetUtil.jsm");
+	var file = Components.classes["@mozilla.org/file/local;1"].
+		       createInstance(Components.interfaces.nsILocalFile);
+	var file = FileUtils.getFile("DfltDwnld", ["Individual_VTUResult_ASKResults.csv"]);
+
+	// You can also optionally pass a flags parameter here. It defaults to
+	// FileUtils.MODE_WRONLY | FileUtils.MODE_CREATE | FileUtils.MODE_TRUNCATE;
+	var ostream = FileUtils.openSafeFileOutputStream(file);
+
+	var converter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].
+		            createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
+	converter.charset = "UTF-8";
+	var istream = converter.convertToInputStream(data);
+
+	// The last argument (the callback) is optional.
+	NetUtil.asyncCopy(istream, ostream, function(status) {
+	  if (!Components.isSuccessCode(status)) {
+		// Handle error!
+		return;
+	  }
+
+	  // Data has been written to the file.
+	});
+
+	if(advancedGoingOn==1){
+		document.getElementById('saveImsg').hidden=true;
+		document.getElementById('print').hidden=true;
+	}
+	else{
+		document.getElementById('saveImsg').hidden=false;
+		document.getElementById('print').hidden=true;
+	}
 }
 
 function writeToFile(data)
 {
 	data += "\n";	
 	data += "Subjects,Passed,Failed,Absent,Percentage\n"
-	for (var j = 1; j <= totla_sub; j++){
-		data += document.getElementById("sub"+j).value+",";
-		data += document.getElementById("subP"+j).value+",";		
-		data += document.getElementById("subF"+j).value+","
-		data += document.getElementById("subA"+j).value+",";
-		var abVal = parseInt(document.getElementById("subA"+j).value);
-		data += ((parseInt(document.getElementById("subP"+j).value)/(p+f-abVal))*100).toFixed(2)+"%" +"\n";
+	for (var j = 1; j <= total_sub; j++){
+		data += document.getElementById("sub"+scodes[j-1]).value+",";
+		data += document.getElementById("subP"+scodes[j-1]).value+",";		
+		data += document.getElementById("subF"+scodes[j-1]).value+","
+		data += document.getElementById("subA"+scodes[j-1]).value+",";
+		var abVal = parseInt(document.getElementById("subA"+scodes[j-1]).value);
+		data += ((parseInt(document.getElementById("subP"+scodes[j-1]).value)/(p+f-abVal))*100).toFixed(2)+"%" +"\n";
 	}
 	data += "\n";
 	data += "Passed: "+p+" , Failed: "+f+", Absent:"+ab+", Percentage: "+((p/(p+f))*100).toFixed(2)+"%"+", Total: "+(p+f)+"\n";	
@@ -142,38 +179,7 @@ function writeToFile(data)
 	//document.getElementById('saveMsg').hidden = false;saveAdvButton
 	document.getElementById("saveAdvButton").hidden=true;
 	document.getElementById("noti").hidden=false;
-}
-
-function writeToFile1()
-{
-	var data=strForTextI;
-	// Get profile directory.
-	Components.utils.import("resource://gre/modules/FileUtils.jsm");
-	Components.utils.import("resource://gre/modules/NetUtil.jsm");
-	var file = Components.classes["@mozilla.org/file/local;1"].
-		       createInstance(Components.interfaces.nsILocalFile);
-	var file = FileUtils.getFile("DfltDwnld", ["Individual_VTUResult_ASKResults.csv"]);
-
-	// You can also optionally pass a flags parameter here. It defaults to
-	// FileUtils.MODE_WRONLY | FileUtils.MODE_CREATE | FileUtils.MODE_TRUNCATE;
-	var ostream = FileUtils.openSafeFileOutputStream(file);
-
-	var converter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].
-		            createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
-	converter.charset = "UTF-8";
-	var istream = converter.convertToInputStream(data);
-
-	// The last argument (the callback) is optional.
-	NetUtil.asyncCopy(istream, ostream, function(status) {
-	  if (!Components.isSuccessCode(status)) {
-		// Handle error!
-		return;
-	  }
-
-	  // Data has been written to the file.
-	});
-	document.getElementById('saveImsg').hidden=false;
-	document.getElementById('print').hidden=true;
+	writeToFileIndividual();
 }
 
 function incFail(){	
@@ -211,31 +217,34 @@ function getFailedSubjects(str){
 }
 
 function getSubjectsStatus(str){
-	var s="", v=0;
+	var s="", v=0, scode="";
 	var tr = $(str).eq(1).find("tr");
 	//alert(str);
-	for (var j = 1; j < tr.length; j++){
+	for (var j = 1; j < tr.length; j++)
+	{
 		var td = $(tr).eq(j).find('td');
+		scode = getScode($(td).eq(0).text());
+	
 		if(($(td).eq(4).text()).indexOf("P") > -1){
-			v=parseInt(document.getElementById("subP"+j).value);
+			v=parseInt(document.getElementById("subP"+scode).value);
 			v++;
-			document.getElementById("subP"+j).setAttribute("value", v);
+			document.getElementById("subP"+scode).setAttribute("value", v);
 		}
 		else if(($(td).eq(4).text()).indexOf("F") > -1){	
-			v=parseInt(document.getElementById("subF"+j).value);
+			v=parseInt(document.getElementById("subF"+scode).value);
 			v++;
-			document.getElementById("subF"+j).setAttribute("value", v);
+			document.getElementById("subF"+scode).setAttribute("value", v);
 		}
 		else if(($(td).eq(4).text()).indexOf("A") > -1){
-			v=parseInt(document.getElementById("subA"+j).value);
+			v=parseInt(document.getElementById("subA"+scode).value);
 			v++;
-			document.getElementById("subA"+j).setAttribute("value", v);
+			document.getElementById("subA"+scode).setAttribute("value", v);
 			ab++;
 		}	
 		//alert(document.getElementById("subP"+j).value+" "+(p+f)+" "+parseInt(document.getElementById("subP"+j).value)/(p+f))*100).toFixed(2)+"%");
 		//alert((p+f)+" "+(parseInt(document.getElementById("subP"+j).value))+" "+((parseInt(document.getElementById("subP"+j).value)/(p+f))*100).toFixed(2)+"%");
-		var abVal = parseInt(document.getElementById("subA"+j).value);
-		document.getElementById("subPerc"+j).setAttribute("value", ((parseInt(document.getElementById("subP"+j).value)/(p+f-abVal))*100).toFixed(2)+"%");
+		var abVal = parseInt(document.getElementById("subA"+scode).value);
+		document.getElementById("subPerc"+scode).setAttribute("value", ((parseInt(document.getElementById("subP"+scode).value)/(p+f-abVal))*100).toFixed(2)+"%");
 	}
 }
 
@@ -252,9 +261,6 @@ function incClass(s){
 	else if(s == 'RSC')
 		sc++;
 }
-
-var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-                        .getService(Components.interfaces.nsIPromptService);
 
 function openAdvResult(usn){
 	
@@ -273,8 +279,9 @@ function openAdvResult(usn){
 	document.getElementById("noti").hidden=true;
 	resizeOnChange();
 
-	let request = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Components.interfaces.nsIXMLHttpRequest);
-	request.onload = function(aEvent)
+	var index=abort.length-1;
+	abort[index] = Components.classes["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Components.interfaces.nsIXMLHttpRequest);
+	abort[index].onload = function(aEvent)
 	{		
 		document.getElementById("saveAdvButton").hidden=false;
 		document.getElementById("noti").hidden=true;
@@ -295,7 +302,7 @@ function openAdvResult(usn){
 				name1 = getName($(all).find('B').eq(0).text());
 				strForText += name1+" , ";
 
-				document.getElementById("perc"+usn).setAttribute("label", findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())+"%");
+		document.getElementById("perc"+usn).setAttribute("label", parseFloat(findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())));
 				strForText += findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())+" , ";
 
 				if(staken==0)
@@ -315,8 +322,8 @@ function openAdvResult(usn){
 					incFail();									
 					fs = getFailedSubjects(table);
 					strForText += fs.replace('|', ' ')+"\n";
-					document.getElementById("stat"+usn).setAttribute("onselect", "prompts.alert(null,'failed','Failed in: "+fs+"');");
-					document.getElementById("stat"+usn).setAttribute("property", "fail");
+					//document.getElementById("stat"+usn).setAttribute("onselect", "prompts.alert(null,'failed','Failed in: "+fs+"');");
+					//document.getElementById("stat"+usn).setAttribute("property", "fail");
 				}				
 				getSubjectsStatus(table);
 			}
@@ -332,28 +339,36 @@ function openAdvResult(usn){
 			t--;
 			document.getElementById("perc"+usn).setAttribute("label", "---");
 			document.getElementById("stat"+usn).setAttribute("label", "---");
-		}
+		}	
 		updatePerc();
+		
+		fetchTableAdv(str, usn);
 		//resizeOnChange();
 	}; //request load end
 
-	request.onerror = function(aEvent) {
+	abort[index].onerror = function(aEvent) {
 	   //alert(aEvent.target.status);
 	   document.getElementById("resultId").textContent = "Check Internet connection. Error status : "+ aEvent.target.status;
 	   resizeOnChange();
 	};
 
-	request.open("POST", url, true);
-	request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-	request.send("rid="+usn+"&submit=SUBMIT");
+	abort[index].open("POST", url, true);
+	abort[index].setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	abort[index].send("rid="+usn+"&submit=SUBMIT");
 }
 
-function advancedSearch(usnList){
+function advancedSearch(usnList)
+{
+	strForTextI="";
+	advancedGoingOn=1;
 	p=0,t=0,f=0, fcd=0, ab=0, fc=0, sc=0, staken=0;
+	scodes=[];
 	var status=1, row, label0, lpass, lfail, vpass, vfail, vtotal, total, result;
-	var vresult, hb, hbx, saveButton, vbx, bx,fcdv, fcv,fcdv1, fcv1, scv, scv1, noti;
+	var vresult, hb, hbx, saveButton, vbx, bx,fcdv, fcv,fcdv1, fcv1, scv, scv1, noti,spacer;
 	strForText = "";
 	document.getElementById('resultId').textContent = '';
+
+	abortFunc();
 
 	var resultId= document.getElementById("resultId");
 	bx 	= document.createElement("vbox");
@@ -391,7 +406,7 @@ function advancedSearch(usnList){
 	vpass 	= document.createElement("label");
 	vfail 	= document.createElement("label");
 	result 	= document.createElement("label");
-	vresult 	= document.createElement("label");
+	vresult = document.createElement("label");
 	total 	= document.createElement("label");
 	vtotal 	= document.createElement("label");	
 
@@ -399,6 +414,8 @@ function advancedSearch(usnList){
 	//noti.setAttribute('style', 'color:blue');
 	hb = document.createElement("description");
 	hb.setAttribute("id", "sb");
+	spacer = document.createElement("spacer");
+	spacer.setAttribute("flex", "1");
 	label0 	= document.createElement("label");
 	label0.setAttribute("value", "Saved to Download folder");
 	label0.setAttribute("id", "noti");
@@ -407,6 +424,7 @@ function advancedSearch(usnList){
 	saveButton.setAttribute("id", "saveAdvButton");
 	saveButton.setAttribute("class", "loadButton");
 	saveButton.setAttribute("onclick", "writeToFile(strForText);");
+	hb.appendChild(spacer);
 	hb.appendChild(saveButton);
 	hb.appendChild(label0);
 	
@@ -519,9 +537,11 @@ function advancedSearch(usnList){
 	splitter = document.createElement("splitter");
 	splitter.setAttribute("class", "tree-splitter");
 	treecols.appendChild(splitter);
+
 	treecol = document.createElement("treecol");
 	treecol.setAttribute("label", "Percentage");
 	treecol.setAttribute("flex", "1");
+	treecol.setAttribute("id", "percentage");
 	treecols.appendChild(treecol);
 	splitter = document.createElement("splitter");
 	splitter.setAttribute("class", "tree-splitter");
@@ -568,6 +588,7 @@ function advancedSearch(usnList){
 		treeitem.appendChild(treerow);
 		treechildren.appendChild(treeitem);
 	}
+
 	tree.appendChild(treechildren);	
 	bx.appendChild(hb);
 	resultId.appendChild(bx);
@@ -576,6 +597,7 @@ function advancedSearch(usnList){
 	document.getElementById("noti").hidden=true;
 	for(u=0; u<usnList.length; u++)
 	{	
+		abort.push("0");
 		openAdvResult(usnList[u]);
 	}	
 }
