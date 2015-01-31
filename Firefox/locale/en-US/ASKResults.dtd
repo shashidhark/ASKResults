@@ -1,4 +1,5 @@
-<!ENTITY askresults.version "Version 0.7">
+<!ENTITY askresults.version "Version">
+<!ENTITY askresults.version.no " 0.8">
 <!ENTITY askresults.name "ASKResults">
 
 <!ENTITY askresults.createdBy "Created By: ">

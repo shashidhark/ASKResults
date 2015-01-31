@@ -317,7 +317,7 @@ function fileImpUI()
 	button2.setAttribute("onclick", "readFile()");
 	
 	var msg = document.createElement("label");
-	msg.setAttribute("value", "Choose text, csv or xsl file containing USN list.");
+	msg.setAttribute("value", "Choose text, csv or xls file containing USN list.");
 
 	var textbox = document.createElement("textbox");
 	textbox.setAttribute("class", "inputs");

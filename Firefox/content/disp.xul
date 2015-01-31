@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/global.css"  type="text/css"?>
-<window xmlns:html="http://www.w3.org/1999/xhtml" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" title="ASKResults"  windowtype="navigator:browser" onload="getMessage()" class="bdy">
+<!DOCTYPE overlay SYSTEM "chrome://ASKResults/locale/ASKResults.dtd">
+<window xmlns:html="http://www.w3.org/1999/xhtml" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" title="&askresults.name;&askresults.version.no;"  windowtype="navigator:browser" onload="getMessage()" class="bdy">
 
 	<html:style type="text/css">
 		.loadButton {
@@ -127,7 +128,7 @@
 	  <key id="akey" modifiers="accel" key="a" oncommand="displayAdvUI('a')"/>
 	  <key id="fkey" modifiers="accel" key="f" oncommand="fileImpUI('f')"/>
 	  <key id="abkey" modifiers="shift" key="a" oncommand="window.open('chrome://AskResults/content/about.xul', '', 'chrome=yes, scrollbars=yes, resizable=yes, top=200, left=500');"/>
-	  <key id="gukey" modifiers="shift" key="g" oncommand="window.open('chrome://AskResults/content/guid.xul', '', 'chrome=yes, scrollbars=yes, resizable=yes, top=200, left=500');"/>
+	  <key id="gukey" modifiers="shift" key="g" oncommand="window.open('chrome://AskResults/content/guid.xul', '', 'chrome=yes, scrollbars=yes, top=200, left=500');"/>
 	</keyset>
 
 	<menubar id="sample-menubar">
@@ -164,7 +165,7 @@
 		<hbox class="bdy" id="sbi">
 			<spacer flex="1"/>
 			<button id="print" hidden="true" class="loadButton" label="Save Result" onclick="writeToFileIndividual();"/>
-			<label id="saveImsg" hidden="true" value="Result is saved to download folder."/>
+			<label id="saveImsg" hidden="true" value="Result is saved to Downloads folder."/>
 		</hbox>
 	</vbox>
 </window>
