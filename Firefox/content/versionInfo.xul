@@ -3,8 +3,7 @@
 <!DOCTYPE overlay SYSTEM "chrome://ASKResults/locale/ASKResults.dtd">
 <dialog title="&askresults.name;&askresults.version.no;" orient="vertical" autostretch="always" buttons="accept" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:svg="http://www.w3.org/2000/svg" windowtype="navigator:browser" persist="screenX screenY"  style="-moz-appearance :none;background-color:#A0B0E0;">
 	<script src="about.js" />
-	
-	<vbox style="margin-top:1em; margin-left:1em; margin-right:1em;">
+	<vbox flex="1" style="margin-top:1em; margin-left:1em; margin-right:1em; background-color:#FFF; height:400px;overflow:scroll">
 		<label value="&askresults.version;" style="font-weight: bold; font-size: large;" />
 		<label align="right" value="Advanced Search option added under add-on Menu Bar under Search Mode" />
 		<label align="right" value="Advanced search window now looks more prettier. " />

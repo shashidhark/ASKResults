@@ -61,7 +61,13 @@ function readFile()
 		//alert(data);
 		//data = data.replace(/ /g,'');
 		data = data.match(/[1-4][a-zA-Z]{2}[0-9]{2}(([a-zA-Z]{2}[0-9]{3})|([a-zA-Z]{3}[0-9]{2}))/g)
-		advancedSearch(data);
+		if(data==null)
+		{
+			document.getElementById('resultId').textContent = 'Please select the file contains University Seat Number (USN)';
+		}
+		else{
+			advancedSearch(data);
+		}
 	});	
 	
 }

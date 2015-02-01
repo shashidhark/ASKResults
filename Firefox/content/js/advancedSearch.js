@@ -420,6 +420,7 @@ function advancedSearch(usnList)
 	//noti.setAttribute('style', 'color:blue');
 	hb = document.createElement("hbox");
 	hb.setAttribute("id", "sb");
+	hb.setAttribute("style", "margin-top:1em;");
 	spacer = document.createElement("spacer");
 	spacer.setAttribute("flex", "1");
 	label0 	= document.createElement("label");

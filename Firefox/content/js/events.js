@@ -310,18 +310,19 @@ function fileImpUI()
 	button1.setAttribute("onclick", "filePicker()");
 
 	var button2 = document.createElement("button");
-	button2.setAttribute("label", "Load Result");
+	button2.setAttribute("label", "Load");
 	button2.setAttribute("id", "searchFile");
 	button2.setAttribute("width", "100");
 	button2.setAttribute("class", "loadButton");
 	button2.setAttribute("onclick", "readFile()");
 	
 	var msg = document.createElement("label");
-	msg.setAttribute("value", "Choose text, csv or xls file containing USN list.");
+	msg.setAttribute("value", "Choose text, csv or xls file containing USN list");
 
 	var textbox = document.createElement("textbox");
 	textbox.setAttribute("class", "inputs");
 	textbox.setAttribute("id", "filePath");
+//	textbox.setAttribute("onfocus", "filePicker()");
 
 	advUI.appendChild(msg);
 	hbox.appendChild(textbox);	
@@ -373,6 +374,7 @@ function getMessage(){
 			if(msgs[i].indexOf("Enter") > -1)
 				break;
 			else if(msgs[i]!=""){
+				msgs[i] = msgs[i].replace('&amp;', '');
 				lbl = document.createElement("label");
 				lbl.setAttribute("value", msgs[i]);
 				vb.appendChild(lbl);
@@ -731,7 +733,7 @@ function openResult(usn){
 		resizeOnChange();
 		return;
 	}
-	document.getElementById('resultId').setAttribute("style","");
+
 	document.getElementById('usn_id').setAttribute("style", "border:1px solid blue");
 
 	document.getElementById('resultId').textContent = '';
