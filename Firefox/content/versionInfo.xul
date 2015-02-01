@@ -1,16 +1,26 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/global.css"  type="text/css"?>
 <!DOCTYPE overlay SYSTEM "chrome://ASKResults/locale/ASKResults.dtd">
-<dialog title="&askresults.name;&askresults.version.no;" orient="vertical" autostretch="always" buttons="accept" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:svg="http://www.w3.org/2000/svg" windowtype="navigator:browser" persist="screenX screenY"  style="-moz-appearance :none;background-color:#A0B0E0;">
-	<script src="about.js" />
-	<vbox flex="1" style="margin-top:1em; margin-left:1em; margin-right:1em; background-color:#FFF; height:400px;overflow:scroll">
-		<label value="&askresults.version;" style="font-weight: bold; font-size: large;" />
-		<label align="right" value="Advanced Search option added under add-on Menu Bar under Search Mode" />
-		<label align="right" value="Advanced search window now looks more prettier. " />
-		<label align="right" value='Instead "Text File" saving "CSV File" saving is added - Use MS Excel or LibreOffice calc to open it, for better viewing.' />
-		<label align="right" value="Subject wise percentage, passed and failed is added." />
-		<label align="right" value='Version info added under "Help->About".' />
-		<label align="right" value='Many bug fixes - Sem option. ' />
+<dialog title="&askresults.name;&askresults.version.no;" buttons="accept" width="500" height="400" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:svg="http://www.w3.org/2000/svg" style="-moz-appearance :none;background-color:#A0B0E0;">
+	<vbox flex="1" style="background-color:#FFF; overflow:scroll">
+		<label value="&askresults.name;&askresults.version.no;" style="font-weight: bold; font-size: medium;" />
+		<label align="right" value='*New* Under "Search Mode" mennu, new "File Import" search is added (Supports text, csv or xls files).' />
+		<label align="right" value='*New* Under "Help" menu "help" guideline is added.' />
+		<label align="right" value="*New* While saving individual and multiple results, it won't overlap with the previously saved result." />
+		<label align="right" value='*New* Under "Advanced" and "File Import" mode, while saving the result, it saves two CSV files - Whole result and whole individual result list. "You wont miss anything now".' />
+		<label align="right" value='*Fixed* http request issue.' />
+		<label align="right" value='*Fixed* percentage issue - now it avoids absentees.' />
+		<label align="right" value='*Change* Version Info window looks prettier.' />
+		<label align="right" value='* Many Fixes - Save button, Normal search etc...' />
+		<label align="right" value='-------------------------------------------------------------------------' />
+		<label value="ASKResults 0.7" style="font-weight: bold; font-size: medium;" />
+		<label align="right" value='* "Advanced Search" option added under add-on Menu Bar under "Search Mode".' />
+		<label align="right" value='* Advanced search window now looks more prettier.' />
+		<label align="right" value='* Instead "Text File" saving "CSV File" saving is added - Use MS Excel or LibreOffice calc to open it, for better viewing.' />
+		<label align="right" value='* Subject wise percentage, passed and failed is added.' />
+		<label align="right" value='* Version info added under "Help->About".' />
+		<label align="right" value='* Many bug fixes - Sem option.' />
+		<label align="right" value='* 0.7 version contains many bug fixes over 0.6. ' />
 	</vbox>	
 	
 </dialog>

@@ -140,9 +140,9 @@
 			</menupopup>
 	  	</menu>
 	  	<menu id="edit-menu" label="Help" accesskey="h">
-			<menupopup id="edit-popup">
-		 		<menuitem label="About" accesskey="a" key="abkey" oncommand="window.open('chrome://AskResults/content/about.xul', '', 'chrome=yes, scrollbars=yes, resizable=yes, top=200, left=500');"/>
+			<menupopup id="edit-popup">				
 				<menuitem label="Help" id="fileImp" key="gukey" oncommand="window.open('chrome://AskResults/content/guid.xul', '', 'chrome=yes, scrollbars=yes, resizable=yes, top=200, left=500');"/>
+		 		<menuitem label="About" accesskey="a" key="abkey" oncommand="window.open('chrome://AskResults/content/about.xul', '', 'chrome=yes, scrollbars=yes, resizable=yes, top=200, left=500');"/>
 			</menupopup>
 	  	</menu>
 	</menubar>
