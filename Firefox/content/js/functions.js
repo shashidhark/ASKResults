@@ -11,6 +11,12 @@ var abort=[];
 var strForText="";  // Adv
 var strForTextI=""; // Normal
 
+//Error
+var errorMsg = 'Please choose the proper file format contains University Seat Number (USN)';
+
+//Files allowed
+var fileAllowed = ['csv', 'txt', 'xls', 'xlsx'];
+
 // Result table detail count line p->PASS f->FAIL ..
 var p=0,f=0,t=0, fcd=0, ab=0, fc=0, sc=0, total_sub=0;
 
@@ -48,32 +54,40 @@ function readFile()
 {
 	resizeOnChange();
 	var file=document.getElementById("filePath").value;
-	Components.utils.import("resource://gre/modules/NetUtil.jsm");
-	NetUtil.asyncFetch(file, function(inputStream, status) {
-	  if (!Components.isSuccessCode(status)) {
-		// Handle error!
-		return;
-	  }
+	if(document.getElementById("filePath").value == ""){
+		document.getElementById('resultId').textContent="Please choose the file";
+	}		
+	else {
+		Components.utils.import("resource://gre/modules/NetUtil.jsm");
+		NetUtil.asyncFetch(file, function(inputStream, status) {
+		  if (!Components.isSuccessCode(status)) {
+			// Handle error!
+			return;
+		  }
 
-	  // The file data is contained within inputStream.
-	  // You can read it into a string with
-	  var data = NetUtil.readInputStreamToString(inputStream, inputStream.available());
-		//alert(data);
-		//data = data.replace(/ /g,'');
-		data = data.match(/[1-4][a-zA-Z]{2}[0-9]{2}(([a-zA-Z]{2}[0-9]{3})|([a-zA-Z]{3}[0-9]{2}))/g)
-		if(data==null)
-		{
-			document.getElementById('resultId').textContent = 'Please select the file contains University Seat Number (USN)';
-		}
-		else{
-			advancedSearch(data);
-		}
-	});	
-	
+		  // The file data is contained within inputStream.
+		  // You can read it into a string with
+		  var data = NetUtil.readInputStreamToString(inputStream, inputStream.available());
+			//alert(data);
+			//data = data.replace(/ /g,'');
+			data = data.match(/[1-4][a-zA-Z]{2}[0-9]{2}(([a-zA-Z]{2}[0-9]{3})|([a-zA-Z]{3}[0-9]{2}))/g)
+			if(data==null)
+			{
+				document.getElementById('resultId').textContent = errorMsg;
+			}
+			else{
+				advancedSearch(data);
+			}
+		});	
+	}	
+	resizeOnChange();
 }
 
 function filePicker()
 {
+	document.getElementById('resultId').textContent = "";
+	document.getElementById('searchFile').disabled=false;
+	document.getElementById("filePath").value="";
 	const nsIFilePicker = Components.interfaces.nsIFilePicker;
 	var fp = Components.classes["@mozilla.org/filepicker;1"]
 			       .createInstance(nsIFilePicker);
@@ -87,10 +101,23 @@ function filePicker()
 	  // need to work with the string paths.
 	  var path = fp.file.path;
 	  // work with returned nsILocalFile...
-		//alert(path);		
-		document.getElementById("filePath").value="file://"+path;
-		//file="file://"+path;
+      var fnameArr = path.split('/');
+	  var fname = fnameArr[fnameArr.length-1];
+	alert(fname);
+	  
+	  var ext1 = fname.substring(fname.indexOf('.') +1);
+	  if(fname.indexOf('.') == -1){
+		 document.getElementById("filePath").value="file://"+path;
+	  }
+      else if(fileAllowed.indexOf(ext1)!= -1){
+		 document.getElementById("filePath").value="file://"+path;
+	  }
+	  else{
+	     document.getElementById('resultId').textContent = errorMsg;	
+		 document.getElementById('searchFile').disabled=true;
+      }
 	}
+	resizeOnChange();
 }
 
 //Function to append zero

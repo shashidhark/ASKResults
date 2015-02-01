@@ -132,11 +132,11 @@
 	</keyset>
 
 	<menubar id="sample-menubar">
-		<menu id="file-menu" label="Search mode" accesskey="s">
+		<menu id="file-menu" label="Search Mode" accesskey="s">
 			<menupopup id="file-popup">
 		  		<menuitem label="Normal" id="normalMenu" hidden="true" key="nkey" oncommand="displayAdvUI('n')"/>
 		  		<menuitem label="Advanced" id="advanced" key="akey" oncommand="displayAdvUI('a')"/>
-		  		<menuitem label="File import" id="fileImp" key="fkey" oncommand="fileImpUI('f')"/>
+		  		<menuitem label="File Import" id="fileImp" key="fkey" oncommand="fileImpUI('f')"/>
 			</menupopup>
 	  	</menu>
 	  	<menu id="edit-menu" label="Help" accesskey="h">
@@ -149,12 +149,12 @@
 	<vbox style="margin-left:2em; margin-right:2em; margin-bottom:2em; ">
 		<hbox class="bdy">
 			<!--button id="advSearch" class="advSearch" label="Switch to Advanced Search" onclick="displayAdvUI()" /-->
-			<checkbox id="reval" class="chkbx"  label="Revaluation result" checked="false"/>
+			<checkbox id="reval" class="chkbx"  label="Revaluation Result" checked="false"/>
 			<label id="msg" hidden="true" value=""/>
 		</hbox>
 		<hbox class="bdy" id="normal" hidden="false">
 			Enter Your University Seat No : <textbox id='usn_id' class="inputs" maxlength="10" size="9" placeholder="USN" value=""/>
-			<button id="submit-button" class="loadButton"  label="Load" onclick="openResult(document.getElementById('usn_id').value);"/>
+			<button id="submit-button" class="loadButton"  label="Load Result" onclick="openResult(document.getElementById('usn_id').value);"/>
 		</hbox>
 		<vbox flex="1" class="bdy" id="advance" hidden="true" style="margin-top:1em;">
 		</vbox>

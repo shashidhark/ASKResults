@@ -163,7 +163,7 @@ function addYear()
 		desc.appendChild(nums);
 
 		var submitButton = document.createElement("button");
-		submitButton.setAttribute("label", "Load");
+		submitButton.setAttribute("label", "Load Result");
 		submitButton.setAttribute("class", "loadButton");
 		submitButton.setAttribute("onclick", "usnGeneration()");
 		desc.appendChild(submitButton);
@@ -212,7 +212,7 @@ function createAdvanceUI(){
 	var advUI = document.getElementById("advance");
 
 	var guid = document.createElement("label");
-	guid.setAttribute("value", "Select Region Code, College Code, Year, Branch, Sem and USN Range.");
+	guid.setAttribute("value", "Select Region Code, College Code, Year, Branch, Sem and USN Range");
 
 	var vbox = document.createElement("vbox");
 	vbox.appendChild(guid);	
@@ -310,7 +310,7 @@ function fileImpUI()
 	button1.setAttribute("onclick", "filePicker()");
 
 	var button2 = document.createElement("button");
-	button2.setAttribute("label", "Load");
+	button2.setAttribute("label", "Load Result");
 	button2.setAttribute("id", "searchFile");
 	button2.setAttribute("width", "100");
 	button2.setAttribute("class", "loadButton");
@@ -374,7 +374,7 @@ function getMessage(){
 			if(msgs[i].indexOf("Enter") > -1)
 				break;
 			else if(msgs[i]!=""){
-				msgs[i] = msgs[i].replace('&amp;', '');
+				msgs[i] = msgs[i].replace('&amp;', ' & ');
 				lbl = document.createElement("label");
 				lbl.setAttribute("value", msgs[i]);
 				vb.appendChild(lbl);
