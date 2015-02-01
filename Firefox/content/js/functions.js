@@ -103,8 +103,7 @@ function filePicker()
 	  // work with returned nsILocalFile...
       var fnameArr = path.split('/');
 	  var fname = fnameArr[fnameArr.length-1];
-	alert(fname);
-	  
+	//alert(fname);
 	  var ext1 = fname.substring(fname.indexOf('.') +1);
 	  if(fname.indexOf('.') == -1){
 		 document.getElementById("filePath").value="file://"+path;
