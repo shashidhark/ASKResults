@@ -3,26 +3,29 @@
 <!DOCTYPE overlay SYSTEM "chrome://ASKResults/locale/ASKResults.dtd">
 <dialog  title="&askresults.name;&askresults.version.no;" width="500" height="400" buttons="accept" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:svg="http://www.w3.org/2000/svg" style="-moz-appearance :none;background-color:#A0B0E0;">
 	<vbox flex="1" style="background-color:#FFF; height:400px;overflow:scroll">
-				<label align="right" value="Keshav Gonda" />
-				<label align="right" value="Mohan K" />
-				<label align="right" value="Shivakumar G S" />
-				<label align="right" value="Nagaraj Hebbar" />
-				<label align="right" value="Prathibha" />
-				<label align="right" value="Vasudeva Acharya" />
-				<label align="right" value="Hariprakash U P" />
-				<label align="right" value="Keshav Gonda" />
-				<label align="right" value="Mohan K" />
-				<label align="right" value="Shivakumar G S" />
-				<label align="right" value="Nagaraj hsdfjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjHebbar" />
-				<label align="right" value="Prathibha" />
-				<label align="right" value="Vasudeva Acharya" />
-				<label align="right" value="Hariprakash U P" />
-				
-				<label align="right" value="Mohan K" />
-				<label align="right" value="Shivakumar G S" />
-				<label align="right" value="Nagaraj Hebbar" />
-				<label align="right" value="Prathibha" />
-				<label align="right" value="Vasudeva Acharya" />
-				<label align="right" value="Hariprakash U P" />
-			</vbox>
+		<label align="right" style="font-weight: bold; font-size: medium;" value='User Guid' />
+		<label align="right" value='ASKResults add-on provides 3 types of serch modes under menu option "Search Mode".'/>
+		<label align="right" value='1. "Normal" search.' />
+		<label align="right" value='2. "Advanced" search.' />
+		<label align="right" value='3. "File Import" search.' />
+		<label align="right" value=' '/>
+		<label align="right" value='1. "Normal" search mode contains three fields. They are Revaluation Result option, Individual result search option and VTU result announcements.' />
+		<label align="right" value='If revaluation results are announed, mark "Revaluation Result" option. Individual result can be saved by using "Save Result" button.' />
+		<label align="right" value=' '/>
+		<label align="right" value='2. "Advanced" search mode provides flexible result search option.'/>
+		<label align="right" value='First select "Region", which will allow to select college code.'/>				
+		<label align="right" value='After which the following parameters will be shown: Year, Branch, Semester and USN range option.'/>
+		<label align="right" value='Enter year(like 11, 12,13...); Select branch code(like EC, CS, ME...); Select semester(like 1, 2, 3...8) and put the USN range(like 1 to 100, no need to worry about number of digits).' />
+		<label align="right" value='Then click on "Load Result" button to display total passed, failed, overall percentage, FCDs, FCs, SCs and total found results.'/> 
+		<label align="right" value='Below that subject wise number of passed, failed, absentees and percentage will be displayed. '/>
+		<label align="right" value='Last table displays overall result containing columns Serial number(Sln0), USN, Student Name, Percentage and Result status.'/> 		<label align="right" value='At the bottom of the window you can find the option to save result ("Save Result"). This search mode is helpful to check different college results and percentages.' />
+		<label align="right" value=' '/>
+		<label align="right" value='3. "File Import" search mode is helpful for those who have student USN lists. '/>
+		<label align="right" value='Here you can import the following file formats only: .txt, .csv and .xls only. '/>
+		<label align="right" value='File formats such as .doc, .docx and .xlsx are not supported at present. '/>
+		<label align="right" value='Use "Browse File" button to choose the file from you computer and the location of the file will be displayed in the empty field, then click on "Load Result" button. '/>
+		<label align="right" value='It will diplay result as in "Advanced" search mode; use "Save Result" button to save the results as a .csv file. This mode of search is very helpful to find class wise results and percentages.' />
+		<label align="right" value='ASKResult add-on does not store the results data on any third party servers.'/>
+		<label align="right" value='The result data is fetched directly from the VTU server into the add-on. Results are available only when the VTU servers are up. ' />
+	</vbox>
 </dialog>
