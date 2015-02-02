@@ -424,7 +424,7 @@ function advancedSearch(usnList)
 	spacer = document.createElement("spacer");
 	spacer.setAttribute("flex", "1");
 	label0 	= document.createElement("label");
-	label0.setAttribute("value", "Result is saved to Downloads folder.");
+	label0.setAttribute("value", "Result is saved to Downloads folder");
 	label0.setAttribute("id", "noti");
 	saveButton 	= document.createElement("button");
 	saveButton.setAttribute("label", "Save Result");
