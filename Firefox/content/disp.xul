@@ -163,7 +163,7 @@
 		<hbox class="bdy" id="sbi" style="margin-top:1em;">
 			<spacer flex="1"/>
 			<button id="print" hidden="true" class="loadButton" label="Save Result" onclick="writeToFileIndividual();"/>
-			<label id="saveImsg" hidden="true" value="Result is saved to Downloads folder"/>
+			<label id="saveImsg" hidden="true" value="Two result files are saved to Downloads folder"/>
 		</hbox>
 	</vbox>
 </window>

@@ -15,7 +15,7 @@ var strForTextI=""; // Normal
 var errorMsg = 'Please choose the proper file format contains University Seat Number (USN)';
 
 //Files allowed
-var fileAllowed = ['csv', 'txt', 'xls', 'xlsx'];
+var fileAllowed = ['csv', 'txt', 'xls'];
 
 // Result table detail count line p->PASS f->FAIL ..
 var p=0,f=0,t=0, fcd=0, ab=0, fc=0, sc=0, total_sub=0;
@@ -103,8 +103,9 @@ function filePicker()
 	  // work with returned nsILocalFile...
       var fnameArr = path.split('/');
 	  var fname = fnameArr[fnameArr.length-1];
-	//alert(fname);
-	  var ext1 = fname.substring(fname.indexOf('.') +1);
+	  //alert(fname);
+	  var ext1 = fname.split('.');
+	  ext1 = ext1[ext1.length-1];
 	  if(fname.indexOf('.') == -1){
 		 document.getElementById("filePath").value="file://"+path;
 	  }
@@ -112,8 +113,7 @@ function filePicker()
 		 document.getElementById("filePath").value="file://"+path;
 	  }
 	  else{
-	     document.getElementById('resultId').textContent = errorMsg;	
-		 document.getElementById('searchFile').disabled=true;
+	     document.getElementById('resultId').textContent = errorMsg;
       }
 	}
 	resizeOnChange();
