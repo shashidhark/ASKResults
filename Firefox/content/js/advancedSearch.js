@@ -399,12 +399,12 @@ function advancedSearch(usnList)
 	scv1 	= document.createElement("label");
 	scv1.setAttribute('value', '0');		
 	scv1.setAttribute('id', 'sc');
-	hbx.appendChild(fcdv);
-	hbx.appendChild(fcdv1);
-	hbx.appendChild(fcv);
-	hbx.appendChild(fcv1);
-	hbx.appendChild(scv);
-	hbx.appendChild(scv1);
+	vbx.appendChild(fcdv);
+	vbx.appendChild(fcdv1);
+	vbx.appendChild(fcv);
+	vbx.appendChild(fcv1);
+	vbx.appendChild(scv);
+	vbx.appendChild(scv1);
 
 	//noti 	= document.createElement("label");	
 	lpass 	= document.createElement("label");	
