@@ -3,7 +3,7 @@
 <!DOCTYPE overlay SYSTEM "chrome://ASKResults/locale/ASKResults.dtd">
 <dialog  title="&askresults.name;&askresults.version.no;" width="500" height="400" buttons="accept" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:svg="http://www.w3.org/2000/svg" style="-moz-appearance :none;background-color:#A0B0E0;">
 	<vbox flex="1" style="background-color:#FFF; height:400px;overflow:scroll">
-		<label align="right" style="font-weight: bold; font-size: medium;" value='User Guid' />
+		<label align="right" style="font-weight: bold; font-size: medium;" value='User Guide' />
 		<label align="right" value='ASKResults add-on provides 3 types of serch modes under menu option "Search Mode".'/>
 		<label align="right" value='1. "Normal" search.' />
 		<label align="right" value='2. "Advanced" search.' />

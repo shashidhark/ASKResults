@@ -2,7 +2,7 @@
 <?xml-stylesheet href="chrome://global/skin/global.css"  type="text/css"?>
 <!DOCTYPE overlay SYSTEM "chrome://ASKResults/locale/ASKResults.dtd">
 <dialog  title="&askresults.name;&askresults.version.no;" orient="vertical" autostretch="always" buttons="accept" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:svg="http://www.w3.org/2000/svg" windowtype="navigator:browser" persist="screenX screenY"  style="-moz-appearance :none;background-color:#A0B0E0;">
-	<script src="about.js" />
+	<script src="chrome://AskResults/content/js/about.js" />
 	<hbox>
 	<vbox style="margin-top:1em; margin-left:1em;">
 		 <image width="100px" height="100px" src="chrome://ASKResults/skin/images/logo64.png"/>

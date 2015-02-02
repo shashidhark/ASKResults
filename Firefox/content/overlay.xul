@@ -3,7 +3,7 @@
 <?xml-stylesheet href="chrome://AskResults/skin/toolbar-button.css" type="text/css"?>
 
 <overlay id="AskResultsOverlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-	<script type="application/javascript" src="chrome://AskResults/content/overlay.js"/> 
+	<script type="application/javascript" src="chrome://AskResults/content/js/overlay.js"/> 
 	
 	<menupopup id="menu_ToolsPopup">
 	    	<menuitem id="AskResultsMenuitem" label="ASKResults" oncommand="AskResults.onMenuItemCommand(event);" insertbefore="sanitizeSeparator" />
