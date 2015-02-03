@@ -11,6 +11,9 @@
 |===============================================================================
 */
 
+
+var advancedGoingOn=0;
+
 //Generate usn list for Advanced search
 function usnGeneration(){
 	var usnNew = "";
@@ -244,7 +247,6 @@ function createAdvanceUI(){
 
 function displayAdvUI(mode){
 	//	alert("hi");
-	advancedGoingOn=0;
 	resizeOnChange();
 	if(mode=='a'){		
 		abortFunc();

@@ -98,6 +98,7 @@ function getSubjects(str){
 
 function writeToFileIndividual()
 {
+	strForTextI = strForTextI.replace(/[┬á]/g, '');
 	var data=strForTextI;
 	// Get profile directory.
 	Components.utils.import("resource://gre/modules/FileUtils.jsm");
@@ -155,6 +156,7 @@ function writeToFile(data)
 	data += "\n";
 	data += "Passed: "+p+" , Failed: "+f+", Absent:"+ab+", Percentage: "+((p/(p+f))*100).toFixed(2)+"%"+", Total: "+(p+f)+"\n";	
 	data += "FCD:"+fcd+", FC:"+fc+", SC:"+sc;
+	
 	
 	// Get profile directory.
 	Components.utils.import("resource://gre/modules/FileUtils.jsm");

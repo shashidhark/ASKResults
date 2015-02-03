@@ -30,7 +30,6 @@ var scodes=[];
 var pdfVar;
 
 //
-var advancedGoingOn=0;
 //Color
 var passColor='#087F38', failColor='#E30F17' ;
 var marksRow ='#F0FFF0', tableHead='#90B890', failedSub='#FFCCCC';
@@ -85,6 +84,7 @@ function readFile()
 
 function filePicker()
 {
+	advancedGoingOn=1;
 	document.getElementById('resultId').textContent = "";
 	document.getElementById('searchFile').disabled=false;
 	document.getElementById("filePath").value="";
