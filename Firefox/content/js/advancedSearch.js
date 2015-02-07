@@ -53,47 +53,44 @@ function getTotal(table){
 
 function getSubjects(str){
 	staken=1;
-	var row11, subl, scode;
-	var rows1 = document.getElementById("subRow");
+	var treeitem, treecell1, treecell2, treecell3, treecell4, treecell5, treerow;
+	var subl, scode;
+	var treechildren = document.getElementById("treeChild");
 	var tr = $(str).eq(1).find("tr");
 	for (var j = 1; j < tr.length; j++){
 		var td = $(tr).eq(j).find('td');
 		scode = getScode($(td).eq(0).text());
-		scodes.push(scode);
-		row11 = document.createElement("row");
-		subl  = document.createElement("label");
-		subl.setAttribute("value", "Loading..");
-		subl.setAttribute("id", "sub"+scode);	
-		row11.appendChild(subl);
+		if(scodes.indexOf(scode) == -1){
+			total_sub++;
+			scodes.push(scode);
+			treeitem 	= document.createElement("treeitem");
+			treerow 	= document.createElement("treerow");	
+			treecell1 	= document.createElement("treecell");
+			treecell2 	= document.createElement("treecell");
+			treecell3 	= document.createElement("treecell");
+			treecell4 	= document.createElement("treecell");
+			treecell5	= document.createElement("treecell");
 
-		subl = document.createElement("label");	
-		subl.setAttribute("value", "0");
-		subl.setAttribute("id", "subP"+scode);
-		subl.setAttribute("style", "color:green");
-		row11.appendChild(subl);
-		
-		subl = document.createElement("label");	
-		subl.setAttribute("value", "0");
-		subl.setAttribute("id", "subF"+scode);
-		subl.setAttribute("style", "color:red");
-		row11.appendChild(subl);
-		
-		subl = document.createElement("label");	
-		subl.setAttribute("value", "0");
-		subl.setAttribute("id", "subA"+scode);
-		subl.setAttribute("style", "color:yellow");
-		row11.appendChild(subl);
-
-		subl = document.createElement("label");	
-		subl.setAttribute("value", "0%");
-		subl.setAttribute("id", "subPerc"+scode);
-		subl.setAttribute("style", "color:blue");
-		row11.appendChild(subl);
-
-		rows1.appendChild(row11);
-		document.getElementById("sub"+scode).setAttribute("value", $(td).eq(0).text());
+			treecell1.setAttribute("label", $(td).eq(0).text());
+			treecell1.setAttribute("id", "sub"+scode);			
+			treecell2.setAttribute("label", "0");
+			treecell2.setAttribute("id", "subP"+scode);			
+			treecell3.setAttribute("label", "0");
+			treecell3.setAttribute("id", "subF"+scode);			
+			treecell4.setAttribute("label", "0");
+			treecell4.setAttribute("id", "subA"+scode);
+			treecell5.setAttribute("label", "0");
+			treecell5.setAttribute("id", "subPerc"+scode);
+	
+			treerow.appendChild(treecell1);
+			treerow.appendChild(treecell2);
+			treerow.appendChild(treecell3);
+			treerow.appendChild(treecell4);
+			treerow.appendChild(treecell5);
+			treeitem.appendChild(treerow);
+			treechildren.appendChild(treeitem);
+		}
 	}
-	total_sub=(tr.length)-1;
 }
 
 function writeToFileIndividual()
@@ -146,17 +143,18 @@ function writeToFile(data)
 	data += "\n";	
 	data += "Subjects,Passed,Failed,Absent,Percentage\n"
 	for (var j = 1; j <= total_sub; j++){
-		data += document.getElementById("sub"+scodes[j-1]).value+",";
-		data += document.getElementById("subP"+scodes[j-1]).value+",";		
-		data += document.getElementById("subF"+scodes[j-1]).value+","
-		data += document.getElementById("subA"+scodes[j-1]).value+",";
-		var abVal = parseInt(document.getElementById("subA"+scodes[j-1]).value);
-		data += ((parseInt(document.getElementById("subP"+scodes[j-1]).value)/(p+f-abVal))*100).toFixed(2)+"%" +"\n";
+		data += document.getElementById("sub"+scodes[j-1]).getAttribute("label")+",";
+		data += document.getElementById("subP"+scodes[j-1]).getAttribute("label")+",";		
+		data += document.getElementById("subF"+scodes[j-1]).getAttribute("label")+","
+		data += document.getElementById("subA"+scodes[j-1]).getAttribute("label")+",";
+		var abVal = parseInt(document.getElementById("subA"+scodes[j-1]).getAttribute("label"));
+		data += ((parseInt(document.getElementById("subP"+scodes[j-1]).getAttribute("label"))/(p+f-abVal))*100).toFixed(2)+"%" +"\n";
 	}
 	data += "\n";
 	data += "Passed: "+p+" , Failed: "+f+", Absent:"+ab+", Percentage: "+((p/(p+f))*100).toFixed(2)+"%"+", Total: "+(p+f)+"\n";	
 	data += "FCD:"+fcd+", FC:"+fc+", SC:"+sc;
 	
+	//data = data.replace(/[┬á]/g, '');
 	
 	// Get profile directory.
 	Components.utils.import("resource://gre/modules/FileUtils.jsm");
@@ -212,13 +210,7 @@ function getFailedSubjects(str){
 	for (var j = 1; j < tr.length; j++){
 		var td = $(tr).eq(j).find('td');
 		if(($(td).eq(4).text()).indexOf("F") > -1 || ($(td).eq(4).text()).indexOf("A") > -1){
-			//lbl = document.createElement("label");
-			//lbl.setAttribute("value", "$(td).eq(0).text()");
-			//tip.appendChild(lbl);
 			s+="| "+$(td).eq(0).text()+" |";
-			/*v=parseInt(document.getElementById("subF"+j).value);
-			v++;
-			document.getElementById("subF"+j).setAttribute("value", v);*/
 		}
 	}
 	return s;
@@ -234,25 +226,25 @@ function getSubjectsStatus(str){
 		scode = getScode($(td).eq(0).text());
 	
 		if(($(td).eq(4).text()).indexOf("P") > -1){
-			v=parseInt(document.getElementById("subP"+scode).value);
-			v++;
-			document.getElementById("subP"+scode).setAttribute("value", v);
+			v=Number(document.getElementById("subP"+scode).getAttribute("label"));
+			v++;	
+			document.getElementById("subP"+scode).setAttribute("label", v);
 		}
 		else if(($(td).eq(4).text()).indexOf("F") > -1){	
-			v=parseInt(document.getElementById("subF"+scode).value);
+			v=Number(document.getElementById("subF"+scode).getAttribute("label"));
 			v++;
-			document.getElementById("subF"+scode).setAttribute("value", v);
+			document.getElementById("subF"+scode).setAttribute("label", v);
 		}
 		else if(($(td).eq(4).text()).indexOf("A") > -1){
-			v=parseInt(document.getElementById("subA"+scode).value);
+			v=Number(document.getElementById("subA"+scode).getAttribute("label"));
 			v++;
-			document.getElementById("subA"+scode).setAttribute("value", v);
+			document.getElementById("subA"+scode).setAttribute("label", v);
 			ab++;
 		}	
 		//alert(document.getElementById("subP"+j).value+" "+(p+f)+" "+parseInt(document.getElementById("subP"+j).value)/(p+f))*100).toFixed(2)+"%");
 		//alert((p+f)+" "+(parseInt(document.getElementById("subP"+j).value))+" "+((parseInt(document.getElementById("subP"+j).value)/(p+f))*100).toFixed(2)+"%");
-		var abVal = parseInt(document.getElementById("subA"+scode).value);
-		document.getElementById("subPerc"+scode).setAttribute("value", ((parseInt(document.getElementById("subP"+scode).value)/(p+f-abVal))*100).toFixed(2)+"%");
+		var abVal = Number(document.getElementById("subA"+scode).getAttribute("label"));
+		document.getElementById("subPerc"+scode).setAttribute("label", ((Number(document.getElementById("subP"+scode).getAttribute("label"))/(p+f-abVal))*100).toFixed(2)+"%");
 	}
 }
 
@@ -313,7 +305,7 @@ function openAdvResult(usn){
 		document.getElementById("perc"+usn).setAttribute("label", parseFloat(findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())));
 				strForText += findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())+" , ";
 
-				if(staken==0)
+				//if(staken==0)
 					getSubjects(table);
 
 				if(($(table).eq(0).find("tr").eq(0).find('td').eq(3).text()).indexOf("FAIL") == -1){
@@ -324,16 +316,16 @@ function openAdvResult(usn){
 					incPass();
 					document.getElementById("stat"+usn).setAttribute("property", "pass");
 				}
-				else{fs="";
+				else{
+					fs="";
 					document.getElementById("stat"+usn).setAttribute("label", "FAIL");
 					strForText += "FAIL,";
 					incFail();									
 					fs = getFailedSubjects(table);
 					strForText += fs.replace('|', ' ')+"\n";
-					//document.getElementById("stat"+usn).setAttribute("onselect", "prompts.alert(null,'failed','Failed in: "+fs+"');");
-					//document.getElementById("stat"+usn).setAttribute("property", "fail");
 				}				
 				getSubjectsStatus(table);
+				fetchTableAdv(str, usn);
 			}
 			else{
 				document.getElementById("name"+usn).setAttribute("label", "Other sem");
@@ -350,7 +342,6 @@ function openAdvResult(usn){
 		}	
 		updatePerc();
 		
-		fetchTableAdv(str, usn);
 		//resizeOnChange();
 	}; //request load end
 
@@ -470,50 +461,63 @@ function advancedSearch(usnList)
 	//bx.appendChild(noti);
 		
 	var subl, hbox1;
+	var place 	= document.createElement("hbox");
+	place.setAttribute("flex", "1");
+	var tree 	= document.createElement("tree");
+	tree.setAttribute("flex", "1");
+	tree.setAttribute("rows", 8);
+	place.appendChild(tree);
 
-	var vbox = document.createElement("vbox");
-	vbox.setAttribute("style", "width:100%;");
-	var grid2 = document.createElement("grid");
-	grid2.setAttribute("flex", "1");
-	grid2.setAttribute("style", "border: #000000 dotted 1px;width:100%;");
-	vbox.appendChild(grid2);
+	var splitter = document.createElement("splitter");
+	splitter.setAttribute("class", "tree-splitter");
+	var treecols = document.createElement("treecols");
+	treecols.setAttribute("style", "font-weight:bold");
+	var treecol = document.createElement("treecol");
+	treecol.setAttribute("label", "Subjects");
+	treecols.appendChild(treecol);
+	treecols.appendChild(splitter);
+	treecol = document.createElement("treecol");
+	treecol.setAttribute("label", "Pass");
+	treecol.setAttribute("flex", "1");
+	treecols.appendChild(treecol);
+	splitter = document.createElement("splitter");
+	splitter.setAttribute("class", "tree-splitter");
+	treecols.appendChild(splitter);
+	treecol = document.createElement("treecol");
+	treecol.setAttribute("label", "Fail");
+	treecol.setAttribute("flex", "1");
+	treecols.appendChild(treecol);
+	splitter = document.createElement("splitter");
+	splitter.setAttribute("class", "tree-splitter");
+	treecols.appendChild(splitter);
+
+	treecol = document.createElement("treecol");
+	treecol.setAttribute("label", "Absent");
+	treecol.setAttribute("flex", "1");
+	treecols.appendChild(treecol);
+	splitter = document.createElement("splitter");
+	splitter.setAttribute("class", "tree-splitter");
+	treecols.appendChild(splitter);
+	treecol = document.createElement("treecol");
+	treecol.setAttribute("flex", "1");
+	treecol.setAttribute("label", "Percentage");	
+	treecols.appendChild(treecol);
+	splitter = document.createElement("splitter");
+	splitter.setAttribute("class", "tree-splitter");
+	treecols.appendChild(splitter);
 	
-	var rows1 = document.createElement("rows");
-	rows1.setAttribute("id", "subRow");
-	grid2.appendChild(rows1);
+	var treechildren 	= document.createElement("treechildren");
+	treechildren.setAttribute("id", "treeChild");
 
-	var row11;
-	row11 = document.createElement("row");
-	row11.setAttribute("style", "font-weight:bold; width:6em;");
-	subl 	= document.createElement("label");
-	subl.setAttribute("value", "Subjects");
-	row11.appendChild(subl);
+	tree.appendChild(treecols);	
 
-	subl 	= document.createElement("label");	
-	subl.setAttribute("value", "Pass");
-	subl.setAttribute("style", "color:green");
-	row11.appendChild(subl);
-		
-	subl 	= document.createElement("label");	
-	subl.setAttribute("value", "Fail");
-	subl.setAttribute("style", "color:red");
-	row11.appendChild(subl);
-		
-	subl 	= document.createElement("label");	
-	subl.setAttribute("value", "Absent");
-	subl.setAttribute("style", "color:yellow");
-	row11.appendChild(subl);
+	tree.appendChild(treechildren);
+	bx.appendChild(place);
 
-	subl 	= document.createElement("label");	
-	subl.setAttribute("value", "Percentage");
-	subl.setAttribute("style", "color:blue");
-	row11.appendChild(subl);
-
-	rows1.appendChild(row11);
-	bx.appendChild(vbox);
 
 	var sep = document.createElement("separator");
 	bx.appendChild(sep);
+
 	var place 	= document.createElement("hbox");
 	place.setAttribute("flex", "1");
 
@@ -566,7 +570,7 @@ function advancedSearch(usnList)
 	bx.appendChild(place);
 
 	var treechildren 	= document.createElement("treechildren");
-	treechildren.setAttribute("label", "Result");
+//	treechildren.setAttribute("label", "Result");
 	var treeitem, treecell1, treecell2, treecell3, treecell4, treecell5, treerow;
 	var u=0;
 	for(var u=0; u<usnList.length; u++)

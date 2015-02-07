@@ -7,6 +7,11 @@
 // nsIHTTPRequest references.
 var abort=[];
 
+// For NBA
+//var NbaSubjectWiseResult={
+													
+	//					};
+
 // File write string
 var strForText="";  // Adv
 var strForTextI=""; // Normal
@@ -144,14 +149,12 @@ function resizeOnChange(){
 	window.resizeTo(width, height);
 }
 
-
 function checkEnterKey(evt){
 	  if (evt.keyCode == 13)
 	    usnGeneration();
 	  else 
 		return true;
 }
-
 
 // Input: DDXXDDBBDDD
 // Returns: BB ( Branch )
