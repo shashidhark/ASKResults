@@ -164,11 +164,11 @@ function writeToFile(data)
 		PerInd=4*(NbaSubjectWiseResult[scodes[i]][0])+3*(NbaSubjectWiseResult[scodes[i]][1])+2*(NbaSubjectWiseResult[scodes[i]][2])+NbaSubjectWiseResult[scodes[i]][3];
 		x+=PerInd;
 		var k=Number(document.getElementById("subA"+scodes[i]).getAttribute("label"))
-		alert(k);
+		//alert(k);
 		PerInd=PerInd/(4*(p+f-k));
 		x+=PerInd.toFixed(2)+"\n";
 	}
-	alert(x);
+	//alert(x);
 	data+=x;
 	//	data +=
 	//data = data.replace(/[┬á]/g, '');
