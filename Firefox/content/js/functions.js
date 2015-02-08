@@ -40,16 +40,16 @@ var marksRow ='#F0FFF0', tableHead='#90B890', failedSub='#FFCCCC';
 function getNbaClass(m){
 	var m1 = Number(m);
 	if(m1>=88){
-		return 'FCD';
+		return "FCD";
 	}
 	else if(m1>=75 && m1<88){
-		return 'FC';
+		return "FC";
 	}
 	else if(m1>=63 && m1<75){
-		return 'SC';
+		return "SC";
 	}
 	else if(m1>=50 && m1<63){	
-		return 'PASS';
+		return "PASS";
 	}
 	else 
 		return '';

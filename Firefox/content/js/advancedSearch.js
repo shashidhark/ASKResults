@@ -154,23 +154,29 @@ function writeToFile(data)
 	data += "\n";
 	data += "Passed: "+p+" , Failed: "+f+", Absent:"+ab+", Percentage: "+((p/(p+f))*100).toFixed(2)+"%"+", Total: "+(p+f)+"\n";	
 	data += "FCD:"+fcd+", FC:"+fc+", SC:"+sc;
-	var PerInd=0;
-	var x="\nSub,FCD,FC,SC,PASS,Performance Index\n";
+
+	//Performancs index start
+	var PerInd=0, nbaAb;
+	var x="\n\nSub,FCD,FC,SC,PASS,Performance Index\n";
 	for(var i=0; i<total_sub; i++){
-		x+=scodes[i]+",";
+		x+=scodes[i]+", ";
 		for (var j=0;j<4;j++){
-			x+="==>"+NbaSubjectWiseResult[scodes[i]][j]+", ";
+			if(j==0)
+				alert(NbaSubjectWiseResult[scodes[i]][j]);
+			x+=NbaSubjectWiseResult[scodes[i]][j]+", ";
 		}
 		PerInd=4*(NbaSubjectWiseResult[scodes[i]][0])+3*(NbaSubjectWiseResult[scodes[i]][1])+2*(NbaSubjectWiseResult[scodes[i]][2])+NbaSubjectWiseResult[scodes[i]][3];
 		x+=PerInd;
-		var k=Number(document.getElementById("subA"+scodes[i]).getAttribute("label"))
+		nbaAb=Number(document.getElementById("subA"+scodes[i]).getAttribute("label"))
 		//alert(k);
-		PerInd=PerInd/(4*(p+f-k));
+		PerInd=PerInd/(4*(p+f-nbaAb));
 		x+=PerInd.toFixed(2)+"\n";
 	}
+	
+	//Performancs index END
 	//alert(x);
 	data+=x;
-	//	data +=
+
 	//data = data.replace(/[┬á]/g, '');
 	
 	// Get profile directory.
@@ -264,13 +270,13 @@ function getSubjectsStatus(str){
 		document.getElementById("subPerc"+scode).setAttribute("label", ((Number(document.getElementById("subP"+scode).getAttribute("label"))/(p+f-abVal))*100).toFixed(2)+"%");
 		
 		nbaClass=getNbaClass($(td).eq(3).text());
-		if(nbaClass=='FCD')
+		if(nbaClass=="FCD")
 			NbaSubjectWiseResult[scode][0]++;
-		else if(nbaClass=='FC')
+		else if(nbaClass=="FC")
 			NbaSubjectWiseResult[scode][1]++;
-		else if(nbaClass=='SC')
+		else if(nbaClass=="SC")
 			NbaSubjectWiseResult[scode][2]++;
-		else if(nbaClass=='PASS')
+		else if(nbaClass=="PASS")
 			NbaSubjectWiseResult[scode][3]++;
 	}
 }
