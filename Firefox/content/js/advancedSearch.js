@@ -240,7 +240,7 @@ function getFailedSubjects(str){
 }
 
 function getSubjectsStatus(str){
-	var s="", v=0, scode="", nbaClass;
+	var s="", v=0, scode="", nbaClass, pass1, fail1, ab1, abVal;
 	var tr = $(str).eq(1).find("tr");
 	//alert(str);
 	for (var j = 1; j < tr.length; j++)
@@ -266,8 +266,10 @@ function getSubjectsStatus(str){
 		}	
 		//alert(document.getElementById("subP"+j).value+" "+(p+f)+" "+parseInt(document.getElementById("subP"+j).value)/(p+f))*100).toFixed(2)+"%");
 		//alert((p+f)+" "+(parseInt(document.getElementById("subP"+j).value))+" "+((parseInt(document.getElementById("subP"+j).value)/(p+f))*100).toFixed(2)+"%");
-		var abVal = Number(document.getElementById("subA"+scode).getAttribute("label"));
-		document.getElementById("subPerc"+scode).setAttribute("label", ((Number(document.getElementById("subP"+scode).getAttribute("label"))/(p+f-abVal))*100).toFixed(2)+"%");
+		abVal = Number(document.getElementById("subA"+scode).getAttribute("label"));
+		pass1 = Number(document.getElementById("subP"+scode).getAttribute("label"));
+		fail1 = Number(document.getElementById("subF"+scode).getAttribute("label"));
+		document.getElementById("subPerc"+scode).setAttribute("label", ((pass1/(pass1+fail1-abVal))*100).toFixed(2)+"%");
 		
 		nbaClass=getNbaClass($(td).eq(3).text());
 		if(nbaClass=="FCD")
