@@ -143,12 +143,12 @@ function writeToFile(data)
 {
 	data += "\n";	
 	data += "Subjects,Passed,Failed,Absent,Percentage\n"
-	for (var j = 1; j <= total_sub; j++){
-		data += document.getElementById("sub"+scodes[j-1]).getAttribute("label")+",";
-		data += document.getElementById("subP"+scodes[j-1]).getAttribute("label")+",";		
-		data += document.getElementById("subF"+scodes[j-1]).getAttribute("label")+","
-		data += document.getElementById("subA"+scodes[j-1]).getAttribute("label")+",";
-		data += document.getElementById("subPerc"+scodes[j-1]).getAttribute("label")+"\n";
+	for (var j = 0; j < total_sub; j++){
+		data += document.getElementById("sub"+scodes[j]).getAttribute("label")+",";
+		data += document.getElementById("subP"+scodes[j]).getAttribute("label")+",";		
+		data += document.getElementById("subF"+scodes[j]).getAttribute("label")+","
+		data += document.getElementById("subA"+scodes[j]).getAttribute("label")+",";
+		data += document.getElementById("subPerc"+scodes[j]).getAttribute("label")+"\n";
 	}
 	data += "\n";
 	data += "Passed: "+p+" , Failed: "+f+", Absent:"+ab+", Percentage: "+(document.getElementById("result").value)+", Total: "+(document.getElementById("vt").value)+"\n";	
@@ -161,7 +161,7 @@ function writeToFile(data)
 		x+=scodes[i]+", ";
 		for (var j=0;j<4;j++){
 			//if(j==0)
-			//	alert(NbaSubjectWiseResult[scodes[i]][j]);
+			//alert(NbaSubjectWiseResult[scodes[i]][j]);
 			x+=NbaSubjectWiseResult[scodes[i]][j]+", ";
 		}
 		PerInd=4*(NbaSubjectWiseResult[scodes[i]][0])+3*(NbaSubjectWiseResult[scodes[i]][1])+2*(NbaSubjectWiseResult[scodes[i]][2])+NbaSubjectWiseResult[scodes[i]][3];
@@ -395,7 +395,10 @@ function advancedSearch(usnList)
 	strForTextI="";
 	advancedGoingOn=1;
 	p=0,t=0,f=0, fcd=0, ab=0, fc=0, sc=0, staken=0;
+	//For subject load
 	scodes=[];
+	total_sub=0;
+
 	var status=1, row, label0, lpass, lfail, vpass, vfail, vtotal, total, result;
 	var vresult, hb, hbx, saveButton, vbx, bx,fcdv, fcv,fcdv1, fcv1, scv, scv1, noti,spacer;
 	strForText = "";
