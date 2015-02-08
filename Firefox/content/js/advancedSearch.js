@@ -148,11 +148,10 @@ function writeToFile(data)
 		data += document.getElementById("subP"+scodes[j-1]).getAttribute("label")+",";		
 		data += document.getElementById("subF"+scodes[j-1]).getAttribute("label")+","
 		data += document.getElementById("subA"+scodes[j-1]).getAttribute("label")+",";
-		var abVal = parseInt(document.getElementById("subA"+scodes[j-1]).getAttribute("label"));
-		data += ((parseInt(document.getElementById("subP"+scodes[j-1]).getAttribute("label"))/(p+f-abVal))*100).toFixed(2)+"%" +"\n";
+		data += document.getElementById("subPerc"+scodes[j-1]).getAttribute("label")+"\n";
 	}
 	data += "\n";
-	data += "Passed: "+p+" , Failed: "+f+", Absent:"+ab+", Percentage: "+((p/(p+f))*100).toFixed(2)+"%"+", Total: "+(p+f)+"\n";	
+	data += "Passed: "+p+" , Failed: "+f+", Absent:"+ab+", Percentage: "+(document.getElementById("result").value)+", Total: "+(document.getElementById("vt").value)+"\n";	
 	data += "FCD:"+fcd+", FC:"+fc+", SC:"+sc;
 
 	//Performancs index start
@@ -269,7 +268,7 @@ function getSubjectsStatus(str){
 		abVal = Number(document.getElementById("subA"+scode).getAttribute("label"));
 		pass1 = Number(document.getElementById("subP"+scode).getAttribute("label"));
 		fail1 = Number(document.getElementById("subF"+scode).getAttribute("label"));
-		document.getElementById("subPerc"+scode).setAttribute("label", ((alpass1/(pass1+fail1-abVal))*100).toFixed(2)+"%");
+		document.getElementById("subPerc"+scode).setAttribute("label", ((pass1/(pass1+fail1-abVal))*100).toFixed(2)+"%");
 		
 		nbaClass=getNbaClass($(td).eq(3).text());
 		if(nbaClass=="FCD")
