@@ -63,6 +63,7 @@ function getSubjects(str){
 		if(scodes.indexOf(scode) == -1){
 			total_sub++;
 			scodes.push(scode);
+			NbaSubjectWiseResult[scode]=[0,0,0,0];
 			treeitem 	= document.createElement("treeitem");
 			treerow 	= document.createElement("treerow");	
 			treecell1 	= document.createElement("treecell");
@@ -153,7 +154,23 @@ function writeToFile(data)
 	data += "\n";
 	data += "Passed: "+p+" , Failed: "+f+", Absent:"+ab+", Percentage: "+((p/(p+f))*100).toFixed(2)+"%"+", Total: "+(p+f)+"\n";	
 	data += "FCD:"+fcd+", FC:"+fc+", SC:"+sc;
-	
+	var PerInd=0;
+	var x="\nSub,FCD,FC,SC,PASS,Performance Index\n";
+	for(var i=0; i<total_sub; i++){
+		x+=scodes[i]+",";
+		for (var j=0;j<4;j++){
+			x+="==>"+NbaSubjectWiseResult[scodes[i]][j]+", ";
+		}
+		PerInd=4*(NbaSubjectWiseResult[scodes[i]][0])+3*(NbaSubjectWiseResult[scodes[i]][1])+2*(NbaSubjectWiseResult[scodes[i]][2])+NbaSubjectWiseResult[scodes[i]][3];
+		x+=PerInd;
+		var k=Number(document.getElementById("subA"+scodes[i]).getAttribute("label"))
+		alert(k);
+		PerInd=PerInd/(4*(p+f-k));
+		x+=PerInd.toFixed(2)+"\n";
+	}
+	alert(x);
+	data+=x;
+	//	data +=
 	//data = data.replace(/[┬á]/g, '');
 	
 	// Get profile directory.
@@ -217,7 +234,7 @@ function getFailedSubjects(str){
 }
 
 function getSubjectsStatus(str){
-	var s="", v=0, scode="";
+	var s="", v=0, scode="", nbaClass;
 	var tr = $(str).eq(1).find("tr");
 	//alert(str);
 	for (var j = 1; j < tr.length; j++)
@@ -245,6 +262,16 @@ function getSubjectsStatus(str){
 		//alert((p+f)+" "+(parseInt(document.getElementById("subP"+j).value))+" "+((parseInt(document.getElementById("subP"+j).value)/(p+f))*100).toFixed(2)+"%");
 		var abVal = Number(document.getElementById("subA"+scode).getAttribute("label"));
 		document.getElementById("subPerc"+scode).setAttribute("label", ((Number(document.getElementById("subP"+scode).getAttribute("label"))/(p+f-abVal))*100).toFixed(2)+"%");
+		
+		nbaClass=getNbaClass($(td).eq(3).text());
+		if(nbaClass=='FCD')
+			NbaSubjectWiseResult[scode][0]++;
+		else if(nbaClass=='FC')
+			NbaSubjectWiseResult[scode][1]++;
+		else if(nbaClass=='SC')
+			NbaSubjectWiseResult[scode][2]++;
+		else if(nbaClass=='PASS')
+			NbaSubjectWiseResult[scode][3]++;
 	}
 }
 
@@ -264,6 +291,7 @@ function incClass(s){
 
 function openAdvResult(usn){
 	
+	NbaSubjectWiseResult={};
 	var sem=0, fileFetch=0;
 	if(document.getElementById('sem') != null)
 		sem = document.getElementById('sem').label;
@@ -302,7 +330,7 @@ function openAdvResult(usn){
 				name1 = getName($(all).find('B').eq(0).text());
 				strForText += name1+" , ";
 
-		document.getElementById("perc"+usn).setAttribute("label", parseFloat(findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())));
+				document.getElementById("perc"+usn).setAttribute("label", parseFloat(findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())));
 				strForText += findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())+" , ";
 
 				//if(staken==0)
@@ -341,7 +369,6 @@ function openAdvResult(usn){
 			document.getElementById("stat"+usn).setAttribute("label", "---");
 		}	
 		updatePerc();
-		
 		//resizeOnChange();
 	}; //request load end
 
@@ -613,3 +640,4 @@ function advancedSearch(usnList)
 		openAdvResult(usnList[u]);
 	}	
 }
+ 

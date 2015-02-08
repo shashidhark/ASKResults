@@ -8,9 +8,7 @@
 var abort=[];
 
 // For NBA
-//var NbaSubjectWiseResult={
-													
-	//					};
+var NbaSubjectWiseResult=Array();
 
 // File write string
 var strForText="";  // Adv
@@ -38,6 +36,24 @@ var pdfVar;
 //Color
 var passColor='#087F38', failColor='#E30F17' ;
 var marksRow ='#F0FFF0', tableHead='#90B890', failedSub='#FFCCCC';
+
+function getNbaClass(m){
+	var m1 = Number(m);
+	if(m1>=88){
+		return 'FCD';
+	}
+	else if(m1>=75 && m1<88){
+		return 'FC';
+	}
+	else if(m1>=63 && m1<75){
+		return 'SC';
+	}
+	else if(m1>=50 && m1<63){	
+		return 'PASS';
+	}
+	else 
+		return '';
+}
 
 function getAdvancedFileName(){
 	var d = new Date();
@@ -196,6 +212,7 @@ function getScode(sub_name_code){
 //Abort on switching
 function abortFunc(){
 	var len;	
+	NbaSubjectWiseResult={};
 	len=abort.length;
 	if(len!=0){
 		for(var i=0; i<len; i++)
