@@ -161,8 +161,8 @@ function writeToFile(data)
 	for(var i=0; i<total_sub; i++){
 		x+=scodes[i]+", ";
 		for (var j=0;j<4;j++){
-			if(j==0)
-				alert(NbaSubjectWiseResult[scodes[i]][j]);
+			//if(j==0)
+			//	alert(NbaSubjectWiseResult[scodes[i]][j]);
 			x+=NbaSubjectWiseResult[scodes[i]][j]+", ";
 		}
 		PerInd=4*(NbaSubjectWiseResult[scodes[i]][0])+3*(NbaSubjectWiseResult[scodes[i]][1])+2*(NbaSubjectWiseResult[scodes[i]][2])+NbaSubjectWiseResult[scodes[i]][3];
@@ -269,7 +269,7 @@ function getSubjectsStatus(str){
 		abVal = Number(document.getElementById("subA"+scode).getAttribute("label"));
 		pass1 = Number(document.getElementById("subP"+scode).getAttribute("label"));
 		fail1 = Number(document.getElementById("subF"+scode).getAttribute("label"));
-		document.getElementById("subPerc"+scode).setAttribute("label", ((pass1/(pass1+fail1-abVal))*100).toFixed(2)+"%");
+		document.getElementById("subPerc"+scode).setAttribute("label", ((alpass1/(pass1+fail1-abVal))*100).toFixed(2)+"%");
 		
 		nbaClass=getNbaClass($(td).eq(3).text());
 		if(nbaClass=="FCD")
