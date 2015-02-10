@@ -25,6 +25,16 @@
 		<label align="right" value='File formats such as .doc, .docx and .xlsx are not supported at present. '/>
 		<label align="right" value='Use "Browse File" button to choose the file from you computer and the location of the file will be displayed in the empty field, then click on "Load Result" button. '/>
 		<label align="right" value='It will diplay result as in "Advanced" search mode; use "Save Result" button to save the results as a .csv file. This mode of search is very helpful to find class wise results and percentages.' />
+		<label align="right" value='This mode also helpful for NBA work. At the bottom of the saved file NBA Ready table which displays number of FCD, FC, SC, PASS and also Performance Index for each subject.'/>
+		<label align="right" value=''/>
+		<label align="right" value='These are the following metrices and formulaes used for calculation.'/>
+		<label align="right" value='* Greater than 88 -> FCD'/>
+		<label align="right" value='* Greater than or equal to 75 and less than 88 -> FC'/>
+		<label align="right" value='* Greater than or equal to 63 and less than 75 -> SC'/>
+		<label align="right" value='* Greater than or equal to 50 and less than 63 -> PASS'/>
+		<label align="right" value=''/>
+		<label align="right" value='Performance Index = (4*FCD + 3*FC + 2*SC + PASS)/(4 * Total Attended)'/>
+		<label align="right" value=''/>
 		<label align="right" value='ASKResult add-on does not store the results data on any third party servers.'/>
 		<label align="right" value='The result data is fetched directly from the VTU server into the add-on. Results are available only when the VTU servers are up. ' />
 	</vbox>

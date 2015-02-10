@@ -5,9 +5,10 @@
 	<vbox flex="1" style="background-color:#FFF; overflow:scroll">
 		<label value="&askresults.name;&askresults.version.no;" style="font-weight: bold; font-size: medium;" />
 		<label align="right" value='*New* NBA Ready.' />
-		<label align="right" value='*Fixed* Elective subject issue. With some changes to UI' />
+		<label align="right" value='*Changes* Statusbar is added for Advanced Search and File Import Search.' />
+		<label align="right" value='*Fixed* Elective subject issue with some changes to UI' />
 		<label align="right" value='*Fixed* Save option now works in Windows.' />
-		<label align="right" value='* Many bug fixes'/>
+		<label align="right" value='* Many bug fixes.'/>
 	
 		<label align="right" value='-------------------------------------------------------------------------' />		
 			
