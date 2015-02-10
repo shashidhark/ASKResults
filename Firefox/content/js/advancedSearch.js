@@ -144,6 +144,10 @@ function writeToFileIndividual()
 
 function writeToFile(data)
 {
+	if(totalUSN == usnFetched){
+		document.getElementById('meter').hidden=true;
+	}
+
 	data += "\n";	
 	data += "Subjects,Passed,Failed,Absent,Percentage\n"
 	for (var j = 0; j < total_sub; j++){
@@ -385,12 +389,16 @@ function openAdvResult(usn){
 			document.getElementById("stat"+usn).setAttribute("label", "---");
 		}	
 		updatePerc();
+
+		usnFetched++;
+		document.getElementById('meter').value=Number((usnFetched/totalUSN)*100);
 		//resizeOnChange();
 	}; //request load end
 
 	abort[index].onerror = function(aEvent) {
 	   //alert(aEvent.target.status);
 	   document.getElementById("resultId").textContent = "Check Internet connection. Error status : "+ aEvent.target.status;
+	   document.getElementById('meter').hidden=true;
 	   resizeOnChange();
 	};
 
@@ -400,7 +408,12 @@ function openAdvResult(usn){
 }
 
 function advancedSearch(usnList)
-{
+{	
+	abortFunc();
+
+	totalUSN=0;
+	usnFetched=0;
+
 	strForTextI="";
 	advancedGoingOn=1;
 	p=0,t=0,f=0, fcd=0, ab=0, fc=0, sc=0, staken=0;
@@ -412,9 +425,10 @@ function advancedSearch(usnList)
 	var status=1, row, label0, lpass, lfail, vpass, vfail, vtotal, total, result;
 	var vresult, hb, hbx, saveButton, vbx, bx,fcdv, fcv,fcdv1, fcv1, scv, scv1, noti,spacer;
 	strForText = "";
-	document.getElementById('resultId').textContent = '';
 
-	abortFunc();
+	document.getElementById('resultId').textContent = '';
+	document.getElementById('meter').hidden=false;
+	document.getElementById('meter').value=0;
 
 	var resultId= document.getElementById("resultId");
 	bx 	= document.createElement("vbox");
@@ -621,6 +635,8 @@ function advancedSearch(usnList)
 //	treechildren.setAttribute("label", "Result");
 	var treeitem, treecell1, treecell2, treecell3, treecell4, treecell5, treerow;
 	var u=0;
+
+	totalUSN=usnList.length;
 	for(var u=0; u<usnList.length; u++)
 	{
 		treeitem 	= document.createElement("treeitem");

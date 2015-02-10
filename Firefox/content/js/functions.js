@@ -16,6 +16,8 @@ var strForTextI=""; // Normal
 
 var fileFetch=0;
 
+var totalUSN=0, usnFetched=0;;
+
 //Error
 var errorMsg = 'Please choose the proper file format contains University Seat Number (USN)';
 
@@ -221,6 +223,8 @@ function getSname(sub_name_code){
 function abortFunc(){
 	var len;	
 	fileFetch=0;
+	if(document.getElementById('meter'))
+		document.getElementById('meter').hidden=true;
 	NbaSubjectWiseResult={};
 	len=abort.length;
 	if(len!=0){
