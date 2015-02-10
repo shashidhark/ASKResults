@@ -144,7 +144,7 @@ function writeToFileIndividual()
 
 function writeToFile(data)
 {
-	data += "\n NBA Ready \n";	
+	data += "\n";	
 	data += "Subjects,Passed,Failed,Absent,Percentage\n"
 	for (var j = 0; j < total_sub; j++){
 		data += document.getElementById("sub"+scodes[j]).getAttribute("label")+",";
@@ -160,7 +160,7 @@ function writeToFile(data)
 	if(fileFetch==1){
 		//Performancs index start
 		var PerInd=0, nbaAb, fail1, pass1;
-		var x="\n\nSubject Name,Subject Code,FCD,FC,SC,PASS,Performance Index\n";
+		var x="\n\n NBA Ready \nSubject Name,Subject Code,FCD,FC,SC,PASS,Performance Index\n";
 		for(var i=0; i<total_sub; i++){
 			x+=snames[i]+","+scodes[i]+", ";
 			for (var j=0;j<4;j++){
