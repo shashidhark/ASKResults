@@ -63,6 +63,7 @@ function getSubjects(str){
 		if(scodes.indexOf(scode) == -1){
 			total_sub++;
 			scodes.push(scode);
+			snames.push(getSname($(td).eq(0).text()));
 			NbaSubjectWiseResult[scode]=[0,0,0,0];
 			treeitem 	= document.createElement("treeitem");
 			treerow 	= document.createElement("treerow");	
@@ -108,6 +109,8 @@ function writeToFileIndividual()
 	else
 		fileName = getSingleFileName();	
 
+	var file = Components.classes["@mozilla.org/file/local;1"].
+		       createInstance(Components.interfaces.nsILocalFile);
 	var file = FileUtils.getFile("DfltDwnld", [fileName]);
 
 	// You can also optionally pass a flags parameter here. It defaults to
@@ -141,7 +144,7 @@ function writeToFileIndividual()
 
 function writeToFile(data)
 {
-	data += "\n";	
+	data += "\n NBA Ready \n";	
 	data += "Subjects,Passed,Failed,Absent,Percentage\n"
 	for (var j = 0; j < total_sub; j++){
 		data += document.getElementById("sub"+scodes[j]).getAttribute("label")+",";
@@ -154,34 +157,39 @@ function writeToFile(data)
 	data += "Passed: "+p+" , Failed: "+f+", Absent:"+ab+", Percentage: "+(document.getElementById("result").value)+", Total: "+(document.getElementById("vt").value)+"\n";	
 	data += "FCD:"+fcd+", FC:"+fc+", SC:"+sc;
 
-	//Performancs index start
-	var PerInd=0, nbaAb;
-	var x="\n\nSub,FCD,FC,SC,PASS,Performance Index\n";
-	for(var i=0; i<total_sub; i++){
-		x+=scodes[i]+", ";
-		for (var j=0;j<4;j++){
-			//if(j==0)
-			//alert(NbaSubjectWiseResult[scodes[i]][j]);
-			x+=NbaSubjectWiseResult[scodes[i]][j]+", ";
+	if(fileFetch==1){
+		//Performancs index start
+		var PerInd=0, nbaAb, fail1, pass1;
+		var x="\n\nSubject Name,Subject Code,FCD,FC,SC,PASS,Performance Index\n";
+		for(var i=0; i<total_sub; i++){
+			x+=snames[i]+","+scodes[i]+", ";
+			for (var j=0;j<4;j++){
+				//if(j==0)
+				//alert(NbaSubjectWiseResult[scodes[i]][j]);
+				x+=NbaSubjectWiseResult[scodes[i]][j]+", ";
+			}
+			PerInd=4*(NbaSubjectWiseResult[scodes[i]][0])+3*(NbaSubjectWiseResult[scodes[i]][1])+2*(NbaSubjectWiseResult[scodes[i]][2])+NbaSubjectWiseResult[scodes[i]][3];
+			//x+=PerInd;
+			pass1 = Number(document.getElementById("subP"+scodes[i]).getAttribute("label"));
+			fail1 = Number(document.getElementById("subF"+scodes[i]).getAttribute("label"));
+			nbaAb = Number(document.getElementById("subA"+scodes[i]).getAttribute("label"))
+			//alert(k);
+			PerInd=PerInd/(4*(pass1+fail1-nbaAb));
+			x+=PerInd.toFixed(2)+"\n";
 		}
-		PerInd=4*(NbaSubjectWiseResult[scodes[i]][0])+3*(NbaSubjectWiseResult[scodes[i]][1])+2*(NbaSubjectWiseResult[scodes[i]][2])+NbaSubjectWiseResult[scodes[i]][3];
-		x+=PerInd;
-		nbaAb=Number(document.getElementById("subA"+scodes[i]).getAttribute("label"))
-		//alert(k);
-		PerInd=PerInd/(4*(p+f-nbaAb));
-		x+=PerInd.toFixed(2)+"\n";
-	}
 	
-	//Performancs index END
-	//alert(x);
-	data+=x;
-
+		//Performancs index END
+		//alert(x);
+		data+=x;
+	}
 	//data = data.replace(/[┬á]/g, '');
 	
 	// Get profile directory.
 	Components.utils.import("resource://gre/modules/FileUtils.jsm");
 	Components.utils.import("resource://gre/modules/NetUtil.jsm");
 
+	var file = Components.classes["@mozilla.org/file/local;1"].
+		       createInstance(Components.interfaces.nsILocalFile);
 	var fileName="";
 	fileName = getAdvancedFileName();
 	var file = FileUtils.getFile("DfltDwnld", [fileName]);
@@ -299,7 +307,8 @@ function incClass(s){
 function openAdvResult(usn){
 	
 	NbaSubjectWiseResult={};
-	var sem=0, fileFetch=0;
+
+	var sem=0;
 	if(document.getElementById('sem') != null)
 		sem = document.getElementById('sem').label;
 	else{
@@ -397,6 +406,7 @@ function advancedSearch(usnList)
 	p=0,t=0,f=0, fcd=0, ab=0, fc=0, sc=0, staken=0;
 	//For subject load
 	scodes=[];
+	snames=[];
 	total_sub=0;
 
 	var status=1, row, label0, lpass, lfail, vpass, vfail, vtotal, total, result;
@@ -502,7 +512,7 @@ function advancedSearch(usnList)
 	place.setAttribute("flex", "1");
 	var tree 	= document.createElement("tree");
 	tree.setAttribute("flex", "1");
-	tree.setAttribute("rows", 8);
+	tree.setAttribute("rows", 5);
 	place.appendChild(tree);
 
 	var splitter = document.createElement("splitter");
@@ -511,6 +521,7 @@ function advancedSearch(usnList)
 	treecols.setAttribute("style", "font-weight:bold");
 	var treecol = document.createElement("treecol");
 	treecol.setAttribute("label", "Subjects");
+	treecol.setAttribute("width",260);
 	treecols.appendChild(treecol);
 	treecols.appendChild(splitter);
 	treecol = document.createElement("treecol");

@@ -153,10 +153,10 @@
 			<label id="msg" hidden="true" value=""/>
 		</hbox>
 		<hbox class="bdy" id="normal" hidden="false">
-			Enter Your University Seat No : <textbox id='usn_id' class="inputs" maxlength="10" size="9" placeholder="USN" value=""/>
+			Enter Your University Seat No : <textbox id='usn_id' class="inputs" maxlength="10" size="15" placeholder="USN" value=""/>
 			<button id="submit-button" class="loadButton"  label="Load Result" onclick="openResult(document.getElementById('usn_id').value);"/>
 		</hbox>
-		<vbox flex="1" class="bdy" id="advance" hidden="true" style="margin-top:1em;">
+		<vbox flex="1" class="bdy" id="advance" hidden="true">
 		</vbox>
 		<vbox flex="1" class="bdy" id='resultId' style="margin-top:1em;">
 		</vbox>

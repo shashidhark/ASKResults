@@ -7,6 +7,19 @@
 |
 |===============================================================================
 */
+// Retrieve the preferences.
+/*
+var prefs;
+prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.ASKResults.");
+prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
+
+// If we just installed, open the post-install page and update the preferences.
+var just_installed = prefs.getBoolPref("just_installed");
+var post_install_url = prefs.getCharPref("post_install_url");
+if (just_installed) {
+  prefs.setBoolPref("just_installed", false);
+  gBrowser.selectedTab = gBrowser.addTab("http://www.com");    
+}*/
 
 var AskResults = {
   onLoad: function() {

@@ -317,6 +317,11 @@ function fileImpUI()
 	button2.setAttribute("width", "100");
 	button2.setAttribute("class", "loadButton");
 	button2.setAttribute("onclick", "readFile()");
+
+	
+	var msg = document.createElement("label");
+	msg.setAttribute("value", " ** NBA Ready ** Click on Save Result to avail it.");	
+	advUI.appendChild(msg);	
 	
 	var msg = document.createElement("label");
 	msg.setAttribute("value", "Choose text, csv or xls file containing USN list");
@@ -686,8 +691,9 @@ function fetchTableAdv(str, usn){
 		perc = "Percentage: "+avg+"%";
 	}
 	strForTextI += "Percentage: "+avg+"% \n\n";
-
-	for (var i=1; i < table.length-1; i++){
+	
+	var i=1;
+	//for (var i=1; i < table.length-1; i++){
 		//Store repeated subject codes
 		var scodes=[];
 		var tr = $(table).eq(i).find("tr");
@@ -709,7 +715,7 @@ function fetchTableAdv(str, usn){
 			}
 			strForTextI += "\n";
 		}
-	}
+	//}
 	return strForTextI;
 }
 
@@ -730,7 +736,7 @@ function openResult(usn){
 	}
 	else if(!checkFormat(usn)){
 		document.getElementById('resultId').textContent = "Check USN format...";
-		document.getElementById('resultId').setAttribute("style", "color:red");
+		//document.getElementById('resultId').setAttribute("style", "color:red");
 		document.getElementById('usn_id').setAttribute("style", "border:1px solid red");
 		resizeOnChange();
 		return;

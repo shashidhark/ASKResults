@@ -14,6 +14,8 @@ var NbaSubjectWiseResult=Array();
 var strForText="";  // Adv
 var strForTextI=""; // Normal
 
+var fileFetch=0;
+
 //Error
 var errorMsg = 'Please choose the proper file format contains University Seat Number (USN)';
 
@@ -28,6 +30,7 @@ var staken=0;
 
 // Subject code list. Used as ID for labels
 var scodes=[];
+var snames=[];
 
 // pdf Write. Not used yet
 var pdfVar;
@@ -57,17 +60,19 @@ function getNbaClass(m){
 
 function getAdvancedFileName(){
 	var d = new Date();
-	return "VTUResult_ASKResults"+(d.toUTCString()).replace(' ', '_')+".csv";
+	return "VTUResult_ASKResults"+(d.toUTCString()).replace(/[, :]/g, '_')+".csv";
+	//return 'vtu.csv';
 }
 
 function getNormalFileName(){
 	var d = new Date();
-	return "Individual_List_VTUResult_ASKResults"+(d.toUTCString()).replace(' ', '_')+".csv";
+	return "Individual_List_VTUResult_ASKResults"+(d.toUTCString()).replace(/[, :]/g, '_')+".csv";
+	//return 'vtu1.csv';
 }
 
 function getSingleFileName(){
 	var d = new Date();
-	return "Individual_VTUResult_ASKResults"+(d.toUTCString()).replace(' ', '_')+".csv";
+	return "Individual_VTUResult_ASKResults"+(d.toUTCString()).replace(/[, :]/g, '_')+".csv";
 }
 
 function readFile()
@@ -208,10 +213,14 @@ function findAvg(usn, total, sem){
 function getScode(sub_name_code){
 	return  sub_name_code.substring(sub_name_code.indexOf('(')+1, sub_name_code.indexOf(')'));
 }
-
+//sname
+function getSname(sub_name_code){
+	return  sub_name_code.substring(0, sub_name_code.indexOf('(')-1);
+}
 //Abort on switching
 function abortFunc(){
 	var len;	
+	fileFetch=0;
 	NbaSubjectWiseResult={};
 	len=abort.length;
 	if(len!=0){
