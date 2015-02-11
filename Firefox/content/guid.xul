@@ -28,7 +28,7 @@
 		<label align="right" value='This mode also helpful for NBA work. At the bottom of the saved file NBA Ready table which displays number of FCD, FC, SC, PASS and also Performance Index for each subject.'/>
 		<label align="right" value=''/>
 		<label align="right" value='These are the following metrices and formulaes used for calculation.'/>
-		<label align="right" value='* Greater than 88 -> FCD'/>
+		<label align="right" value='* Greater than or equal to 88 -> FCD'/>
 		<label align="right" value='* Greater than or equal to 75 and less than 88 -> FC'/>
 		<label align="right" value='* Greater than or equal to 63 and less than 75 -> SC'/>
 		<label align="right" value='* Greater than or equal to 50 and less than 63 -> PASS'/>

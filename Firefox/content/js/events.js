@@ -721,8 +721,12 @@ function fetchTableAdv(str, usn){
 
 // Function to do all the processing. Resquest and Display result.
 function openResult(usn){
-	
-	//Color codes
+/*--------->>>
+	var prefs;
+		prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.ASKResults.");
+		prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
+		alert(prefs.getBoolPref('first-time'));
+//------->>>>>>*/
 	strForTextI="";
 	
 	document.getElementById('print').hidden=true;

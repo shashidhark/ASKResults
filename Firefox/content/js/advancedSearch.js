@@ -178,7 +178,7 @@ function writeToFile(data)
 			fail1 = Number(document.getElementById("subF"+scodes[i]).getAttribute("label"));
 			nbaAb = Number(document.getElementById("subA"+scodes[i]).getAttribute("label"))
 			//alert(k);
-			PerInd=PerInd/(4*(pass1+fail1-nbaAb));
+			PerInd=PerInd/(4*(pass1+fail1));
 			x+=PerInd.toFixed(2)+"\n";
 		}
 	
@@ -280,7 +280,7 @@ function getSubjectsStatus(str){
 		abVal = Number(document.getElementById("subA"+scode).getAttribute("label"));
 		pass1 = Number(document.getElementById("subP"+scode).getAttribute("label"));
 		fail1 = Number(document.getElementById("subF"+scode).getAttribute("label"));
-		document.getElementById("subPerc"+scode).setAttribute("label", ((pass1/(pass1+fail1-abVal))*100).toFixed(2)+"%");
+		document.getElementById("subPerc"+scode).setAttribute("label", ((pass1/(pass1+fail1))*100).toFixed(2)+"%");
 		
 		nbaClass=getNbaClass($(td).eq(3).text());
 		if(nbaClass=="FCD")

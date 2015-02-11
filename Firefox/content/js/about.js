@@ -1,42 +1,22 @@
-function openAndReuseOneTabPerURL(url) {
-  var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-                     .getService(Components.interfaces.nsIWindowMediator);
-  var browserEnumerator = wm.getEnumerator("navigator:browser");
+function getTopWindow(){
+	var wwatch = Components.classes["@mozilla.org/embedcomp/window-watcher;1"].getService().
+			QueryInterface(Components.interfaces.nsIWindowWatcher);
+	var i=wwatch.getWindowEnumerator();
+	while(i.hasMoreElements()) {
+		var w=i.getNext().QueryInterface(Components.interfaces.nsIDOMWindow);
+		try {
+			var w0=w.QueryInterface(Components.interfaces.nsIDOMWindowInternal);
+			if(w0.location.href=="chrome://browser/content/browser.xul")
+				return w0;
+		} catch(e) {}
+	}
+	return null;
+}
 
-  // Check each browser instance for our URL
-  var found = false;
-  while (!found && browserEnumerator.hasMoreElements()) {
-    var browserWin = browserEnumerator.getNext();
-    var tabbrowser = browserWin.gBrowser;
-
-    // Check each tab of this browser instance
-    var numTabs = tabbrowser.browsers.length;
-    for (var index = 0; index < numTabs; index++) {
-      var currentBrowser = tabbrowser.getBrowserAtIndex(index);
-      if (url == currentBrowser.currentURI.spec) {
-
-        // The URL is already opened. Select this tab.
-        tabbrowser.selectedTab = tabbrowser.tabContainer.childNodes[index];
-
-        // Focus *this* browser-window
-        browserWin.focus();
-
-        found = true;
-        break;
-      }
-    }
-  }
-
-  // Our URL isn't open. Open it now.
-  if (!found) {
-    var recentWindow = wm.getMostRecentWindow("navigator:browser");
-    if (recentWindow) {
-      // Use an existing browser window
-      recentWindow.delayedOpenTab(url, null, null, null, null);
-    }
-    else {
-      // No browser windows are open, so open a new one.
-      window.open(url);
-    }
-  }
+function newTab(url){
+		var top=getTopWindow();
+		// If we just installed, open the post-install page and update the preferences.
+		var browser=top.getBrowser();
+		var tab = browser.addTab(url);
+		setTimeout(new Function("b","t","b.selectedTab=t;"),100,browser,tab);
 }
