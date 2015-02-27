@@ -4,13 +4,18 @@
 <dialog title="&askresults.name;&askresults.version.no;" buttons="accept" width="500" height="400" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:svg="http://www.w3.org/2000/svg" style="-moz-appearance :none;background-color:#A0B0E0;">
 	<vbox flex="1" style="background-color:#FFF; overflow:scroll">
 		<label value="&askresults.name;&askresults.version.no;" style="font-weight: bold; font-size: medium;" />
+		<label align="right" value='*Fixed* Minor bug fixes' />
+	
+		<label align="right" value='-------------------------------------------------------------------------' />	
+
+		<label value="&askresults.name; 0.9.1" style="font-weight: bold; font-size: medium;" />
 		<label align="right" value='*Fixed* Subject wise percentage calculation issue.' />
 	
 		<label align="right" value='-------------------------------------------------------------------------' />	
 		
 		<label value="&askresults.name; 0.9" style="font-weight: bold; font-size: medium;" />
 		<label align="right" value='*New* NBA Ready.' />
-		<label align="right" value='*Changes* Statusbar is added for Advanced Search and File Import Search.' />
+		<label align="right" value='*Changes* Progress bar is added for Advanced Search and File Import Search.' />
 		<label align="right" value='*Fixed* Elective subject issue with some changes to UI' />
 		<label align="right" value='*Fixed* Save option now works in Windows.' />
 		<label align="right" value='* Many bug fixes.'/>

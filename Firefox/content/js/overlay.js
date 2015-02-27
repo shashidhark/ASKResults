@@ -40,7 +40,7 @@ var AskResults = {
 		
 		AskResults.frun = prefs.getCharPref("firstrun");
 		
-		if(AskResults.frun!='0.9.1')
+		if(AskResults.frun!='0.9.5')
 		{
 				setTimeout(function(){
 						prefs.setCharPref("firstrun", AskResults.newVersion);

@@ -722,12 +722,12 @@ function fetchTableAdv(str, usn){
 function openResult(usn){
 
 // you don't know when version will be populated
-//--------->>>
+/*--------->>>
 	var prefs;
 		prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.ASKResults.");
 		prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
 		alert(prefs.getCharPref('firstrun'));
-//------->>>>>>
+//------->>>>>>*/
 	strForTextI="";
 	
 	document.getElementById('print').hidden=true;
