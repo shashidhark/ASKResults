@@ -17,8 +17,8 @@
 		  <hbox style="margin-left: 1em;">
             <label value="&askresults.createdBy;" />
 			<vbox>
-				<label class="text-link" style="text-decoration:none;" value="&askresults.creator1;" onclick='newTab("https://github.com/shashidhark/ASKResults")'/>
-				<label class="text-link" style="text-decoration:none;" value="&askresults.creator2;" onclick='newTab("https://github.com/shashidhark/ASKResults")'/>
+				<label class="text-link" style="text-decoration:none;" value="&askresults.creator1;" onclick='newTab("https://theaskdev.com")'/>
+				<label class="text-link" style="text-decoration:none;" value="&askresults.creator2;" onclick='newTab("https://theaskdev.com")'/>
 			</vbox>
           </hbox>
 		  <hbox style="margin-left: 1em;">

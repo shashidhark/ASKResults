@@ -10,36 +10,44 @@
 
 
 var AskResults = {
+	frun:null,
+	newVersion:null,
 	onLoad: function() {
     // initialization code
 		this.initialized = true;
+		this.firstRun();
 		this.addButton();
-		//this.getTopWindow();
   	},
-	getTopWindow1: function(){
-		var win = Components.classes['@mozilla.org/appshell/window-mediator;1']
-                  .getService(Components.interfaces.nsIWindowMediator)
-                  .getMostRecentWindow('navigator:browser');
-               win.gBrowser.selectedTab = win.gBrowser.addTab('http://www.sasy.com');
-	},
-	getTopWindow: function(){
-	//	setTimeout(function(){alert(pref.getBoolPref("first-time"))},1000,browser,tab);
-		var pref;
-		pref = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.ASKResults.");
-		pref.QueryInterface(Components.interfaces.nsIPrefBranch2);
-		setTimeout(function(){alert(pref.getBoolPref("first-time"))},3000);
-//		alert("hello");
-		if(pref.getBoolPref("first-time")==true) {
-		
-			setTimeout(function(){alert("hi")},3000);
-			//var top = AskResults.getTopWindow1();
-			//var browser=top.getBrowser();
-			//var tab = browser.addTab();
-			setTimeout(AskResults.getTopWindow1(),100);
-			pref.setBoolPref("first-time",false);
+	firstRun: function(){
+		var prefs;
+		prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.ASKResults.");
+		prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
+
+		try {
+			// Firefox 4 and later; Mozilla 2 and later
+			Components.utils.import("resource://gre/modules/AddonManager.jsm");
+			AddonManager.getAddonByID("VtuResult@sak.org", function(addon) {
+			AskResults.newVersion = addon.version;
+		  });
 		}
-		//
-		//return null;
+		catch (ex) {
+			// Firefox 3.6 and before; Mozilla 1.9.2 and before
+			var em = Components.classes["@mozilla.org/extensions/manager;1"]
+				     .getService(Components.interfaces.nsIExtensionManager);
+			var addon = em.getItemForID("VtuResult@sak.org");
+			AskResults.newVersion = addon.version;
+		}		
+		
+		AskResults.frun = prefs.getCharPref("firstrun");
+		
+		if(AskResults.frun!='0.9.1')
+		{
+				setTimeout(function(){
+						prefs.setCharPref("firstrun", AskResults.newVersion);
+						gBrowser.selectedTab = gBrowser.addTab("http://theaskdev.com/thanks.php?app=1");
+						//alert("helloo"+(AskResults.frun==AskResults.newVersion));//alert(stat);//AskResults.frun+' '+AskResults.newVersion); 						
+				}, 3000);				
+		}
 	},
   	addButton: function() {
 		var toolbarButton = 'AskResults-button';

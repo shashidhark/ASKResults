@@ -719,14 +719,15 @@ function fetchTableAdv(str, usn){
 	return strForTextI;
 }
 
-// Function to do all the processing. Resquest and Display result.
 function openResult(usn){
-/*--------->>>
+
+// you don't know when version will be populated
+//--------->>>
 	var prefs;
 		prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.ASKResults.");
 		prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
-		alert(prefs.getBoolPref('first-time'));
-//------->>>>>>*/
+		alert(prefs.getCharPref('firstrun'));
+//------->>>>>>
 	strForTextI="";
 	
 	document.getElementById('print').hidden=true;
