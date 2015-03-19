@@ -324,23 +324,19 @@ function fileImpUI()
 	hbox1.appendChild(checkbx);	
 	
 	var msg1 = document.createElement("label");
-	msg1.setAttribute("value", "Performance Index");	
+	msg1.setAttribute("value", "Performance Index (NBA)");	
 	hbox1.appendChild(msg1);
-	
+		
 	var msg = document.createElement("label");
-	msg.setAttribute("value", " ** NBA Ready ** Click on Save Result to avail it.");	
-	advUI.appendChild(msg);	
-	
-	var msg = document.createElement("label");
-	msg.setAttribute("value", "Choose text, csv or xls file containing USN list");
+	msg.setAttribute("value", "Choose txt, csv or xls file containing USN list");
 
 	var textbox = document.createElement("textbox");
 	textbox.setAttribute("class", "inputs");
 	textbox.setAttribute("id", "filePath");
 //	textbox.setAttribute("onfocus", "filePicker()");
-
-	advUI.appendChild(msg);
+	
 	advUI.appendChild(hbox1);
+	advUI.appendChild(msg);
 	hbox.appendChild(textbox);	
 	hbox.appendChild(button1);
 	hbox.appendChild(button2);
