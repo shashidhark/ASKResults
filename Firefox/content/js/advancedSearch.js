@@ -161,7 +161,8 @@ function writeToFile(data)
 	data += "Passed: "+p+" , Failed: "+f+", Absent:"+ab+", Percentage: "+(document.getElementById("result").value)+", Total: "+(document.getElementById("vt").value)+"\n";	
 	data += "FCD:"+fcd+", FC:"+fc+", SC:"+sc;
 
-	if(fileFetch==1){
+	var nr = document.getElementById("NbaReady");
+	if(fileFetch==1 && nr.checked){
 		//Performancs index start
 		var PerInd=0, nbaAb, fail1, pass1;
 		var x="\n\n NBA Ready \nSubject Name,Subject Code,FCD,FC,SC,PASS,Performance Index\n";

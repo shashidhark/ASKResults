@@ -318,6 +318,14 @@ function fileImpUI()
 	button2.setAttribute("class", "loadButton");
 	button2.setAttribute("onclick", "readFile()");
 
+	var hbox1 = document.createElement("hbox");
+	var checkbx = document.createElement("checkbox");
+	checkbx.setAttribute("id", "NbaReady");
+	hbox1.appendChild(checkbx);	
+	
+	var msg1 = document.createElement("label");
+	msg1.setAttribute("value", "Performance Index");	
+	hbox1.appendChild(msg1);
 	
 	var msg = document.createElement("label");
 	msg.setAttribute("value", " ** NBA Ready ** Click on Save Result to avail it.");	
@@ -332,6 +340,7 @@ function fileImpUI()
 //	textbox.setAttribute("onfocus", "filePicker()");
 
 	advUI.appendChild(msg);
+	advUI.appendChild(hbox1);
 	hbox.appendChild(textbox);	
 	hbox.appendChild(button1);
 	hbox.appendChild(button2);

@@ -9,7 +9,6 @@ var abort=[];
 
 // For NBA
 var NbaSubjectWiseResult=Array();
-
 // File write string
 var strForText="";  // Adv
 var strForTextI=""; // Normal

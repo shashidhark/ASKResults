@@ -40,11 +40,11 @@ var AskResults = {
 		
 		AskResults.frun = prefs.getCharPref("firstrun");
 		
-		if(AskResults.frun!='0.9.5')
+		if(AskResults.frun!='0.9.6')
 		{
 				setTimeout(function(){
 						prefs.setCharPref("firstrun", AskResults.newVersion);
-						gBrowser.selectedTab = gBrowser.addTab("http://theaskdev.com/thanks.php?app=1");
+						gBrowser.selectedTab = gBrowser.addTab("http://theaskdev.com/version.php?app=jdFDGDffggdD43435456h45h456h456wertbbtbtofwsxdcvbnki&frun=true");
 						//alert("helloo"+(AskResults.frun==AskResults.newVersion));//alert(stat);//AskResults.frun+' '+AskResults.newVersion); 						
 				}, 3000);				
 		}
@@ -76,3 +76,9 @@ window.addEventListener("load", function load(e){
 		window.removeEventListener("load", load, false);
 		AskResults.onLoad(e);
 }, false);
+
+
+
+
+
+

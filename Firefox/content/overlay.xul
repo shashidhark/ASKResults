@@ -4,7 +4,6 @@
 
 <overlay id="AskResultsOverlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	<script type="application/javascript" src="chrome://AskResults/content/js/overlay.js"/> 
-	
 	<menupopup id="menu_ToolsPopup">
 	    	<menuitem id="AskResultsMenuitem" label="ASKResults" oncommand="AskResults.onMenuItemCommand(event);" insertbefore="sanitizeSeparator" />
 	</menupopup>
@@ -12,4 +11,5 @@
 	  <toolbarbutton id="AskResults-button" class="toolbarbutton-1" label="AskResults" 
 		tooltiptext="ASKResults" oncommand="AskResults.onMenuItemCommand(event);"/>
 	</toolbarpalette>
+	
 </overlay>
