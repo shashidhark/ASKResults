@@ -4,7 +4,7 @@
 <dialog title="&askresults.name;&askresults.version.no;" buttons="accept" width="500" height="400" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:svg="http://www.w3.org/2000/svg" style="-moz-appearance :none;background-color:#A0B0E0;">
 	<vbox flex="1" style="background-color:#FFF; overflow:scroll">
 		<label value="&askresults.name;&askresults.version.no;" style="font-weight: bold; font-size: medium;" />
-		<label align="right" value='*New* Choose NBA Ready' />
+		<label align="right" value='*New* Performace Index (NBA) is optional now' />
 	
 		<label align="right" value='-------------------------------------------------------------------------' />
 		<label value="&askresults.name; 0.9.5" style="font-weight: bold; font-size: medium;" />
