@@ -1,6 +1,6 @@
 /*
 |===============================================================================
-|			Last Modified Date 	: 28/08/2014
+|			Last Modified Date 	: 05/04/2015
 |			Developer						: Shashidhar and alwyn
 |===============================================================================
 |	   	File Name		: overlay.js
@@ -40,11 +40,11 @@ var AskResults = {
 		
 		AskResults.frun = prefs.getCharPref("firstrun");
 		
-		if(AskResults.frun!='0.9.6')
+		if(AskResults.frun!='0.9.8')
 		{
 				setTimeout(function(){
 						prefs.setCharPref("firstrun", AskResults.newVersion);
-						gBrowser.selectedTab = gBrowser.addTab("http://theaskdev.com/version.php?app=jdFDGDffggdD43435456h45h456h456wertbbtbtofwsxdcvbnki&frun=true");
+						gBrowser.selectedTab = gBrowser.addTab("http://www.theaskdev.com/version.php?app=jdFDGDffggdD43435456h45h456h456wertbbtbtofwsxdcvbnki&frun=true");
 						//alert("helloo"+(AskResults.frun==AskResults.newVersion));//alert(stat);//AskResults.frun+' '+AskResults.newVersion); 						
 				}, 3000);				
 		}
