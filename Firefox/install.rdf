@@ -8,7 +8,7 @@
     <!-- Extension name displayed in Add-on Manager -->
     <em:name>ASKResults</em:name>
     <!-- Extension version number. There is a version numbering scheme you must follow -->
-    <em:version>0.9.8</em:version>
+    <em:version>1.0</em:version>
     <!-- Brief description displayed in Add-on Manager -->
     <em:description>Ask Results Addon</em:description>
     <!-- Name of extension's primary developer. Change to your name -->

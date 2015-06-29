@@ -170,6 +170,7 @@
 			<label id="saveImsg" hidden="true" value="Result file is saved to Downloads folder"/>
 		</hbox>
 		<hbox>
+			<label style="color:#000;" value="Follow us on: " />			
 			<label class="text-link" style="text-decoration:none; color:#3A5795;" value="Facebook" onclick='newTab("https://www.facebook.com/theaskdev")'/>
 			<label class="text-link" style="text-decoration:none; color:#E62117;" value="YouTube" onclick='newTab("https://www.youtube.com/ASKDEVInc")'/>
 			<label class="text-link" style="text-decoration:none; color:#55ACEE;" value="Twitter" onclick='newTab("https://twitter.com/theaskdev")'/>

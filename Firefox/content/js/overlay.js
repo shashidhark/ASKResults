@@ -40,11 +40,11 @@ var AskResults = {
 		
 		AskResults.frun = prefs.getCharPref("firstrun");
 		
-		if(AskResults.frun!='0.9.8')
+		if(AskResults.frun!='1.0')
 		{
 				setTimeout(function(){
 						prefs.setCharPref("firstrun", AskResults.newVersion);
-						gBrowser.selectedTab = gBrowser.addTab("http://www.theaskdev.com/version.php?app=jdFDGDffggdD43435456h45h456h456wertbbtbtofwsxdcvbnki&frun=true");
+						gBrowser.selectedTab = gBrowser.addTab("https://addons.mozilla.org/en-US/firefox/addon/askresults/versions");
 						//alert("helloo"+(AskResults.frun==AskResults.newVersion));//alert(stat);//AskResults.frun+' '+AskResults.newVersion); 						
 				}, 3000);				
 		}
