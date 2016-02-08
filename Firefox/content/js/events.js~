@@ -246,7 +246,7 @@ function createAdvanceUI(){
 }
 
 function displayAdvUI(mode){
-	//alert("hi");
+	//	alert("hi");
 	resizeOnChange();
 	if(mode=='a'){		
 		abortFunc();

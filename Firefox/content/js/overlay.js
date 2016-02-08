@@ -40,11 +40,11 @@ var AskResults = {
 		
 		AskResults.frun = prefs.getCharPref("firstrun");
 		
-		if(AskResults.frun!='1.0')
+		if(AskResults.frun!='1.3')
 		{
 				setTimeout(function(){
 						prefs.setCharPref("firstrun", AskResults.newVersion);
-						gBrowser.selectedTab = gBrowser.addTab("https://addons.mozilla.org/en-US/firefox/addon/askresults/versions");
+						gBrowser.selectedTab = gBrowser.addTab("http://www.theaskdev.com/faqs.php?app=jdFDGDffggdD43435456h45h456h456wertbbtbtofwsxdcvbnki&frun=1");
 						//alert("helloo"+(AskResults.frun==AskResults.newVersion));//alert(stat);//AskResults.frun+' '+AskResults.newVersion); 						
 				}, 3000);				
 		}

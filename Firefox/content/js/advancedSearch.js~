@@ -311,7 +311,7 @@ function getSubjectsStatus(str){
 }
 
 function getClass(str){
-	//alert(str.match(/\b\w/g).join(''));
+//	alert(str.match(/\b\w/g).join(''));
 	return str.match(/\b\w/g).join('');
 }
 

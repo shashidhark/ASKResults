@@ -140,14 +140,14 @@
 		  		<menuitem label="File Import" id="fileImp" key="fkey" oncommand="fileImpUI('f')"/>
 			</menupopup>
 	  	</menu>
-	  	<menu id="edit-menu" label="Help" accesskey="h">
+	  	<menu id="edit-men	u" label="Help" accesskey="h">
 			<menupopup id="edit-popup">				
 				<menuitem label="Help" id="fileImp" key="gukey" oncommand="window.open('chrome://AskResults/content/guid.xul', '', 'chrome=yes, scrollbars=yes, resizable=yes, top=200, left=500');"/>
 		 		<menuitem label="About" accesskey="a" key="abkey" oncommand="window.open('chrome://AskResults/content/about.xul', '', 'chrome=yes, scrollbars=yes, resizable=yes, top=200, left=500');"/>
 			</menupopup>
 	  	</menu>
 	</menubar>
-	<vbox style="margin-left:2em; margin-right:2em; margin-bottom:2em; ">
+	<vbox style="margin-left:2em; margin-right:2em; margin-bottom:0em; ">
 		<hbox class="bdy">
 			<!--button id="advSearch" class="advSearch" label="Switch to Advanced Search" onclick="displayAdvUI()" /-->
 			<checkbox id="reval" class="chkbx"  label="Revaluation Result" checked="false"/>
@@ -169,12 +169,13 @@
 			<button id="print" hidden="true" class="loadButton" label="Save Result" onclick="writeToFileIndividual();"/>
 			<label id="saveImsg" hidden="true" value="Result file is saved to Downloads folder"/>
 		</hbox>
-		<hbox>
+		<hbox style="background-color:#FDFDFD;">
 			<label style="color:#000;" value="Follow us on: " />			
 			<label class="text-link" style="text-decoration:none; color:#3A5795;" value="Facebook" onclick='newTab("https://www.facebook.com/theaskdev")'/>
-			<label class="text-link" style="text-decoration:none; color:#E62117;" value="YouTube" onclick='newTab("https://www.youtube.com/ASKDEVInc")'/>
-			<label class="text-link" style="text-decoration:none; color:#55ACEE;" value="Twitter" onclick='newTab("https://twitter.com/theaskdev")'/>
-			<label class="text-link" style="text-decoration:none; color:#DB4B39;" value="Google+" onclick='newTab("https://plus.google.com/+ASKDEVInc")'/>
+			<label class="text-link" style="text-decoration:none; color:#E62117;" value="YouTube"  onclick='newTab("https://www.youtube.com/ASKDEVInc")'/>
+			<label class="text-link" style="text-decoration:none; color:#55ACEE;" value="Twitter"  onclick='newTab("https://twitter.com/theaskdev")'/>
+			<label class="text-link" style="text-decoration:none; color:#DB4B39;" value="Google+"  onclick='newTab("https://plus.google.com/+ASKDEVInc")'/>
+			<label class="text-link" style="text-decoration:none; color:#00F;" value="Try our new addon ASKIt" onclick='newTab("https://addons.mozilla.org/en-us/firefox/addon/askit")'/><image width="16px" height="12px" src="chrome://ASKResults/skin/images/askit32.png"/>
 		</hbox>
 	</vbox>
 </window>

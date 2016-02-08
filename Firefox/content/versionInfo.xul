@@ -3,7 +3,21 @@
 <!DOCTYPE overlay SYSTEM "chrome://ASKResults/locale/ASKResults.dtd">
 <dialog title="&askresults.name;&askresults.version.no;" buttons="accept" width="500" height="400" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:svg="http://www.w3.org/2000/svg" style="-moz-appearance :none;background-color:#A0B0E0;">
 	<vbox flex="1" style="background-color:#FFF; overflow:scroll">
+	
 		<label value="&askresults.name;&askresults.version.no;" style="font-weight: bold; font-size: medium;" />
+		<label align="right" value='*NEW* "With-held" results are displayed in separate column and are not included to overall and particular subject percentage.'/>	
+		<label align="right" value='*FIXED* Extra characters in the saved .csv file has been removed.'/>
+		<label align="right" value='*FIXED* Unnecessary viewing of save button is fixed.'/>
+		<label align="right" value='*FIXED* Many more bugs.'/>
+		
+		<label align="right" value='-------------------------------------------------------------------------' />
+		
+		<label value="&askresults.name; 1.1" style="font-weight: bold; font-size: medium;" />
+		<label align="right" value='*NEW* New column is added which shows whether student is FC, FCD or SC in downloaded result file.' />
+		
+		<label align="right" value='-------------------------------------------------------------------------' />
+		
+		<label value="&askresults.name; 1.0" style="font-weight: bold; font-size: medium;" />
 		<label align="right" value='*Fixed* Social links are added.' />
 	
         <label align="right" value='-------------------------------------------------------------------------' />

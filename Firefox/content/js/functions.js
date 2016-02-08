@@ -24,7 +24,7 @@ var errorMsg = 'Please choose the proper file format contains University Seat Nu
 var fileAllowed = ['csv', 'txt', 'xls'];
 
 // Result table detail count line p->PASS f->FAIL ..
-var p=0,f=0,t=0, fcd=0, ab=0, fc=0, sc=0, total_sub=0;
+var p=0,f=0,t=0, fcd=0, ab=0, fc=0, sc=0, total_sub=0, wh=0;
 
 // If subjects already read or not in advanced search
 var staken=0;
@@ -36,10 +36,18 @@ var snames=[];
 // pdf Write. Not used yet
 var pdfVar;
 
-//
 //Color
 var passColor='#087F38', failColor='#E30F17' ;
 var marksRow ='#F0FFF0', tableHead='#90B890', failedSub='#FFCCCC';
+
+function replaceUnwantedChar(str){
+	return str.replace(/[^a-zA-Z: ]/g,"");
+}
+
+function checkForWithHeald(str){
+	//alert(str);
+	return str.indexOf("ANNOUNCED")!=-1 ? true : false;
+}
 
 function getNbaClass(m){
 	var m1 = Number(m);
