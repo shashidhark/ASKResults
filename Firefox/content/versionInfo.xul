@@ -5,6 +5,16 @@
 	<vbox flex="1" style="background-color:#FFF; overflow:scroll">
 	
 		<label value="&askresults.name;&askresults.version.no;" style="font-weight: bold; font-size: medium;" />
+		<label align="right" value='*NEW* Under Advanced Search, shows information about Region code, College code and Subject code, when you hover the mouse pointer.'/>
+		<label align="right" value='*NEW* Now result will be saved in ASKResults folder in Downloads folder.'/>	
+		<label align="right" value='*NEW* Inside ASKResults folder Long_List_VTUResult_ASKResults file will be created.'/>
+        <label align="right" value='*NEW* Many left out college and subject codes added like SX, LV, PH, MTH ....etc.'/>		
+		<label align="right" value='*FIXED* Result announcement in Normal Search.'/>
+		<label align="right" value='*FIXED* Many more bugs.'/>
+		
+		<label align="right" value='-------------------------------------------------------------------------' />
+		
+		<label value="&askresults.name; 1.3" style="font-weight: bold; font-size: medium;" />
 		<label align="right" value='*NEW* "With-held" results are displayed in separate column and are not included to overall and particular subject percentage.'/>	
 		<label align="right" value='*FIXED* Extra characters in the saved .csv file has been removed.'/>
 		<label align="right" value='*FIXED* Unnecessary viewing of save button is fixed.'/>

@@ -100,8 +100,11 @@ function addYear()
 	var yearExist = document.getElementById("year");
 	if(yearExist == null)	
 	{
+		var yr=new Date().getFullYear()+'';
+		yr= yr.match(/\d{2}$/);
+
 		var menul = document.createElement("textbox");
-		menul.setAttribute("value", "14");
+		menul.setAttribute("value", yr);
 		menul.setAttribute("id", "year");
 		menul.setAttribute("class", "inputs1");
 		menul.setAttribute("maxlength", "2");
@@ -113,17 +116,22 @@ function addYear()
 		menul.setAttribute("id", "branch");	
 		var menupp = document.createElement("menupopup");
 		menul.appendChild(menupp);
-		for(var r=0; r<fields['Branch']['BE'].length; r++)
+		
+		for (var key in fields['Branch']['BE'])
+		//for(var r=0; r<fields['Branch']['BE'].length; r++)
 		{
 			var menui = document.createElement("menuitem");
-			menui.setAttribute("label", fields['Branch']['BE'][r]);	
+			menui.setAttribute("label", key);	
+			menui.setAttribute("tooltiptext", fields['Branch']['BE'][key]);	
 			menupp.appendChild(menui);
 		}
 
-		for(var r=0; r<fields['Branch']['MTECH'].length; r++)
+		for (var key in fields['Branch']['MTECH'])
+		//for(var r=0; r<fields['Branch']['MTECH'].length; r++)
 		{
 			var menui = document.createElement("menuitem");
-			menui.setAttribute("label", fields['Branch']['MTECH'][r]);	
+			menui.setAttribute("label", key);	
+			menui.setAttribute("tooltiptext", fields['Branch']['MTECH'][key]);	
 			menupp.appendChild(menui);
 		}
 
@@ -173,6 +181,21 @@ function addYear()
 	}
 }
 
+function keys(obj)
+{
+    var keys = [];
+
+    for(var key in obj)
+    {
+        if(obj.hasOwnProperty(key))
+        {
+            keys.push(key);
+        }
+    }
+
+    return keys;
+}
+
 function addCC(val){
 	var desc = document.getElementById("d");
 	var menul = document.getElementById("r1");
@@ -193,10 +216,19 @@ function addCC(val){
 
 	menul.setAttribute("class", "advSearch1");
 	menul.appendChild(menupp);
-	for(var r=0; r<fields['College Code'][Number(val)].length; r++)
+		
+
+	
+	var field = keys(fields['College Code'][Number(val)]).sort();
+	//console.log(field);
+	//alert(field);
+	
+	for(var r=0; r<field.length; r++)
 	{
 		var menui = document.createElement("menuitem");
-		menui.setAttribute("label", fields['College Code'][Number(val)][r]);	
+		menui.setAttribute("label", field[r]);
+		menui.setAttribute("tooltip", "popup, delay=0");
+		menui.setAttribute("tooltiptext", fields['College Code'][Number(val)][field[r]]);	
 		menupp.appendChild(menui);
 	}	
 	if(ccc == null){
@@ -233,12 +265,27 @@ function createAdvanceUI(){
 	var menupp = document.createElement("menupopup");
 	menul.appendChild(menupp);
 	
-	for(var r=0; r<fields['Region'].length; r++)
+	for (var key in fields['Region']) {
+		var menui = document.createElement("menuitem");
+		if(key==0){
+			menui.setAttribute("label", "Region");
+			//menui.setAttribute("tooltiptext", );
+		}
+		else{	
+			menui.setAttribute("label", key);
+			menui.setAttribute("tooltiptext", fields['Region'][key]);
+		}
+		menupp.appendChild(menui);
+	}
+	
+	/*for(var r=0; r<fields['Region'].length; r++)
 	{
 		var menui = document.createElement("menuitem");
 		menui.setAttribute("label", fields['Region'][r]);	
+		menui.setAttribute("title", fields['Region'][r]);
 		menupp.appendChild(menui);
-	}
+	}*/
+	
 	menul.setAttribute("oncommand", "return addCC(this.label)");
 	desc.appendChild(menul);
 
@@ -375,13 +422,14 @@ function getMessage(){
 
 		var str = DOM(aEvent.target.responseText);
 		var all = $(str).find('td[width=513]').eq(0);
+		all = $(all).find('b').eq(0);
 		str = $(all).html();
 		var msgs = str.split("<br>");
 		var lbl;
-		for(var i=2;;i++){
+		for(var i=0;i<msgs.length;i++){
 			if(msgs[i].indexOf("Enter") > -1)
 				break;
-			else if(msgs[i]!=""){
+			else  if(msgs[i]!=""){
 				msgs[i] = msgs[i].replace('&amp;', ' & ');
 				lbl = document.createElement("label");
 				lbl.setAttribute("value", msgs[i]);

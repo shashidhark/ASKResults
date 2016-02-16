@@ -7,11 +7,13 @@
 // nsIHTTPRequest references.
 var abort=[];
 
+var folder = "ASKResults";
 // For NBA
 var NbaSubjectWiseResult=Array();
 // File write string
 var strForText="";  // Adv
 var strForTextI=""; // Normal
+var strForText_form1=""; 
 
 var fileFetch=0;
 
@@ -76,6 +78,12 @@ function getAdvancedFileName(){
 function getNormalFileName(){
 	var d = new Date();
 	return "Individual_List_VTUResult_ASKResults"+(d.toUTCString()).replace(/[, :]/g, '_')+".csv";
+	//return 'vtu1.csv';
+}
+
+function getAllFileName(){
+	var d = new Date();
+	return "Long_List_VTUResult_ASKResults"+(d.toUTCString()).replace(/[, :]/g, '_')+".csv";
 	//return 'vtu1.csv';
 }
 

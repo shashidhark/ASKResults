@@ -51,6 +51,39 @@ function getTotal(table){
 	return s;
 }
 
+function getMarksStr(table){
+	var s="";
+ 	//if(table.length > 3){
+		var tr = $(table).eq(1).find("tr");
+		for (var j = 1; j < tr.length; j++){
+			var td = $(tr).eq(j).find('td');
+			for (var k = 1; k < td.length; k++){
+				s += $(td).eq(k).text()+",";
+			}
+		}
+	///}
+	//else{
+		//s = Number($(table).eq(2).find("tr").eq(0).find('td').eq(3).text());
+//	}
+	return s;
+}
+
+function getSubjectsForAll(str){
+var s="USN, Name, ", scode, row2="\n,,";
+	var tr = $(str).eq(1).find("tr");
+	for (var j = 1; j < tr.length; j++){
+		var td = $(tr).eq(j).find('td');
+		scode = getScode($(td).eq(0).text());
+		if(scodes.indexOf(scode) == -1){
+			s+="(S"+j+")"+$(td).eq(0).text()+",,,,";
+			row2+="S"+j+" Ext,S"+j+" IA,S"+j+" Tot,S"+j+" Res,";
+		}
+	}
+	s+=row2;
+	return s;
+
+}
+
 function getSubjects(str){
 	staken=1;
 	var treeitem, treecell1, treecell2, treecell3, treecell4, treecell5, treecellW, treerow;
@@ -73,7 +106,7 @@ function getSubjects(str){
 			treecellW 	= document.createElement("treecell");
 			treecell4 	= document.createElement("treecell");
 			treecell5	= document.createElement("treecell");
-
+			
 			treecell1.setAttribute("label", $(td).eq(0).text());
 			treecell1.setAttribute("id", "sub"+scode);			
 			treecell2.setAttribute("label", "0");
@@ -115,7 +148,55 @@ function writeToFileIndividual()
 
 	var file = Components.classes["@mozilla.org/file/local;1"].
 		       createInstance(Components.interfaces.nsILocalFile);
-	var file = FileUtils.getFile("DfltDwnld", [fileName]);
+	var file = FileUtils.getFile("DfltDwnld", [folder, fileName]);
+
+	// You can also optionally pass a flags parameter here. It defaults to
+	// FileUtils.MODE_WRONLY | FileUtils.MODE_CREATE | FileUtils.MODE_TRUNCATE;
+	var ostream = FileUtils.openSafeFileOutputStream(file);
+
+	var converter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].
+		            createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
+	converter.charset = "UTF-8";
+	var istream = converter.convertToInputStream(data);
+
+	// The last argument (the callback) is optional.
+	NetUtil.asyncCopy(istream, ostream, function(status) {
+	  if (!Components.isSuccessCode(status)) {
+		// Handle error!
+		return;
+	  }
+
+	  // Data has been written to the file.
+	});
+
+	if(advancedGoingOn==1){
+		document.getElementById('saveImsg').hidden=true;
+		document.getElementById('print').hidden=true;
+	}
+	else{
+		document.getElementById('saveImsg').hidden=false;
+		document.getElementById('print').hidden=true;
+	}
+}
+
+function writeToFileAll()
+{
+	strForText_form1 = strForText_form1.replace(/[┬á]/g, '');
+	var data=strForText_form1;
+	// Get profile directory.
+	Components.utils.import("resource://gre/modules/FileUtils.jsm");
+	Components.utils.import("resource://gre/modules/NetUtil.jsm");
+
+	var fileName="";
+	//if(advancedGoingOn==1)
+		fileName = getAllFileName();	
+
+	var file = Components.classes["@mozilla.org/file/local;1"].
+		       createInstance(Components.interfaces.nsILocalFile);
+		       
+	var file = FileUtils.getFile("DfltDwnld", [folder, fileName], true);
+	//var file = FileUtils.getFile("DfltDwnld", [fileName], true);
+	//var dir = FileUtils.getDir("ProfD", ["DIR"], true);
 
 	// You can also optionally pass a flags parameter here. It defaults to
 	// FileUtils.MODE_WRONLY | FileUtils.MODE_CREATE | FileUtils.MODE_TRUNCATE;
@@ -202,7 +283,7 @@ function writeToFile(data)
 		       createInstance(Components.interfaces.nsILocalFile);
 	var fileName="";
 	fileName = getAdvancedFileName();
-	var file = FileUtils.getFile("DfltDwnld", [fileName]);
+	var file = FileUtils.getFile("DfltDwnld", [folder, fileName]);
 
 	// You can also optionally pass a flags parameter here. It defaults to
 	// FileUtils.MODE_WRONLY | FileUtils.MODE_CREATE | FileUtils.MODE_TRUNCATE;
@@ -226,6 +307,9 @@ function writeToFile(data)
 	document.getElementById("saveAdvButton").hidden=true;
 	document.getElementById("noti").hidden=false;
 	writeToFileIndividual();
+	if(advancedGoingOn==1){
+		writeToFileAll();
+	}
 }
 
 function incFail(){	
@@ -324,6 +408,7 @@ function incClass(s){
 		sc++;
 }
 
+var subOver=0;
 function openAdvResult(usn){
 	
 	NbaSubjectWiseResult={};
@@ -360,15 +445,25 @@ function openAdvResult(usn){
 			//alert(sem+" "+parseInt($(table).eq(0).find("tr").eq(0).find('td').eq(1).text()));
 			if((sem == parseInt($(table).eq(0).find("tr").eq(0).find('td').eq(1).text())) || (fileFetch==1))
 			{	
+			
+				if(subOver == 0){
+					strForText_form1 += getSubjectsForAll(table)+"\n";
+					subOver=1;
+				}
+				
 				strForText += usn+" , ";
+				strForText_form1 += usn+","; 
 				document.getElementById("name"+usn).setAttribute("label", getName($(all).find('B').eq(0).text()));
 				
 				name1 = getName($(all).find('B').eq(0).text());
 				strForText += name1+" , ";
+				strForText_form1 += name1+","; 
 
 				document.getElementById("perc"+usn).setAttribute("label", parseFloat(findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())));
 				strForText += findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())+" , ";
 
+				strForText_form1 += getMarksStr(table)+"\n";
+				
 				//if(staken==0)
 				getSubjects(table);
 				
@@ -439,10 +534,12 @@ function advancedSearch(usnList)
 {	
 	abortFunc();
 
+	subOver=0;
 	totalUSN=0;
 	usnFetched=0;
 
 	strForTextI="";
+	strForText_form1="";
 	advancedGoingOn=1;
 	p=0,t=0,f=0, fcd=0, ab=0, fc=0, sc=0, staken=0, wh=0;
 	//For subject load
@@ -451,7 +548,7 @@ function advancedSearch(usnList)
 	total_sub=0;
 
 	var status=1, row, label0, lpass, lfail, vpass, vfail, vtotal, total, result;
-	var vresult, hb, hbx, saveButton, vbx, bx,fcdv, fcv,fcdv1, fcv1, scv, scv1, noti,spacer, whv1;
+	var vresult, hb, hbx, saveButton, vbx, bx,fcdv, fcv,fcdv1, fcv1, scv, scv1, noti,spacer, whv1,whv;
 	strForText = "";
 
 	document.getElementById('resultId').textContent = '';
