@@ -22,7 +22,7 @@
 		
 		<label align="right" value='-------------------------------------------------------------------------' />
 		
-		<label value="&askresults.name; 1.1" style="font-weight: bold; font-size: medium;" />
+		<label value="&askresults.name; 1.1" style="font-weight: bold; fhont-size: medium;" />
 		<label align="right" value='*NEW* New column is added which shows whether student is FC, FCD or SC in downloaded result file.' />
 		
 		<label align="right" value='-------------------------------------------------------------------------' />
