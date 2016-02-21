@@ -5,6 +5,8 @@
 	<vbox flex="1" style="background-color:#FFF; overflow:scroll">
 	
 		<label value="&askresults.name;&askresults.version.no;" style="font-weight: bold; font-size: medium;" />
+		<label align="right" value='*1.5.1* *FIXED* Unnecessary opening of website.'/>
+		<label align="right" value='*1.5.1* *CHANGES* Added 3 more columns to Long_List_VTUResult_ASKResults file like Total, Avg and Result.'/>
 		<label align="right" value='*NEW* Under Advanced Search, shows information about Region code, College code and Subject code, when you hover the mouse pointer.'/>
 		<label align="right" value='*NEW* Now result will be saved in ASKResults folder in Downloads folder.'/>	
 		<label align="right" value='*NEW* Inside ASKResults folder Long_List_VTUResult_ASKResults file will be created.'/>

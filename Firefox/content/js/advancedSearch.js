@@ -79,6 +79,7 @@ var s="USN, Name, ", scode, row2="\n,,";
 			row2+="S"+j+" Ext,S"+j+" IA,S"+j+" Tot,S"+j+" Res,";
 		}
 	}
+	s+="Total, Avg, Result";
 	s+=row2;
 	return s;
 
@@ -460,9 +461,10 @@ function openAdvResult(usn){
 				strForText_form1 += name1+","; 
 
 				document.getElementById("perc"+usn).setAttribute("label", parseFloat(findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())));
-				strForText += findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text())+" , ";
+				var avg_mark = findAvg(usn, getTotal(table), $(table).eq(0).find("tr").eq(0).find('td').eq(1).text());
+				strForText += avg_mark+" , ";
 
-				strForText_form1 += getMarksStr(table)+"\n";
+				strForText_form1 += getMarksStr(table)+""+getTotal(table)+","+avg_mark+",";
 				
 				//if(staken==0)
 				getSubjects(table);
@@ -474,6 +476,7 @@ function openAdvResult(usn){
 					//alert(wh);
 					document.getElementById("stat"+usn).setAttribute("label", "WH");
 					strForText += "WH , ,\n";
+					strForText_form1 +="WH,,";
 				}
 				else{
 					if(grade.indexOf("FAIL") == -1){
@@ -481,7 +484,11 @@ function openAdvResult(usn){
 						incClass(resultClass);
 						document.getElementById("stat"+usn).setAttribute("label", "PASS");
 						strForText += "PASS ,";
+						//strForText_form1 +="PASS,";
+						
 						strForText += grade.replace("Result:","");
+						strForText_form1 +=grade.replace("Result:","");
+						
 						strForText += "\n";
 						incPass();
 						document.getElementById("stat"+usn).setAttribute("property", "pass");
@@ -490,11 +497,13 @@ function openAdvResult(usn){
 						fs="";
 						document.getElementById("stat"+usn).setAttribute("label", "FAIL");
 						strForText += "FAIL, FAIL,";
+						strForText_form1 +=" FAIL";
 						incFail();									
 						fs = getFailedSubjects(table);
 						strForText += fs.replace('|', ' ')+"\n";
 					}		
-				}		
+				}
+				strForText_form1 += "\n";		
 				getSubjectsStatus(table);
 				fetchTableAdv(str, usn);
 			}
